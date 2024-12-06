@@ -1,0 +1,18 @@
+# .readthedocs.yaml
+
+python_version: 3.8  # 指定 Python 版本，例如：3.7、3.8、3.9
+
+requirements_file: requirements.txt  # 如果有依赖，可以指定 requirements 文件
+
+# 项目基本信息
+name: Python & 图像处理教程
+repo_url: https://github.com/Aloha0604/teach.git
+
+# 配置 Sphinx 主题和选项
+sphinx:
+  theme: sphinx_rtd_theme
+
+# 添加环境变量配置，如果有必要
+envs:
+  - name: PYTHONPATH
+    value: ./src
