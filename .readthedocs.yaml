@@ -4,9 +4,9 @@ version: 2
 
 # 设置操作系统、Python 版本以及其他工具
 build:
-  os: ubuntu  # 指定构建平台
+  os: ubuntu-22.04  # 指定构建平台
   tools:
-    python: "3.8"   # Python 版本
+    python: "3.10"   # Python 版本
 
 # 使用 Sphinx 构建文档
 sphinx:
