@@ -1,22 +1,25 @@
 # .readthedocs.yaml
 
-python_version: 3.8
+version: 2
 
-# 指定依赖文件路径
-requirements_file: requirements.txt
+# 设置操作系统、Python 版本以及其他工具
+build:
+  os: windows  # 指定构建平台
+  tools:
+    python: "3.11.7"   # Python 版本
 
-# 项目基本信息
-name: Python & 图像处理教程
-repo_url: https://github.com/Aloha0604/teach.git
-
-# 配置 Sphinx 主题和选项
+# 使用 Sphinx 构建文档
 sphinx:
-  theme: sphinx_rtd_theme
+  builder: html
+  configuration: docs/source/conf.py
 
-# 指定操作系统环境，适用于构建平台
-os: windows  # 可以改为 'windows' 或其他支持的平台名称
+# 可选：生成其他格式的文档（PDF、ePub）
+# formats:
+#   - pdf
+#   # - epub
 
-# 添加环境变量配置，如果有必要
-envs:
-  - name: PYTHONPATH
-    value: ./src
+# 安装构建所需的依赖包
+# python:
+#   install:
+#     - requirements: docs/requirements.txt
+
