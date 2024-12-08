@@ -44,7 +44,7 @@ html_theme = 'sphinx_rtd_theme'
 source_suffix = ['.rst','.md']
 
 master_doc = 'index'
-
+html_show_sourcelink = False
 # -- Options for LaTeX output ---------------------------------------------
 
 # 注：在生成html的时候这句话要注释
