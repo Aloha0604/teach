@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】VideoCapture类 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】 VideoWriter类" href="3.html" />
+    <link rel="prev" title="【基础】视频处理" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../L.html">第12章：视频处理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】视频处理</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】VideoCapture类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1). 初始化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cv2-videocapture-open-cv2-videocapture-isopened">2).cv2.VideoCapture.open()函数和cv2.VideoCapture.isOpened()函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">3). 捕获帧</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">4). 释放</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">5). 属性设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cv2-videocapture-grab-cv2-videocapture-retrieve">6). cv2.VideoCapture.grab()函数和cv2.VideoCapture.retrieve()函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">捕获摄像头视频</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">播放视频文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】 VideoWriter类</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../L.html">第12章：视频处理</a></li>
+      <li class="breadcrumb-item active">【基础】VideoCapture类</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i12/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="videocapture">
+<h1>【基础】VideoCapture类<a class="headerlink" href="#videocapture" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类的常用函数包括初始化、打开、帧捕获、释放、属性设置等，下面对这些函数进行简单的介绍。</p>
+<section id="id1">
+<h2>1). 初始化<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>OpenCV为<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类提供了构造函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture()</span></code>，用于打开摄像头并完成摄像头的初始化工作。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">捕获对象</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;摄像头ID号&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>● “摄像头ID号”就是摄像头的ID号码。需要注意的是，这个参数是摄像设备（摄像头）的ID编号，而不是文件名。其默认值为<code class="docutils literal notranslate"><span class="pre">-1</span></code>，表示随机选取一个摄像头；如果有多个摄像头，则用数字“0”表示第1个摄像头，用数字“1”表示第2个摄像头，以此类推。所以，如果只有一个摄像头，既可以使用“0”，也可以使用“-1”作为摄像头ID号。</p>
+<p>● “捕获对象”为返回值，是<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类的对象。</p>
+<p>例如，要初始化当前的摄像头，可以使用语句：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在使用函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture()</span></code>时，要记得：视频处理完以后，释放摄像头对象。</p>
+<p>该构造函数也可以用于初始化视频文件，初始化视频文件时，参数为文件名。此时函数的形式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">捕获对象</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;视频文件名&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>例如，打开当前目录下文件名为“test.mp4”的视频文件，可以使用语句：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;test.mp4&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="cv2-videocapture-open-cv2-videocapture-isopened">
+<h2>2).cv2.VideoCapture.open()函数和cv2.VideoCapture.isOpened()函数<a class="headerlink" href="#cv2-videocapture-open-cv2-videocapture-isopened" title="Link to this heading"></a></h2>
+<p>一般情况下，使用<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture()</span></code>函数即可完成摄像头的初始化。有时，为了防止初始化发生错误，可以使用函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.isOpened()</span></code>来检查初始化是否成功。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">isOpened</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>该函数会判断当前的摄像头是否初始化成功：</p>
+<p>● 如果成功，则返回值<code class="docutils literal notranslate"><span class="pre">retval</span></code>为True。</p>
+<p>● 如果不成功，则返回值<code class="docutils literal notranslate"><span class="pre">retval</span></code>为False。</p>
+<p>如果摄像头初始化失败，可以使用函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.open()</span></code>打开摄像头。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>●<code class="docutils literal notranslate"><span class="pre">index</span></code>为摄像头ID号。</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">retval</span></code>为返回值，当摄像头（或者视频文件）被成功打开时，返回值为True。</p>
+<p>同样，函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.isOpened()</span></code>和函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.open()</span></code>也能用于处理视频文件。在处理视频文件时，函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.open()</span></code>的参数为文件名，其语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>3). 捕获帧<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>摄像头初始化成功后，就可以从摄像头中捕获帧信息了。捕获帧所使用的是函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.read()</span></code>。该函数的语法是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>● image是返回的捕获到的帧，如果没有帧被捕获，则该值为空。</p>
+<p>● retval表示捕获是否成功，如果成功则该值为True，不成功则为False。</p>
+</section>
+<section id="id3">
+<h2>4). 释放<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在不需要摄像头时，要关闭摄像头。关闭摄像头使用的是函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.release()</span></code>。该函数的语法是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>例如，当前有一个<code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code>类的对象cap，要将其释放，可以使用语句：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>5). 属性设置<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>有时，我们需要获取<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性，或是更改该类对象的属性。函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.get()</span></code>用于获取<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性，该函数的语法格式是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">propId</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>式中，参数<code class="docutils literal notranslate"><span class="pre">propId</span></code>对应着<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性。例如，有一个<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象<code class="docutils literal notranslate"><span class="pre">cvc</span></code>，则：</p>
+<p>● 通过<code class="docutils literal notranslate"><span class="pre">cvc.get(cv2.CAP_PROP_FRAME_WIDTH)</span></code>，就能获取当前帧对象的宽度。</p>
+<p>● 通过<code class="docutils literal notranslate"><span class="pre">cvc.get(cv2.CAP_PROP_FRAME_HEIGHT)</span></code>，就能获取当前帧对象的高度。</p>
+<p>函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.set()</span></code>用来设置<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性。该函数的语法是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">propId</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>式中，<code class="docutils literal notranslate"><span class="pre">propId</span></code>对应<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性，<code class="docutils literal notranslate"><span class="pre">value</span></code>对应属性<code class="docutils literal notranslate"><span class="pre">propId</span></code>的值。</p>
+<p>例如，有一个<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象<code class="docutils literal notranslate"><span class="pre">cvc</span></code>，则：</p>
+<p>● 语句<code class="docutils literal notranslate"><span class="pre">ret=cvc.set(cv2.CAP_PROP_FRAME_WIDTH,</span> <span class="pre">640)</span></code>将当前帧对象的宽度设置为640像素。</p>
+<p>● 语句<code class="docutils literal notranslate"><span class="pre">ret=cvc.set(cv2.CAP_PROP_FRAME_HEIGHT,</span> <span class="pre">480)</span></code>将当前帧对象的高度设置为480像素。<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类对象的属性值及含义如下表所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/4a1fa997224dee39ec26d963316fcde0.png" /></p>
+</section>
+<section id="cv2-videocapture-grab-cv2-videocapture-retrieve">
+<h2>6). cv2.VideoCapture.grab()函数和cv2.VideoCapture.retrieve()函数<a class="headerlink" href="#cv2-videocapture-grab-cv2-videocapture-retrieve" title="Link to this heading"></a></h2>
+<p>一般情况下，如果需要读取一个摄像头的视频数据，最简便的方法就是使用函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.read()</span></code>。但是，如果需要同步一组或一个多头（multihead）摄像头（例如立体摄像头或Kinect）的视频数据时，该函数就无法胜任了。可以把函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.read()</span></code>理解为是由函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>和函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.retrieve()</span></code>组成的。函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>用来指向下一帧，函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.retrieve()</span></code>用来解码并返回一帧。因此，可以使用函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>和函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.retrieve()</span></code>获取多个摄像头的数据。</p>
+<p>函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>用来指向下一帧，其语法格式是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">grab</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如果该函数成功指向下一帧，则返回值<code class="docutils literal notranslate"><span class="pre">retval</span></code>为True。</p>
+<p>函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.retrieve()</span></code>用来解码，并返回函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>捕获的视频帧。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>● image为返回的视频帧，如果未成功，则返回一个空图像。</p>
+<p>● retval为布尔型值，若未成功，返回False；否则，返回True。</p>
+<p>对于一组摄像头，可以使用如下代码捕获不同摄像头的视频帧：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">success0</span> <span class="o">=</span> <span class="n">cameraCapture0</span><span class="o">.</span><span class="n">grab</span><span class="p">()</span>
+<span class="n">success1</span> <span class="o">=</span> <span class="n">cameraCapture1</span><span class="o">.</span><span class="n">grab</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">success0</span> <span class="ow">and</span> <span class="n">success1</span><span class="p">:</span>
+    <span class="n">frame0</span> <span class="o">=</span> <span class="n">cameraCapture0</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+    <span class="n">frame1</span> <span class="o">=</span> <span class="n">cameraCapture1</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>与<code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code>类内的其他函数一样，<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.grab()</span></code>和<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture.retrieve()</span></code>也能用来读取视频文件。</p>
+</section>
+<section id="id5">
+<h2>捕获摄像头视频<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>OpenCV通过<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类提供了非常方便的捕获摄像头视频的方法。可以使用如下代码捕获摄像头的视频流。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;frame&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span> <span class="c1"># ESC键</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>请自行测试。</p>
+</section>
+<section id="id6">
+<h2>播放视频文件<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>播放视频文件时，需要将函数<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture()</span></code>的参数值设置为视频文件的名称。在播放视频时，可以通过设置函数<code class="docutils literal notranslate"><span class="pre">cv2.waitKey()</span></code>中的参数值，来设置播放视频时每一帧的持续（停留）时间。</p>
+<p>如果函数<code class="docutils literal notranslate"><span class="pre">cv2.waitKey()</span></code>中的参数值：</p>
+<p>● 较小，则说明每一帧停留的时间较短，视频播放速度会较快。</p>
+<p>● 较大，则说明每一帧停留的时间较长，视频播放速度会较慢。</p>
+<p>该参数的单位是ms，通常情况下，将这个参数的值设置为<code class="docutils literal notranslate"><span class="pre">25</span></code>即可。</p>
+<p><strong>程序演示</strong>：使用<code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>类播放视频文件，并尝试更改<code class="docutils literal notranslate"><span class="pre">cv2.waitKey()</span></code>参数值查看效果。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;video.mp4&#39;</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1"># ms</span>
+
+<span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;frame&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>  <span class="c1"># ESC键</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】视频处理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】 VideoWriter类" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

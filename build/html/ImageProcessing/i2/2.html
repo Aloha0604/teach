@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】基础的图像阈值处理 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】自适应阈值处理" href="3.html" />
+    <link rel="prev" title="【定义】什么是阈值处理" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【定义】什么是阈值处理</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】基础的图像阈值处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 阈值处理函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#threshold-binary">2. 阈值二值化（Threshold Binary）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#threshold-binary-inverted">3. 阈值反二值化（Threshold Binary Inverted）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#truncate">4. 截断（Truncate）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#threshold-to-zero">5. 阈值取零（Threshold To Zero）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#threshold-to-zero-inverted">6. 阈值反取零（Threshold To Zero Inverted）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">7. 程序演示</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【进阶】自适应阈值处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【进阶】Otsu处理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../B.html">第2章：图像阈值处理</a></li>
+      <li class="breadcrumb-item active">【基础】基础的图像阈值处理</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i2/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】基础的图像阈值处理<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 阈值处理函数<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>openCV提供<code class="docutils literal notranslate"><span class="pre">cv2.threshold()</span></code>函数用于图像阈值化处理，其函数格式如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retval</span><span class="p">,</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">maxval</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">retval</span></code>：返回的阈值。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dst</span></code>：<strong>阈值分割结果</strong>，与原始图像具有相同的大小和类型。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>：要进行阈值分割的图像。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thresh</span></code>：设定的阈值。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxval</span></code>：当像素值超过了阈值（或者小于阈值，根据<code class="docutils literal notranslate"><span class="pre">type</span></code>来决定）所赋予的值</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>：代表阈值分割的类型，常用的有：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cv2.THRESH_BINARY</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cv2.THRESH_BINARY_INV</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cv2.THRESH_TRUNC</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cv2.THRESH_TOZERO</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cv2.THRESH_TOZERO_INV</span></code></p></li>
+</ul>
+<p><em>注：INV 即 Inverted 的缩写，表示： 倒转，颠倒，倒置。</em></p>
+</li>
+</ul>
+</section>
+<section id="threshold-binary">
+<h2>2. 阈值二值化（Threshold Binary）<a class="headerlink" href="#threshold-binary" title="Link to this heading"></a></h2>
+<p>首先指定灰度值的阈值，遍历图像中像素值。</p>
+<ul class="simple">
+<li><p>如果像素的灰度值&gt;这个阈值，则将这个像素设置为最大像素值；</p></li>
+<li><p>若像素的灰度值小于阈值，则将该像素点像素值赋值为0。</p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-a73fe95db7db38bf53fa7a4e4992a521_1440w.png" /></p>
+<p>小验证：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/45b471008416cf0314e53c1760d05641.png" /></p>
+</section>
+<section id="threshold-binary-inverted">
+<h2>3. 阈值反二值化（Threshold Binary Inverted）<a class="headerlink" href="#threshold-binary-inverted" title="Link to this heading"></a></h2>
+<p>首先也要指定一个阈值，不同的是在对图像进行阈值化操作时与阈值二值化相反</p>
+<ul class="simple">
+<li><p>当像素的灰度值超过这个阈值的时候为该像素点赋值为0；</p></li>
+<li><p>当该像素的灰度值低于该阈值时赋值为最大值。</p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-af2a946ea034c2313ab89ce75093ebb1_1440w.png" /></p>
+<p>小验证：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/d563ff890db625ff2d45dd30c6758353.png" /></p>
+</section>
+<section id="truncate">
+<h2>4. 截断（Truncate）<a class="headerlink" href="#truncate" title="Link to this heading"></a></h2>
+<p>给定像素值阈值，在图像中像素的灰度值</p>
+<ul class="simple">
+<li><p>大于该阈值的像素点被设置为该阈值；</p></li>
+<li><p>小于该阈值的像素值保持不变。</p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-826582c93c28a8e1a4b80560bb67a84d_1440w.png" /></p>
+<p>小验证：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/148e06b9274d427fdba781c800c04d62.png" /></p>
+</section>
+<section id="threshold-to-zero">
+<h2>5. 阈值取零（Threshold To Zero）<a class="headerlink" href="#threshold-to-zero" title="Link to this heading"></a></h2>
+<p>与截断阈值化相反，</p>
+<ul class="simple">
+<li><p>如果像素点的灰度值如果大于该阈值，则像素值不变；</p></li>
+<li><p>如果像素点的灰度值小于该阈值，则该像素值设置为0。</p></li>
+</ul>
+<p><img alt="img" src="https://pic1.zhimg.com/80/v2-d21db14003e01ed92a4abf136afe62f4_1440w.png" /></p>
+<p>小验证：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/e7bfeec90dee930c3d33d86bf09c73b0.png" /></p>
+</section>
+<section id="threshold-to-zero-inverted">
+<h2>6. 阈值反取零（Threshold To Zero Inverted）<a class="headerlink" href="#threshold-to-zero-inverted" title="Link to this heading"></a></h2>
+<p>像素值大于阈值的像素赋值为0，而小于该阈值的像素值则保持不变，</p>
+<p><img alt="https://pic3.zhimg.com/80/v2-b40fe3a58559a38362833efbb9f64726_1440w.png" src="https://pic3.zhimg.com/80/v2-b40fe3a58559a38362833efbb9f64726_1440w.png" /></p>
+<p>小验证：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/1cc1e7429b4f3c1e5e91c42fad3a6123.png" /></p>
+</section>
+<section id="id3">
+<h2>7. 程序演示<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Will Wang</span>
+<span class="sd">Email: WillWang1998@163.com</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;lena.jpg&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">))</span>
+
+<span class="n">retval1</span><span class="p">,</span> <span class="n">binary</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+<span class="n">retval2</span><span class="p">,</span> <span class="n">binaryinv</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">)</span>
+<span class="n">retval3</span><span class="p">,</span> <span class="n">trunc</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_TRUNC</span><span class="p">)</span>
+<span class="n">retval4</span><span class="p">,</span> <span class="n">tozero</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_TOZERO</span><span class="p">)</span>
+<span class="n">retval5</span><span class="p">,</span> <span class="n">tozeroinv</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_TOZERO_INV</span><span class="p">)</span>
+
+<span class="n">image_stack1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">gray</span><span class="p">,</span> <span class="n">binary</span><span class="p">,</span> <span class="n">binaryinv</span><span class="p">))</span>
+<span class="n">image_stack2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">trunc</span><span class="p">,</span> <span class="n">tozero</span><span class="p">,</span> <span class="n">tozeroinv</span><span class="p">))</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;gray, binary, binaryinv&#39;</span><span class="p">,</span> <span class="n">image_stack1</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;trunc, tozero, tozeroinv&#39;</span><span class="p">,</span> <span class="n">image_stack2</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/5b16227d3c852775c021aa62e1e145e0.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【定义】什么是阈值处理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【进阶】自适应阈值处理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

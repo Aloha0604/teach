@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】基于二阶导数的~ &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】Canny边缘检测" href="4.html" />
+    <link rel="prev" title="【进阶】基于一阶导数的~" href="2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】边缘检测概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【进阶】基于一阶导数的~</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】基于二阶导数的~</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#laplacian">1. Laplacian算法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【进阶】Canny边缘检测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../E.html">第5章：图像边缘检测</a></li>
+      <li class="breadcrumb-item active">【进阶】基于二阶导数的~</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i5/3.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】基于二阶导数的~<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="laplacian">
+<h2>1. Laplacian算法<a class="headerlink" href="#laplacian" title="Link to this heading"></a></h2>
+<p>拉普拉斯（Laplacian）算子是n维欧几里德空间中的一个二阶微分算子，常用于图像增强领域和边缘提取。它通过灰度差分计算邻域内的像素，基本流程是：判断图像中心像素灰度值与它周围其他像素的灰度值，如果中心像素的灰度更高，则提升中心像素的灰度；反之降低中心像素的灰度，从而实现图像锐化操作。</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/0cea6cb419a5eb242400d08af972010b.png" alt="image.png" style="zoom:50%;" /><p>得到二阶微分：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/1cf6a509594180814a49b192215f0fd8.png" /></p>
+<p>由此得到了第一幅图中的卷积核，那么就可以构造算法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">Laplacian</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">_Laplacian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">_Laplacian</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">_Laplacian</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;tyut_logo.png&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">))</span>
+<span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+<span class="n">blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">thresh1</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">blur</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">Laplacian</span><span class="p">(</span><span class="n">thresh1</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">gray</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;laplacian&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行结果如下：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/727710815ce083f7820250b6971a4324.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="2.html" class="btn btn-neutral float-left" title="【进阶】基于一阶导数的~" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="4.html" class="btn btn-neutral float-right" title="【进阶】Canny边缘检测" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

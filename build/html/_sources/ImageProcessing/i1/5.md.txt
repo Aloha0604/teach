@@ -1,0 +1,54 @@
+  # 【基础】通道分离与合并
+
+ 我们知道图像由于要表示颜色，而三原色(红、绿、蓝)能够组成任何的颜色，所以图像也就是由不同的三原色组成的，每一个三原色都是一个通道。考虑最基本的三原色，我们可以通过以下的方式将其通道分开：
+
+  ```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+import cv2
+
+img = cv2.imread('lena.jpg')
+b, g, r = cv2.split(img)  # 注意在openCV中图像是以B-G-R顺序表示，而非R-G-B顺序
+
+  ```
+
+也可以将其合并起来：
+
+  ```python
+img1 = cv2.merge((b, g, r))
+  ```
+
+如果只看一个通道，比如红色通道：
+
+  ```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+import cv2
+
+img = cv2.imread('lena.jpg')
+
+img[:, :, 0] = 0  # B通道灰度值全部置为 0
+img[:, :, 1] = 0  # G通道灰度值全部置为 0
+
+cv2.imshow('lena R channel', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+  ```
+
+其结果显示如下所示：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/b5e73ed216b6dd25a12f72902f553f25.png)
+
+蓝色通道：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/d8635af8c9ddbb2091445609db71d389.png)
+
+绿色通道：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/bc184664b148b9c6e424c2be33c6d924.png)
+

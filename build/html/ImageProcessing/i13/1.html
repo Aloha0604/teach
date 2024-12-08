@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】背景建模基本原理 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="第14章：傅里叶变换" href="../N.html" />
+    <link rel="prev" title="第13章：背景建模" href="../M.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../M.html">第13章：背景建模</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】背景建模基本原理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.帧差法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.混合高斯模型</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">混合高斯模型学习方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">混合高斯模型测试方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">【进阶】程序展示</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../M.html">第13章：背景建模</a></li>
+      <li class="breadcrumb-item active">【基础】背景建模基本原理</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i13/1.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】背景建模基本原理<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>背景建模是视频图像中运动目标检测的一种方法，其基本思想是对图像背景进行建模。一旦背景模型建立，将当前
+的图像与背景模型进行某种比较，根据比较结果确定前景目标（需要检测的目标）。
+其主要针对的是<strong>摄像头固定场景</strong>，可以对场景中<strong>所有运动的动目标</strong>进行检测。</p>
+<section id="id2">
+<h2>1.帧差法<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>由于场景中的目标在运动，目标的影像在不同图像帧中的位置不同。该类算法对时间上连续的两帧图像进行差分运算，不同帧对应的像素点相减，判断灰度差的绝对值，当绝对值超过一定阈值时，即可判断为运动目标，从而实现目标的检测功能
+帧差法非常简单但是会引入<strong>噪声和空洞</strong>问题。</p>
+<p><img alt="图片1" src="../../_images/zhenchafa.jpg" /></p>
+</section>
+<section id="id3">
+<h2>2.混合高斯模型<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在进行前景检测前，先对背景进行训练，对图像中每个背景采用一个混合高斯模型进行模拟，每个背景的混合高斯的个数可以自适应。然后在测试阶段，对新来的像素进行 GMM 匹配，如果该像素值能够匹配其中一个高斯，则认为是背景，否则认为是前景。由于整个过程 GMM 模型在不断更新学习中，所以对动态背景有一定的鲁棒性。最后通过对一个有树枝摇摆的动态背景进行前景检测，取得了较好的效果</p>
+<p><img alt="图片1" src="../../_images/Gauss1.jpg" /></p>
+<p>背景的实际分布应当是多个高斯分布混合在一起，每个高斯模型也可以带有权重</p>
+<p><img alt="图片1" src="../../_images/Gauss2.jpg" /></p>
+<section id="id4">
+<h3>混合高斯模型学习方法<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>1.首先初始化每个高斯模型矩阵参数。</p>
+<p>2.取视频中 T 帧数据图像用来训练高斯混合模型。来了第一个像素之后用它来当做第一个高斯分布。</p>
+<p>3.当后面来的像素值时，与前面已有的高斯的均值比较，如果该像素点的值与其模型均值差在 3 倍的方差内，则属于该分布，并对其进行参数更新。</p>
+<p>4.如果下一次来的像素不满足当前高斯分布，用它来创建一个新的高斯分布。</p>
+</section>
+<section id="id5">
+<h3>混合高斯模型测试方法<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>在测试阶段，对新来像素点的值与混合高斯模型中的每一个均值进行比较，如果其差值在 2 倍的方差之间的话，则认为是背景，否则认为是前景。将前景赋值为 255，背景赋值为 0。这样就形成了一副前景二值图</p>
+<p><img alt="图片1" src="../../_images/Gauss3.jpg" /></p>
+</section>
+</section>
+</section>
+<section id="id6">
+<h1>【进阶】程序展示<a class="headerlink" href="#id6" title="Link to this heading"></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="c1">#经典的测试视频</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;test.mp4&#39;</span><span class="p">)</span>
+<span class="c1">#形态学操作需要使用</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getStructuringElement</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_ELLIPSE</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1">#创建混合高斯模型用于背景建模</span>
+<span class="n">fgbg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">createBackgroundSubtractorMOG2</span><span class="p">()</span>
+
+<span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">fgmask</span> <span class="o">=</span> <span class="n">fgbg</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="c1">#形态学开运算去噪点</span>
+    <span class="n">fgmask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">fgmask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+    <span class="c1">#寻找视频中的轮廓</span>
+    <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">fgmask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_EXTERNAL</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="c1">#计算各轮廓的周长</span>
+        <span class="n">perimeter</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">arcLength</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">perimeter</span> <span class="o">&gt;</span> <span class="mi">188</span><span class="p">:</span>
+            <span class="c1">#找到一个直矩形（不会旋转）</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="c1">#画出这个矩形</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;frame&#39;</span><span class="p">,</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;fgmask&#39;</span><span class="p">,</span> <span class="n">fgmask</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../M.html" class="btn btn-neutral float-left" title="第13章：背景建模" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../N.html" class="btn btn-neutral float-right" title="第14章：傅里叶变换" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

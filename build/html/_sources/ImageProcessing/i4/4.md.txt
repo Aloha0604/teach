@@ -1,0 +1,53 @@
+# 【基础】形态学梯度运算
+
+形态学梯度运算是**用图像的膨胀图像减腐蚀图像的操作**，该操作可以**获取原始图像中前景图像的边缘**。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/1d6891c3fbd88f78733a56b039cb56ac.png)
+
+从上图可以看到，形态学梯度运算使用膨胀图像（扩张亮度）减腐蚀图像（收缩亮度），得到原始图像中前景对象的边缘。
+
+上述图像的代码为：
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('cv.jpg', cv2.IMREAD_GRAYSCALE)
+image = cv2.resize(image, (300, 300))
+
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+dilation = cv2.dilate(image, kernel, 1)
+erosion = cv2.erode(image, kernel, 1)
+
+minus = dilation - erosion
+
+cv2.imshow('image_stack', np.hstack((image, dilation, erosion, minus)))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+当然，openCV也提供了响应的函数，通过将函数`cv2.morphologyEx()`的操作类型参数op设置为`cv2.MORPH_GRADIENT`，可以实现形态学梯度运算。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/22e5a648974d48e1ed88b7e9d4aeb4e1.png)
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('cv.jpg', cv2.IMREAD_GRAYSCALE)
+image = cv2.resize(image, (300, 300))
+
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+result = cv2.morphologyEx(image, cv2.MORPH_GRADIENT, kernel)
+
+cv2.imshow('image, result', np.hstack((image, result)))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+

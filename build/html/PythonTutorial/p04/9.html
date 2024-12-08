@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】上下文管理器 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="第5章：Python面向对象" href="../p05.html" />
+    <link rel="prev" title="【基础】变量的作用域" href="8.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】函数创建与调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】装饰器的六种写法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】11个案例讲解函数参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】匿名函数的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】高阶函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】反射函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】偏函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】泛型函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】变量的作用域</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】上下文管理器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 什么是上下文管理器？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 如何写上下文管理器？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 为什么需要上下文管理器？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contextlib">4. 学会使用 contextlib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">5. 好处</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p04.html">第4章：Python函数详解</a></li>
+      <li class="breadcrumb-item active">【进阶】上下文管理器</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p04/9.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】上下文管理器<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>当你准备从一个文件中读取内容时，通常来说，都是这么写的。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>  <span class="c1"># 读取并打印</span>
+<span class="go">[&#39;hello,python\n&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># 关闭文件句柄</span>
+</pre></div>
+</div>
+<p>上面这种方法，需要你手动关闭文件句柄，但是很多时候，程序员是会忘记这一操作的。</p>
+<p>因为推荐你使用下面这种方法，使用 <code class="docutils literal notranslate"><span class="pre">with</span></code> 这个关键字，可以在文件读取结束后，自动关闭文件句柄。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>使用 Python 的专业术语来说，<code class="docutils literal notranslate"><span class="pre">with</span></code> 的这个用法叫做 <code class="docutils literal notranslate"><span class="pre">上下文管理器</span></code>。</p>
+<section id="id2">
+<h2>1. 什么是上下文管理器？<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><strong>基本语法</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">EXPR</span> <span class="k">as</span> <span class="n">VAR</span><span class="p">:</span>
+    <span class="n">代码块</span>
+</pre></div>
+</div>
+<p>从上面这个语法中，先理清几个概念：</p>
+<ol class="simple">
+<li><p>上下文表达式：<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">open('test.txt')</span> <span class="pre">as</span> <span class="pre">file:</span></code></p></li>
+<li><p>上下文管理器：<code class="docutils literal notranslate"><span class="pre">open('test.txt')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> 不是上下文管理器，应该是资源对象。</p></li>
+</ol>
+</section>
+<section id="id3">
+<h2>2. 如何写上下文管理器？<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>要手动实现一个上下文管理器，需要你有对类有一些了解，至少需要知道什么是类，怎么定义类。</p>
+<p>学习了类的基本知识，想要自己实现这样一个上下文管理，就简单了。</p>
+<p>你只要在一个类里实现上下文管理协议，简单点说，就是在一个类里，定义了<code class="docutils literal notranslate"><span class="pre">__enter__</span></code>和<code class="docutils literal notranslate"><span class="pre">__exit__</span></code>的方法，这个类的实例就是一个上下文管理器。</p>
+<p>例如这个示例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Resource</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===connect to resource===&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===close resource connection===&#39;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===in operation===&#39;</span><span class="p">)</span>
+        
+<span class="k">with</span> <span class="n">Resource</span><span class="p">()</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">operate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>我们执行一下，通过日志的打印顺序。可以知道其执行过程。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">===</span><span class="n">connect</span> <span class="n">to</span> <span class="n">resource</span><span class="o">===</span>
+<span class="o">===</span><span class="ow">in</span> <span class="n">operation</span><span class="o">===</span>
+<span class="o">===</span><span class="n">close</span> <span class="n">resource</span> <span class="n">connection</span><span class="o">===</span>
+</pre></div>
+</div>
+<p>从这个示例可以很明显的看出，在编写代码时，可以将资源的连接或者获取放在<code class="docutils literal notranslate"><span class="pre">__enter__</span></code>中，而将资源的关闭写在<code class="docutils literal notranslate"><span class="pre">__exit__</span></code> 中。</p>
+</section>
+<section id="id4">
+<h2>3. 为什么需要上下文管理器？<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>学习时多问自己几个为什么，养成对一些细节的思考，有助于加深对知识点的理解。</p>
+<p>为什么要使用上下文管理器？</p>
+<p>在我看来，这和 Python 崇尚的优雅风格有关。</p>
+<ol class="simple">
+<li><p>可以以一种更加优雅的方式，操作（创建/获取/释放）资源，如文件操作、数据库连接；</p></li>
+<li><p>可以以一种更加优雅的方式，处理异常；</p></li>
+</ol>
+<p>第一种，我们上面已经以资源的连接为例讲过了。</p>
+<p>而第二种，会被大多数人所忽略。这里会重点讲一下。</p>
+<p>大家都知道，处理异常，通常都是使用 <code class="docutils literal notranslate"><span class="pre">try...execept..</span></code> 来捕获处理的。这样做一个不好的地方是，在代码的主逻辑里，会有大量的异常处理代理，这会很大的影响我们的可读性。</p>
+<p>好一点的做法呢，可以使用 <code class="docutils literal notranslate"><span class="pre">with</span></code> 将异常的处理隐藏起来。</p>
+<p>仍然是以上面的代码为例，我们将<code class="docutils literal notranslate"><span class="pre">1/0</span></code> 这个<code class="docutils literal notranslate"><span class="pre">一定会抛出异常的代码</span></code>写在 <code class="docutils literal notranslate"><span class="pre">operate</span></code> 里</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Resource</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===connect to resource===&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===close resource connection===&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+
+<span class="k">with</span> <span class="n">Resource</span><span class="p">()</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">operate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行一下，惊奇地发现，居然不会报错。</p>
+<p>这就是上下文管理协议的一个强大之处，异常可以在<code class="docutils literal notranslate"><span class="pre">__exit__</span></code> 进行捕获并由你自己决定如何处理，是抛出呢还是在这里就解决了。在<code class="docutils literal notranslate"><span class="pre">__exit__</span></code> 里返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>（没有return 就默认为 return False），就相当于告诉 Python解释器，这个异常我们已经捕获了，不需要再往外抛了。</p>
+<p>在 写<code class="docutils literal notranslate"><span class="pre">__exit__</span></code> 函数时，需要注意的事，它必须要有这三个参数：</p>
+<ul class="simple">
+<li><p>exc_type：异常类型</p></li>
+<li><p>exc_val：异常值</p></li>
+<li><p>exc_tb：异常的错误栈信息</p></li>
+</ul>
+<p>当主逻辑代码没有报异常时，这三个参数将都为None。</p>
+</section>
+<section id="contextlib">
+<h2>4. 学会使用 contextlib<a class="headerlink" href="#contextlib" title="Link to this heading"></a></h2>
+<p>在上面的例子中，我们只是为了构建一个上下文管理器，却写了一个类。如果只是要实现一个简单的功能，写一个类未免有点过于繁杂。这时候，我们就想，如果只写一个函数就可以实现上下文管理器就好了。</p>
+<p>这个点Python早就想到了。它给我们提供了一个装饰器，你只要按照它的代码协议来实现函数内容，就可以将这个函数对象变成一个上下文管理器。</p>
+<p>我们按照 contextlib 的协议来自己实现一个打开文件（with open）的上下文管理器。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">contextlib</span>
+
+<span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">open_func</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="c1"># __enter__方法</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;open file:&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;in __enter__&#39;</span><span class="p">)</span>
+    <span class="n">file_handler</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+	
+    <span class="c1"># 【重点】：yield</span>
+    <span class="k">yield</span> <span class="n">file_handler</span>
+
+    <span class="c1"># __exit__方法</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;close file:&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;in __exit__&#39;</span><span class="p">)</span>
+    <span class="n">file_handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span>
+
+<span class="k">with</span> <span class="n">open_func</span><span class="p">(</span><span class="s1">&#39;/Users/WillWang/mytest.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_in</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_in</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在被装饰函数里，必须是一个生成器（带有yield），而yield之前的代码，就相当于<code class="docutils literal notranslate"><span class="pre">__enter__</span></code>里的内容。yield 之后的代码，就相当于<code class="docutils literal notranslate"><span class="pre">__exit__</span></code> 里的内容。</p>
+<p>上面这段代码只能实现上下文管理器的第一个目的（管理资源），并不能实现第二个目的（处理异常）。</p>
+<p>如果要处理异常，可以改成下面这个样子。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">contextlib</span>
+
+<span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">open_func</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="c1"># __enter__方法</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;open file:&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;in __enter__&#39;</span><span class="p">)</span>
+    <span class="n">file_handler</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">file_handler</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="c1"># deal with exception</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the exception was thrown&#39;</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;close file:&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;in __exit__&#39;</span><span class="p">)</span>
+        <span class="n">file_handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span>
+
+<span class="k">with</span> <span class="n">open_func</span><span class="p">(</span><span class="s1">&#39;/Users/WillWang/mytest.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_in</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_in</span><span class="p">:</span>
+        <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>好像只要讲到上下文管理器，大多数人都会谈到打开文件这个经典的例子。</p>
+<p>但是在实际开发中，可以使用到上下文管理器的例子也不少。我这边举个我自己的例子。</p>
+<p>在OpenStack中，给一个虚拟机创建快照时，需要先创建一个临时文件夹，来存放这个本地快照镜像，等到本地快照镜像创建完成后，再将这个镜像上传到Glance。然后删除这个临时目录。</p>
+<p>这段代码的主逻辑是<code class="docutils literal notranslate"><span class="pre">创建快照</span></code>，而<code class="docutils literal notranslate"><span class="pre">创建临时目录</span> </code>，属于前置条件，<code class="docutils literal notranslate"><span class="pre">删除临时目录</span></code>，是收尾工作。</p>
+<p>虽然代码量很少，逻辑也不复杂，但是“<code class="docutils literal notranslate"><span class="pre">创建临时目录，使用完后再删除临时目录</span></code>”这个功能，在一个项目中很多地方都需要用到，如果可以将这段逻辑处理写成一个工具函数作为一个上下文管理器，那代码的复用率也大大提高。</p>
+<p>代码是这样的</p>
+<p><img alt="http://image.iswbm.com/20190310172800.png" src="http://image.iswbm.com/20190310172800.png" /></p>
+</section>
+<section id="id5">
+<h2>5. 好处<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>使用上下文管理器有三个好处：</p>
+<ol class="simple">
+<li><p>提高代码的复用率；</p></li>
+<li><p>提高代码的优雅度；</p></li>
+<li><p>提高代码的可读性；</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="8.html" class="btn btn-neutral float-left" title="【基础】变量的作用域" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../p05.html" class="btn btn-neutral float-right" title="第5章：Python面向对象" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

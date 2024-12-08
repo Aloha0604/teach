@@ -1,0 +1,235 @@
+# 【基础】直方图
+
+
+
+## 1. 什么是直方图
+
+在统计学中，直方图（histogram）是一种对数据分布情况的图形表示，是一种二维统计图表，它的两个坐标分别是统计样本（图像、视频帧）和样本的某种属性（亮度，像素值，梯度，方向，色彩等等任何特征）。
+
+也可以这么理解，直方图是对数据的统计，并把统计值显示到事先设定好的bin（矩形条）中，bin中的数值是从数据中计算出的特征的统计量。总之，直方图获取的是数据分布的统计图，通常直方图的维数要低于原始数据。
+
+**图像直方图**是用以表示数字图像中亮度分布的直方图，标绘了图像中每个亮度值的像素数。可以借助观察该直方图了解需要如何调整亮度分布的直方图。这种直方图中，**横坐标的左侧为纯黑、较暗的区域，而右侧为较亮、纯白的区域。**因此，一张较暗图片的图像直方图中的数据多集中于左侧和中间部分，而整体明亮、只有少量阴影的图像则相反。计算机视觉邻域常借助图像直方图来实现图像的二值化。
+
+**灰度直方图**是一幅图像中像素灰度值出现次数或频数的统计结果，它只反映该图像中灰度值出现的频率，而未反映某一灰度值像素所在的位置。也就是说，它只包含了该图像中某个灰度值的像素出现的概率，而丢失了其所在的位置的信息。任一幅图像，都能唯一地算出一幅与它对应的直方图。但不同的图像，可能有相同的直方图。即图像与直方图之间是多对一的映射关系。
+
+
+
+## 2. 直方图的意义
+
+* 直方图是图像中像素强度分布的图形表达方式。
+* 直方图统计了每一个强度值所具有的像素个数。
+
+直方图广泛应用于许多计算机视觉应用中。通过标记帧和帧之间显著的边缘和颜色的统计变化，来检测视频中场景的变换。通过在每个兴趣点设置一个有相近特征的直方图所构成的标签，用以确定图像中的兴趣点。边缘、色彩、角度等直方图构成了可以被传递给目标识别分类器的一个通用特征类型。色彩和边缘的直方图还可以用来识别网络视频是否被复制等。直方图是计算机视觉中最经典的工具之一，也是一个很好的图像特征表示手段。
+
+
+
+## 3. 直观理解
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/996e1a076322a1d8118605ea159ef509.png)
+
+它的横坐标表示像素点，纵坐标表示出现的频率（频数）。
+
+也就是统计图像中某个像素点出现的频率（频数）。依据这个定义，这个像素点的范围就是`0-255`。
+
+直方图简单来说就是图像中每个像素值的个数统计，直方图是一种分析图像的手段：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/23d1209a7a52def0600029289b213c14.png)
+
+
+
+## 4. 使用pyplot绘制直方图
+
+
+
+模块`matplotlib.pyplot`提供了一个类似于MATLAB绘图方式的框架，可以使用其中的`matplotlib.pyplot.hist()`函数（hist()函数）来绘制直方图。
+
+此函数的作用是根据数据源和灰度级分组绘制直方图。其基本语法格式为：
+
+```python
+matplotlib.pyplot.hist(X, BINS)
+```
+
+● `X`：数据源，必须是一维的。图像通常是二维的，需要使用`ravel()`函数将图像处理为一维数据源以后，再作为参数使用。
+
+● `BINS`：BINS的具体值，表示灰度级的分组情况。
+
+函数`ravel()`的作用是将二维数组降维成一维数组。例如，有如下图像a，其值为：
+
+​	<img src="https://pic.rmb.bdstatic.com/bjh/8bad9adbfe67c88c11453012a6c3ee4a.png" alt="image.png" style="zoom:50%;" />
+
+使用函数`ravel()`对a进行处理：
+
+```python
+b = a.ravel()
+```
+
+可以得到b为：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/df2304bfff8bd90bb9f72c6e1c49ddcd.png)
+
+
+
+**程序演示**：使用`hist()`函数绘制一幅图像的直方图。
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+image = cv2.imread('char_W.jpg', cv2.IMREAD_GRAYSCALE)
+
+cv2.imshow('char_W', image)
+
+plt.hist(image.ravel(), 256)
+
+plt.show()
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+我们对一张上一节用过的char_W.jpg图像进行直方图绘制，得到效果如下所示
+
+<img src="https://pic.rmb.bdstatic.com/bjh/20773177e6dc3360d98e8fc59e305170.png" alt="image.png" style="zoom:50%;" />
+
+
+
+## 5. 使用OpenCV绘制直方图
+
+
+
+### 1. 使用cv2.calcHist()函数统计图像直方图信息
+
+OpenCV提供了函数`cv2.calcHist()`用来计算图像的统计直方图，该函数能统计各个灰度级的像素点个数。利用`matplotlib.pyplot`模块中的`plot()`函数，可以将函数`cv2.calcHist()`的统计结果绘制成直方图，函数`cv2.calcHist()`用于统计图像直方图信息，其语法格式为：
+
+```python
+hist = cv2.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]])
+```
+
+* `hist`：返回的统计直方图，是一个一维数组，数组内的元素是各个灰度级的像素个数。
+* `images`：要计算的原图，以方括号的形式传入，如：`[img]`。
+* `channels`：同样用中括号括起来，如果传入图像是灰度图它的值就是[0]；如果是彩色图像，传入的参数可以是[0]、[1]、[2]，分别对应着 `B-G-R`，即统计某个通道的直方图。
+* `mask`: 掩模图像。当统计整幅图像的直方图时，将这个值设为None。当统计图像某一部分的直方图时，需要用到掩模图像。
+* `histSize`：BINS的值，该值需要用“[ ]”括起来。例如，BINS的值是256，需要使用“[256]”作为此参数值。
+* `ranges`: 要计算的像素值范围，一般为[0,255]。
+
+这个函数的返回值是一个二维的，第一个维度是像素点的范围，第二个维度是像素点的频率。
+
+
+
+**程序演示**：以`lena.jpg`为例统计其直方图。
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+gray = cv2.imread('lena.jpg', cv2.IMREAD_GRAYSCALE)
+cv2.imshow('lena', gray)
+
+
+hist = cv2.calcHist([gray], [0], None, [256], [0, 255])  # 统计直方图
+plt.plot(hist)
+
+plt.xlabel('value')
+plt.ylabel('count')
+plt.show()
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+● 第1个参数“[gray]”表示要绘制直方图的原始图像，是使用“[ ]”括起来的。
+
+● 第2个参数表示要统计哪个通道的直方图信息。本例中读取的gray是灰度图像，所以使用“[0]”来表示。
+
+● 第3个参数是掩模图像，在本例中的值为“None”，表示计算整幅图像的直方图。
+
+● 第4个参数“[256]”表示BINS的值是256。
+
+● 第5个参数“[0, 255]”表示灰度级的范围是[0, 255]。
+
+运行效果如下：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/80cef63cfdd19d3fb426e5218a607f4e.png)
+
+
+
+### 2. plot()函数的使用
+
+使用matplotlib.pyplot模块内的plot()函数，可以将函数cv2.calcHist()的返回值绘制为图像直方图。下面通过三个例子来学习plot()函数的基本使用方法。
+
+**程序演示1**：将给定的x= [0,1,2,3,4,5,6], y = [0.3,0.4,2,5,3,4.5,4]，使用plot()函数绘制出来。
+
+```
+import matplotlib.pyplot as plt
+
+x = [0, 1, 2, 3, 4, ]
+y = [0.4, 0.5, 0.4, 0.1, 0.8]
+
+plt.plot(x, y)
+
+plt.show()
+
+```
+
+**程序演示2**：给定y = [0.3, 0.4, 2, 5, 3, 4.5, 4]，使用plot()函数将其绘制出来，观察绘制结果。
+
+```
+import matplotlib.pyplot as plt
+
+y = [0.3, 0.4, 2, 5, 3, 4.5, 4]
+
+plt.plot(y)
+
+plt.show()
+
+```
+
+在使用plot()函数时，如果仅仅指定一个参数，则其对应x轴的值默认是一个自然数序列x=[0, 1, … , n-1, n]。自然序列x的长度与y的长度保持一致。
+
+**程序演示3**：使用`plot()`函数将两组不同的值a= [0.3, 0.4, 2, 5, 3, 4.5, 4], b=[3, 5, 1, 2, 1, 5, 3]以不同的颜色绘制出来。
+
+```python
+import matplotlib.pyplot as plt
+
+a = [0.3, 0.4, 2, 5, 3, 4.5, 4]
+b = [3, 5, 1, 2, 1, 5, 3]
+
+plt.plot(a, color='r')
+plt.plot(b, color='g')
+
+plt.show()
+
+```
+
+● color='r’表示绘图曲线的color属性是“red”，即绘图颜色是红色的。
+
+● color='g’表示绘图曲线的color属性是“green”，即绘图颜色是绿色的。
+
+
+
+### 3．绘制彩色图像直方图
+
+**程序演示**：使用函数`plot()`和函数`cv2.calcHist()`，将彩色图像各个通道的直方图绘制在一个窗口内。
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+image = cv2.imread('lena.jpg', cv2.IMREAD_COLOR)
+
+histb = cv2.calcHist([image], [0], None, [256], [0, 255])
+histg = cv2.calcHist([image], [1], None, [256], [0, 255])
+histr = cv2.calcHist([image], [2], None, [256], [0, 255])
+
+plt.plot(histb, color='b')
+plt.plot(histg, color='g')
+plt.plot(histr, color='r')
+
+plt.show()
+
+```
+
+先通过函数`cv2.calcHist()`分别得到[0]、[1]、[2]三个通道（即B、G、R三个通道）的统计直方图数据，然后再通过`plot()`函数将这些数据绘制成直方图。
+

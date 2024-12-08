@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】导入单元的构成 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】导入包的标准写法" href="4.html" />
+    <link rel="prev" title="【基础】安装第三方包的八种方法" href="2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】什么是包、模块和库？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】理解查找器与加载器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】实现远程导入模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12.html">【基础】分发工具：distutils和setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13.html">【基础】源码包与二进制包有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14.html">【基础】eggs与wheels 有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15.html">【进阶】超详细讲解 setup.py 的编写</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16.html">【进阶】打包辅助神器 PBR 是什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17.html">【进阶】开源自己的包到 PYPI 上</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】安装第三方包的八种方法</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】导入单元的构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】导入包的标准写法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【进阶】常规包与空间命名包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【进阶】花式导包的八种方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】包导入的三个冷门知识点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】pip 的超全使用指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】理解模块的缓存</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p06.html">第6章：Python包与模块</a></li>
+      <li class="breadcrumb-item active">【基础】导入单元的构成</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p06/3.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】导入单元的构成<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>导入单元有多种，可以是模块、包及变量等。</p>
+<p>对于这些基础的概念，对于新手还是有必要介绍一下它们的区别。</p>
+<p><strong>模块</strong>：类似 *.py，*.pyc， *.pyd ，*.so，*.dll 这样的文件，是 Python 代码载体的最小单元。</p>
+<p><strong>包</strong> 还可以细分为两种:</p>
+<ul class="simple">
+<li><p>Regular packages：是一个带有 <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>  文件的文件夹，此文件夹下可包含其他子包，或者模块</p></li>
+<li><p>Namespace packages</p></li>
+</ul>
+<p>关于 Namespace packages，有的人会比较陌生，我这里摘抄官方文档的一段说明来解释一下。</p>
+<p>Namespace packages 是由多个 部分 构成的，每个部分为父包增加一个子包。 各个部分可能处于文件系统的不同位置。 部分也可能处于 zip 文件中、网络上，或者 Python 在导入期间可以搜索的其他地方。 命名空间包并不一定会直接对应到文件系统中的对象；它们有可能是无实体表示的虚拟模块。</p>
+<p>命名空间包的 <code class="docutils literal notranslate"><span class="pre">__path__</span> </code> 属性不使用普通的列表。 而是使用定制的可迭代类型，如果其父包的路径 (或者最高层级包的 sys.path) 发生改变，这种对象会在该包内的下一次导入尝试时自动执行新的对包部分的搜索。</p>
+<p>命名空间包没有 <code class="docutils literal notranslate"><span class="pre">parent/__init__.py</span></code> 文件。 实际上，在导入搜索期间可能找到多个 parent 目录，每个都由不同的部分所提供。 因此 parent/one 的物理位置不一定与 parent/two 相邻。 在这种情况下，Python 将为顶级的 parent 包创建一个命名空间包，无论是它本身还是它的某个子包被导入。</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="2.html" class="btn btn-neutral float-left" title="【基础】安装第三方包的八种方法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="4.html" class="btn btn-neutral float-right" title="【基础】导入包的标准写法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+# 【基础】字典
+
+字典（英文 `dict`），它是由一系列的键值对（key-value）组合而成的数据结构，就像查字典一样。
+
+字典中的每个键都与一个值相关联，其中
+
+1. 键，必须是可 hash 的值，如字符串，数值等
+2. 值，则可以是任意对象
+
+
+
+## 1. 创建字典
+
+创建一个字典有三种方法
+
+**第一种方法**：先使用 `dict()` 创建空字典实例，再往实例中添加元素
+
+```python
+>>> profile = dict(name='WillWang', age=24, gender='man')
+>>> profile
+{'name': 'WillWang', 'age': 24, 'gender': 'man'}
+```
+
+**第二种方法**：直接使用 `{}` 定义字典，并填充元素。
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> profile
+{'name': 'WillWang', 'age': 24, 'gender': 'man'}
+```
+
+**第三种方法**：使用 `dict()` 构造函数可以直接从键值对序列里创建字典。
+
+```python
+>>> info = [('name', 'WillWang'), ('age', 24), ('gender', 'man')]
+>>> dict(info)
+{'name': 'WillWang', 'age': 24, 'gender': 'man'}
+```
+
+**第四种方法**：使用字典推导式，看不懂可直接跳过，后面有讲解。
+
+```python
+>>> adict = {x: x**2 for x in (2, 4, 6)}
+>>> adict
+{2: 4, 4: 16, 6: 36}
+```
+
+
+
+## 2. 增删改查
+
+### 查看元素
+
+查看或者访问元素，直接使用 `dict[key]` 的方式就可以
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> profile["name"]
+'WillWang'
+```
+
+但这种方法，在 key 不存在时会报 KeyValue 的异常
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> profile["weight"]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'weight'
+```
+
+### 新增元素
+
+新增元素，直接使用 `dict[key] = value` 新增 键值对 即可
+
+```python
+>>> profile = dict()
+>>> profile
+{}
+>>> profile["name"] = "WillWang"
+>>> profile["age"] = 24
+>>> profile["gender"] = "man"
+>>> profile
+{'name': 'WillWang', 'age': 24, 'gender': 'man'}
+```
+
+### 修改元素
+
+修改元素，直接使用 `dict[key] = new_value` 就可以
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>>
+>>> profile["age"] = 25
+>>> profile
+{'name': 'WillWang', 'age': 25, 'gender': 'man'}
+```
+
+### 删除元素
+
+删除元素，有三种方法
+
+**第一种方法**：使用 pop 函数
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> profile.pop('age')
+24
+>>> profile
+{'name': 'WillWang', 'gender': 'man'}
+```
+
+**第二种方法**：使用 del 函数
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> del profile["age"]
+>>> profile
+{'name': 'WillWang', 'gender': 'man'}
+```
+
+
+
+## 3. 常用方法
+
+### 判断 key 是否存在
+
+在 Python 2 中的字典对象有一个 has_key 函数，可以用来判断一个 key 是否在该字典中
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> profile.has_key("name")
+True
+>>> 
+>>> profile.has_key("gender")
+True
+```
+
+但是这个方法在 Python 3 中已经取消了，原因是有一种更简单直观的方法，那就是使用 `in` 和 `not in` 来判断。
+
+```python
+>>> profile = {'name': 'WillWang', 'age': 24, 'gender': 'man'}
+>>> "name" in profile
+True
+>>>
+>>> "weight" in profile
+False
+```

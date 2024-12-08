@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】字符串 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】整数 浮点数 复数" href="3.html" />
+    <link rel="prev" title="【基础】变量与常量" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】变量与常量</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】字符串</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python">1. 在Python中如何定义字符串？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2. 对字符串的常用操作</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】整数 浮点数 复数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】布尔值：真与假</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】输入与输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】格式化输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【基础】Python运算符</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p01.html">第1章：Python数据类型</a></li>
+      <li class="breadcrumb-item active">【基础】字符串</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p01/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】字符串<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="python">
+<h2>1. 在Python中如何定义字符串？<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<p>字符串是Python中最常用的数据类型之一。</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">单引号</span></code> 或 <code class="docutils literal notranslate"><span class="pre">双引号</span></code> 来创建字符串，使用 <code class="docutils literal notranslate"><span class="pre">三引号</span></code> 创建<strong>多行</strong>字符串。</p>
+<p>注意 字符串要么使用两个单引号，要么两个双引号，不能一单一双使用。</p>
+<p>Python中 <code class="docutils literal notranslate"><span class="pre">单引号</span></code> 和 <code class="docutils literal notranslate"><span class="pre">双引号</span></code> 定义字符串作用效果是相同的。</p>
+<p>注意Python中没有char类型，即Python不支持单字符类型，单字符在Python语法中作为字符串处理。</p>
+<p>以下四种写法是等价的：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_1</span> <span class="o">=</span> <span class="s1">&#39;Jack Ma&#39;</span>  <span class="c1"># 单引号</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_2</span> <span class="o">=</span> <span class="s2">&quot;Jack Ma&quot;</span>  <span class="c1"># 双引号</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_3</span> <span class="o">=</span>  <span class="s1">&#39;&#39;&#39;Jack Ma&#39;&#39;&#39;</span> <span class="c1"># 三个单引号</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_4</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Jack Ma&quot;&quot;&quot;</span>  <span class="c1"># 三个双引号</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_1</span> <span class="o">==</span> <span class="n">name_2</span> <span class="o">==</span> <span class="n">name_3</span> <span class="o">==</span> <span class="n">name_4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>如果一个字符串里，如果必须用到引号，那么最好和外部包裹的引号类型不同，比如</p>
+<ul class="simple">
+<li><p>外层使用单引号，那么里层使用双引号</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;my name is &#39;Jack Ma&#39;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span>
+<span class="go">&quot;my name is &#39;Jack Ma&#39;&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>外层使用双引号，那么里层使用单引号</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;my name is &quot;Jack Ma&quot;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span>
+<span class="go">&#39;my name is &quot;Jack Ma&quot;&#39;</span>
+</pre></div>
+</div>
+<p>如果一定要使用同样的符号怎么办——让字符串里的引号前加<strong>转义符号</strong>：<code class="docutils literal notranslate"><span class="pre">\</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;what</span><span class="se">\&#39;</span><span class="s1">s you name?&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span>
+<span class="go">&quot;what&#39;s you name?&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>2. 对字符串的常用操作<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>字符串对象本身自带了许多非常实用的方法，下文只会为你介绍最常用的方法。</p>
+<p>还有一些不太常用的方法，在你需要的时候去查一下文档就OK了。</p>
+<ul class="simple">
+<li><p><strong>去除首尾空格</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;  太原理工大学YYDS   &quot;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>  <span class="c1"># 去除左边空格</span>
+<span class="go">&#39;太原理工大学YYDS   &#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>  <span class="c1"># 去除右边空格</span>
+<span class="go">&#39;  太原理工大学YYDS&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># 去除左右两边空格</span>
+<span class="go">&#39;太原理工大学YYDS&#39;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>判断字符串是否以某字符串开头</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;太原理工大学YYDS&quot;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;太原理工大学&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;北京理工大学&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>判断字符串是否以某字符串结尾</strong></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;太原理工大学YYDS&quot;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;YYDS&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;YYSD&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>格式化字符串</strong>：格式化字符串非常重要，在后面的章节中有详细的讲解，这里简单了解即可</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TYUT&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;你好，我来自</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span>
+<span class="go">&#39;你好，我来自TYUT&#39;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>分割字符串</strong>：以逗号为分割符分割字符串</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;太原理工大学,是一所,211,理工科院校&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="s1">&#39;太原理工大学&#39;</span><span class="p">,</span> <span class="s1">&#39;是一所&#39;</span><span class="p">,</span> <span class="s1">&#39;211&#39;</span><span class="p">,</span> <span class="s1">&#39;理工科院校&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】变量与常量" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】整数 浮点数 复数" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

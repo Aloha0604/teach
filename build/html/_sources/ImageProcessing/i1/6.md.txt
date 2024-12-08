@@ -1,0 +1,54 @@
+# 【基础】numerical calculation
+
+顾名思义，即对图像像素点直接进行数值运算
+
+  ```python
+  """
+  Author: Will Wang
+  Email: WillWang1998@163.com
+  """
+  import cv2
+  
+  img = cv2.imread('lena.jpg')
+  img_added = img + 10  # 所有像素都加 10
+  
+  cv2.imshow('img_added', img_added)
+  cv2.waitKey(0)
+  cv2.destroyAllWindows()
+  
+  ```
+
+其结果显示如下：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/4f2e0c43edce4b065fba40f9e8de41fc.png)
+
+我们也可以改变另一张图像的大小，之后将两张一样大小的图片进行融合：
+
+  ```python
+  background = cv2.imread('background.jpg')
+  background_resized = cv2.resize(background, (512, 512))
+  ```
+
+变化完成之后，可以对其进行融合了：
+
+  ```python
+  """
+  Author: Will Wang
+  Email: WillWang1998@163.com
+  """
+  import cv2
+  
+  img = cv2.imread('lena.jpg')
+  background = cv2.imread('background.jpg')
+  background_resized = cv2.resize(background, (512, 512))  # 相加的前提是两幅图大小要相同
+  
+  res = cv2.addWeighted(img, 0.3, background_resized, 0.9, 0)
+  cv2.imshow('result', res)
+  
+  cv2.waitKey(0)
+  cv2.destroyAllWindows()
+  
+  ```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/220d63db4ebb9c8c232f6a79e5681cb6.png)
+

@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】类的 property 属性 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】类的 Mixin 设计模式" href="8.html" />
+    <link rel="prev" title="【基础】类的多态" href="6.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】类的理解与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】神奇的元类编程（metaclass）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】深藏不露的描述符（Descriptor）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】静态方法与类方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】私有变量与私有方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】类的封装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】类的继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】类的多态</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】类的 property 属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【进阶】类的 Mixin 设计模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】类的魔术方法（超全整理）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p05.html">第5章：Python面向对象</a></li>
+      <li class="breadcrumb-item active">【基础】类的 property 属性</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p05/7.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="property">
+<h1>【基础】类的 property 属性<a class="headerlink" href="#property" title="Link to this heading"></a></h1>
+<p>在之前的学习中，对象的属性，我们都是通过把变量值赋值给对象本身来实现的。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span><span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Student</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WillWang&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+</pre></div>
+</div>
+<p>直接赋值会存在一个问题，就是无法对属性值进行合法性较验，比如我给 age 赋值的是负数，在业务上这种数据是不合法的。但上面那种写法是无法检查出来的。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">24</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">age</span>
+<span class="go">-24</span>
+</pre></div>
+</div>
+<p>为了实现属性的合法性校验，Python 引入的 property 属性。</p>
+<p>请看下面这段代码</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_age</span>
+
+    <span class="nd">@age</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">150</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 150]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>此时再对 age 属性进行赋值就会对 value 的值进行合法性检查，小于 0 或者 大于 150 的都是不合法数据。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Student</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">24</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">10</span>, in <span class="n">age</span>
+<span class="gr">ValueError</span>: <span class="n">Valid value must be in [0, 150]</span>
+</pre></div>
+</div>
+<p>由此我们知道了 <code class="docutils literal notranslate"><span class="pre">property</span></code> ，其实是 Python 中一个内置的装饰器，它可以在新式类中把一个函数 <code class="docutils literal notranslate"><span class="pre">改造</span></code> 成属性。</p>
+<ul class="simple">
+<li><p>当你读取属性值时，会进入被 <code class="docutils literal notranslate"><span class="pre">property</span></code> 装饰的函数。</p></li>
+<li><p>当你对属性进行赋值时，会进入被 <code class="docutils literal notranslate"><span class="pre">&#64;xx.setter</span></code> 装饰的函数。</p></li>
+<li><p>两个装饰器，一定是 <code class="docutils literal notranslate"><span class="pre">&#64;property</span></code> 在前面，而 <code class="docutils literal notranslate"><span class="pre">&#64;xx.setter</span></code> 在后</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="6.html" class="btn btn-neutral float-left" title="【基础】类的多态" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="8.html" class="btn btn-neutral float-right" title="【进阶】类的 Mixin 设计模式" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】鼠标交互 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】滚动条" href="4.html" />
+    <link rel="prev" title="【基础】绘图基础" href="2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../K.html">第11章：绘图与交互</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【定义】绘图与交互概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】绘图基础</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】鼠标交互</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】滚动条</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../K.html">第11章：绘图与交互</a></li>
+      <li class="breadcrumb-item active">【基础】鼠标交互</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i11/3.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】鼠标交互<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>当用户触发鼠标事件时，我们希望对该事件做出响应。例如，单击鼠标就画一个圆。通常的做法是，创建一个<code class="docutils literal notranslate"><span class="pre">OnMouseAction()</span></code>响应函数，将要实现的操作写在该响应函数内。响应函数是按照固定的格式创建的，其格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">OnMouseAction</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>● event表示触发了何种事件</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/a7042e3d21f8f146e523fe4937f2dd6d.png" /></p>
+<p>● x, y代表触发鼠标事件时，鼠标在窗口中的坐标(x, y)。</p>
+<p>● flags代表鼠标的拖曳事件，以及键盘鼠标联合事件，详细如下表所示</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/34ca0c6cd9dca9a3a8b38fc8bba953cb.png" /></p>
+<p>● param为函数ID，标识所响应的事件函数，相当于自定义一个OnMouseAction()函数的ID。</p>
+<p>● OnMouseAction为响应函数的名称，该名称可以自定义。</p>
+<p>定义响应函数以后，要将该函数与一个特定的窗口建立联系（绑定），让该窗口内的鼠标触发事件时，能够找到该响应函数并执行。要将函数与窗口绑定，可以通过函数<code class="docutils literal notranslate"><span class="pre">cv2.setMouseCallback()</span></code>实现，其基本语法格式是：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">setMouseCallback</span><span class="p">(</span><span class="n">winname</span><span class="p">,</span> <span class="n">onMouse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>● winname为绑定的窗口名。</p>
+<p>● onMouse为绑定的响应函数名。</p>
+<p><strong>程序演示</strong>：</p>
+<p>一.设计一个程序，对触发的鼠标事件进行判断。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">EVENT_LBUTTONDOWN</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;检测到鼠标左键单击&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">event</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">EVENT_RBUTTONDOWN</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;检测到鼠标右键单击&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">event</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">EVENT_MBUTTONDOWN</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;检测到单击了鼠标中间键&#39;</span><span class="p">)</span>
+
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="c1"># 创建图像与窗口，并将窗口与回调函数绑定</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">setMouseCallback</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">demo</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行程序，在创建的窗口<code class="docutils literal notranslate"><span class="pre">image</span></code>内：</p>
+<p>● 单击鼠标左键，会触发单击左键事件“cv2.EVENT_LBUTTONDOWN”。</p>
+<p>● 单击鼠标右键，会触发单击右键事件“cv2.EVENT_RBUTTONDOWN”。</p>
+<p>● 单击鼠标中间键（滚轮），会触发单击中间键事件“cv2.EVENT_MBUTTONDOWN”。</p>
+<p>运行上述程序，先后单击左键，右键，鼠标中间键，结果如下所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/06d60808ccf4404f44229fea155af6b2.png" /></p>
+<p>一.设计一个程序，实现双击左键画圆圈。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;windows.png&#39;</span><span class="p">)</span>  <span class="c1"># 读取图片作为背景</span>
+
+<span class="c1"># 定义画圆事件，双击左键时触发</span>
+<span class="k">def</span> <span class="nf">draw_circle</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">EVENT_LBUTTONDBLCLK</span><span class="p">:</span>  <span class="c1"># 左键双击事件</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">50</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># 创建图像与窗口并将窗口与回调函数绑定</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">setMouseCallback</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">draw_circle</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>  <span class="c1"># 等待100毫秒 刷新一次显示图像</span>
+        <span class="k">break</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>在对窗口的四处随机地点进行双击后，其运行如下图所示</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/13593a9be52fb81411e067250d84874f.png" /></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="2.html" class="btn btn-neutral float-left" title="【基础】绘图基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="4.html" class="btn btn-neutral float-right" title="【基础】滚动条" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+# 【进阶】自适应阈值处理
+
+## 1. 引入
+
+对于色彩均衡的图像，直接使用一个阈值就能完成对图像的阈值化处理。
+
+但是，现实遇到的情况有时候会复杂的多，这些图像的色彩是不均衡的，这时候如果只使用上节所述的一个阈值，就无法得到理想的阈值分割结果。
+
+所以有一种改进的阈值处理方法，使用非固定的阈值来对图像进行阈值处理，这种方法就是**自适应阈值处理**：在进行阈值处理时，该方式通过计算每个像素点周围临近区域的加权平均值获得阈值，然后利用该动态阈值对当前像素点进行阈值处理。与普通的阈值处理方法相比，自适应阈值处理**能够更好地处理明暗差异较大的图像**。
+
+
+
+## 2. 自适应阈值处理函数
+
+OpenCV提供了函数`cv2.adaptiveThreshold()`来实现自适应阈值处理，该函数的语法格式为：
+
+```python
+dst = cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None)
+```
+
+* `dst`：自适应阈值处理结果。
+* `src`：要进行自适应阈值处理的图像（该图像必须是8位单通道的图像）。
+* `maxValue`：最大值。
+* `adaptiveMethod`：自适应方法。
+* `thresholdType`：阈值处理方式，`cv2.THRESH_BINARY` Or `cv2.THRESH_BINARY_INV`。
+* `blockSize`：块大小。一个像素在计算其阈值时所使用的邻域尺寸，通常为3、5、7等。
+* `C`：常量。
+
+函数`cv2.adaptiveThreshold()`根据参数`adaptiveMethod`来确定自适应阈值的计算方法，函数包含`cv2.ADAPTIVE_THRESH_MEAN_C`和`cv2.ADAPTIVE_THRESH_GAUSSIAN_C`两种不同的方法。这两种方法都是逐个像素地计算自适应阈值，自适应阈值等于每个像素由参数`blockSize`所指定邻域的加权平均值减去常量`C`。两种不同的方法在计算邻域的加权平均值时所采用的方式不同：
+
+● `cv2.ADAPTIVE_THRESH_MEAN_C`：邻域所有像素点的权重值是一致的。
+
+● `cv2.ADAPTIVE_THRESH_GAUSSIAN_C`：与邻域各个像素点到中心点的距离有关，通过高斯方程得到各个点的权重值。
+
+## 3. 程序演示
+
+```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+import cv2
+import numpy as np
+
+gray = cv2.imread('lena.jpg', cv2.IMREAD_GRAYSCALE)
+gray = cv2.resize(gray, (350, 350))
+retval, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+adaptive_thresh_mean = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 3)
+adaptive_thresh_gaussian = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 3)
+
+image_stack = np.hstack((gray, thresh, adaptive_thresh_mean, adaptive_thresh_gaussian))
+
+cv2.imshow('gray, thresh, adaptive_thresh_mean, adaptive_thresh_gaussian', image_stack)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/ef75e3a35a85d6fbffb2cf1f875c3abf.png)
+
+换一张明暗差异较大的图片试验：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/88fbfcffe57cb4dec2bd7d3fc558556f.png)
+
+通过对比普通的阈值处理与自适应阈值处理可以发现，自适应阈值处理保留了更多的细节信息。在一些极端情况下，普通的阈值处理会丢失大量的信息，而自适应阈值处理可以得到效果更好的二值图像。

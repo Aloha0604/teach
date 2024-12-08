@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】神奇的元类编程（metaclass） &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】深藏不露的描述符（Descriptor）" href="11.html" />
+    <link rel="prev" title="【基础】类的理解与使用" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】类的理解与使用</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】神奇的元类编程（metaclass）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1. 类是如何产生的</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#type">2. 如何使用type创建类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">3. 理解什么是元类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">4. 使用元类的意义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#orm">5. 元类实战：ORM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new">6. _<em>new</em>_ 有什么用？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">附录：参考文章</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】深藏不露的描述符（Descriptor）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】静态方法与类方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】私有变量与私有方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】类的封装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】类的继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】类的多态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【基础】类的 property 属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【进阶】类的 Mixin 设计模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】类的魔术方法（超全整理）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p05.html">第5章：Python面向对象</a></li>
+      <li class="breadcrumb-item active">【进阶】神奇的元类编程（metaclass）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p05/10.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="metaclass">
+<h1>【进阶】神奇的元类编程（metaclass）<a class="headerlink" href="#metaclass" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>1. 类是如何产生的<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>类是如何产生？这个问题也许你会觉得很傻。</p>
+<p>实则不然，很多初学者只知道使用继承的表面形式来创建一个类，却不知道其内部真正的创建是由 <code class="docutils literal notranslate"><span class="pre">type</span></code> 来创建的。</p>
+<p>type？这不是判断对象类型的函数吗？</p>
+<p>是的，type通常用法就是用来判断对象的类型。但除此之外，他最大的用途是用来动态创建类。当Python扫描到class的语法的时候，就会调用type函数进行类的创建。</p>
+</section>
+<section id="type">
+<h2>2. 如何使用type创建类<a class="headerlink" href="#type" title="Link to this heading"></a></h2>
+<p>首先，<code class="docutils literal notranslate"><span class="pre">type()</span></code> 需要接收三个参数</p>
+<ol class="simple">
+<li><p>类的名称，若不指定，也要传入空字符串：<code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></li>
+<li><p>父类，注意以tuple的形式传入，若没有父类也要传入空tuple：<code class="docutils literal notranslate"><span class="pre">()</span></code>，默认继承object</p></li>
+<li><p>绑定的方法或属性，注意以dict的形式传入</p></li>
+</ol>
+<p>来看个例子</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 准备一个基类（父类）</span>
+<span class="k">class</span> <span class="nc">BaseClass</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">talk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i am people&quot;</span><span class="p">)</span>
+
+<span class="c1"># 准备一个方法</span>
+<span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+<span class="c1"># 使用type来创建User类</span>
+<span class="n">User</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;User&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">BaseClass</span><span class="p">,</span> <span class="p">),</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;say&quot;</span><span class="p">:</span><span class="n">say</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>3. 理解什么是元类<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>什么是类？可能谁都知道，类就是用来创建对象的「模板」。</p>
+<p>那什么是元类呢？一句话通俗来说，元类就是创建类的「模板」。</p>
+<p>为什么type能用来创建类？因为它本身是一个元类。使用元类创建类，那就合理了。</p>
+<p>type是Python在背后用来创建所有类的元类，我们熟知的类的始祖 <code class="docutils literal notranslate"><span class="pre">object</span></code> 也是由type创建的。更有甚者，连type自己也是由type自己创建的，这就过份了。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+<span class="go">&lt;class &#39;type&#39;&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+<span class="go">&lt;class &#39;type&#39;&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">&lt;class &#39;type&#39;&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="go">&lt;class &#39;type&#39;&gt;</span>
+</pre></div>
+</div>
+<p>如果要形象的来理解的话，就看下面这三行话。</p>
+<ul class="simple">
+<li><p>str：用来创建字符串对象的类。</p></li>
+<li><p>int：是用来创建整数对象的类。</p></li>
+<li><p>type：是用来创建类对象的类。</p></li>
+</ul>
+<p>反过来看</p>
+<ul class="simple">
+<li><p>一个实例的类型，是类</p></li>
+<li><p>一个类的类型，是元类</p></li>
+<li><p>一个元类的类型，是type</p></li>
+</ul>
+<p>写个简单的小示例来验证下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MetaPerson</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaPerson</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Tom</span> <span class="o">=</span> <span class="n">Person</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Tom</span><span class="p">))</span>
+<span class="go">&lt;class &#39;__main__.Person&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Tom</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+<span class="go">&lt;class &#39;__main__.MetaPerson&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Tom</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__class__</span><span class="p">))</span>
+<span class="go">&lt;class &#39;type&#39;&gt;</span>
+</pre></div>
+</div>
+<p>下面再来看一个稍微完整的</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 注意要从type继承</span>
+<span class="k">class</span> <span class="nc">BaseClass</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in BaseClass&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">BaseClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in User&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+<span class="c1"># in BaseClass</span>
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="s2">&quot;WillWang&quot;</span><span class="p">)</span>
+<span class="c1"># in User</span>
+</pre></div>
+</div>
+<p>综上，我们知道了类是元类的实例，所以在创建一个普通类时，其实会走元类的 <code class="docutils literal notranslate"><span class="pre">__new__</span></code>。</p>
+<p>同时，我们又知道在类里实现了 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 就可以让这个类的实例变成可调用。</p>
+<p>所以在我们对普通类进行实例化时，实际是对一个元类的实例（也就是普通类）进行直接调用，所以会走进元类的 <code class="docutils literal notranslate"><span class="pre">__call__</span></code></p>
+<p>在这里可以借助 「单例的实现」举一个例子，你就清楚了</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MetaSingleton</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+	<span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cls:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====1====&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;_instance&quot;</span><span class="p">):</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====2====&quot;</span><span class="p">)</span>
+			<span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaSingleton</span><span class="p">):</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====3====&quot;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">kw</span><span class="p">:</span>
+			<span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>验证结果</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u1</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="s1">&#39;WillWang1&#39;</span><span class="p">)</span>
+<span class="go">cls:User</span>
+<span class="go">====1====</span>
+<span class="go">====2====</span>
+<span class="go">====3====</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u1</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u2</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="s1">&#39;WillWang2&#39;</span><span class="p">)</span>
+<span class="go">cls:User</span>
+<span class="go">====1====</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u2</span><span class="o">.</span><span class="n">age</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u1</span> <span class="ow">is</span> <span class="n">u2</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>4. 使用元类的意义<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>正常情况下，我们都不会使用到元类。但是这并不意味着，它不重要。假如某一天，我们需要写一个框架，很有可能就需要你对元类要有进一步的研究。</p>
+<p>元类有啥用，用我通俗的理解，元类的作用过程：</p>
+<ol class="simple">
+<li><p>拦截类的创建</p></li>
+<li><p>拦截下后，进行修改</p></li>
+<li><p>修改完后，返回修改后的类</p></li>
+</ol>
+<p>所以，很明显，为什么要用它呢？不要它会怎样？</p>
+<p>使用元类，是要对类进行定制修改。使用元类来动态生成元类的实例，而99%的开发人员是不需要动态修改类的，因为这应该是框架才需要考虑的事。</p>
+<p>但是，这样说，你一定不会服气，到底元类用来干什么？其实元类的作用就是<code class="docutils literal notranslate"><span class="pre">创建API</span></code>，一个最典型的应用是 <code class="docutils literal notranslate"><span class="pre">Django</span> <span class="pre">ORM</span></code>。</p>
+</section>
+<section id="orm">
+<h2>5. 元类实战：ORM<a class="headerlink" href="#orm" title="Link to this heading"></a></h2>
+<p>使用过Django ORM的人都知道，有了ORM，使得我们操作数据库，变得异常简单。</p>
+<p>ORM的一个类(User)，就对应数据库中的一张表。id,name,email,password 就是字段。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">IntField</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">StrField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">StrField</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">StrField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span>
+</pre></div>
+</div>
+<p>如果我们要插入一条数据，我们只需这样做</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 实例化成一条记录</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">20180424</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;xiaoming&quot;</span><span class="p">,</span> 
+         <span class="n">email</span><span class="o">=</span><span class="s2">&quot;xiaoming@163.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;abc123&quot;</span><span class="p">)</span>
+
+<span class="c1"># 保存这条记录</span>
+<span class="n">u</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>通常用户层面，只需要懂应用，就像上面这样操作就可以了。</p>
+<p>但是今天我并不是来教大家如何使用ORM，我们是用来探究ORM内部究竟是如何实现的。我们也可以自己写一个简易的ORM。</p>
+<p>从上面的<code class="docutils literal notranslate"><span class="pre">User</span></code>类中，我们看到<code class="docutils literal notranslate"><span class="pre">StrField</span></code>和<code class="docutils literal notranslate"><span class="pre">IntField</span></code>，从字段意思上看，我们很容易看出这代表两个字段类型。字段名分别是<code class="docutils literal notranslate"><span class="pre">id</span></code>,<code class="docutils literal notranslate"><span class="pre">username</span></code>,<code class="docutils literal notranslate"><span class="pre">email</span></code>,<code class="docutils literal notranslate"><span class="pre">password</span></code>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">StrField</span></code>和<code class="docutils literal notranslate"><span class="pre">IntField</span></code>在这里的用法，叫做<code class="docutils literal notranslate"><span class="pre">属性描述符</span></code>。
+简单来说呢，<code class="docutils literal notranslate"><span class="pre">属性描述符</span></code>可以实现对属性值的类型，范围等一切做约束，意思就是说变量id只能是int类型，变量name只能是str类型，否则将会抛出异常。</p>
+<p>那如何实现这两个<code class="docutils literal notranslate"><span class="pre">属性描述符</span></code>呢？请看代码。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="k">class</span> <span class="nc">Field</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">IntField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;int value need&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="k">class</span> <span class="nc">StrField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;string value need&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p>我们看到<code class="docutils literal notranslate"><span class="pre">User</span></code>类继承自<code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>，这个<code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>里，定义了数据库操作的各种方法，譬如我们使用的<code class="docutils literal notranslate"><span class="pre">save</span></code>函数，也可以放在这里面的。所以我们就可以来写一下这个<code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>类</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ModelMetaClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">kw</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># 这里执行赋值操作，会进行数据描述符的__set__逻辑</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">db_columns</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">db_values</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">db_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">column</span><span class="p">))</span>
+            <span class="n">db_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">)))</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;insert into </span><span class="si">{table}</span><span class="s2"> (</span><span class="si">{columns}</span><span class="s2">) values(</span><span class="si">{values}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">db_columns</span><span class="p">),</span>
+                <span class="n">values</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">db_values</span><span class="p">))</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>从<code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>类中，save函数里面有几个新变量。</p>
+<ol class="simple">
+<li><p>fields: 存放所有的字段属性</p></li>
+<li><p>db_table：表名</p></li>
+</ol>
+<p>我们思考一下这个<code class="docutils literal notranslate"><span class="pre">u</span></code>实例的创建过程：</p>
+<p><code class="docutils literal notranslate"><span class="pre">type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">ModelMetaClass</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">User</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">u</span></code></p>
+<p>这里会有几个问题。</p>
+<ul class="simple">
+<li><p>init的参数是User实例时传入的，所以传入的id是int类型，name是str类型。看起来没啥问题，若是这样，我上面的数据描述符就失效了，不能起约束作用。所以我们希望init接收到的id是IntField类型，name是StrField类型。</p></li>
+<li><p>同时，我们希望这些字段属性，能够自动归类到fields变量中。因为，做为BaseModel，它可不是专门为User类服务的，它还要兼容各种各样的表。不同的表，表里有不同数量，不同属性的字段，这些都要能自动类别并归类整理到一起。这是一个ORM框架最基本的。</p></li>
+<li><p>我们希望对表名有两种选择，一个是User中若指定Meta信息，比如表名，就以此为表名，若未指定就以类名的小写 做为表名。虽然BaseModel可以直接取到User的db_table属性，但是如果在数据库业务逻辑中，加入这段复杂的逻辑，显然是很不优雅的。</p></li>
+</ul>
+<p>上面这几个问题，其实都可以通过元类的<code class="docutils literal notranslate"><span class="pre">__new__</span></code>函数来完成。</p>
+<p>下面就来看看，如何用元类来解决这些问题呢？请看代码。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ModelMetaClass</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;BaseModel&quot;</span><span class="p">:</span>
+            <span class="c1"># 第一次进入__new__是创建BaseModel类，name=&quot;BaseModel&quot;</span>
+            <span class="c1"># 第二次进入__new__是创建User类及其实例，name=&quot;User&quot;</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+
+        <span class="c1"># 根据属性类型，取出字段</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Field</span><span class="p">)}</span>
+
+        <span class="c1"># 如果User中有指定Meta信息，比如表名，就以此为准</span>
+        <span class="c1"># 如果没有指定，就默认以 类名的小写 做为表名，比如User类，表名就是user</span>
+        <span class="n">_meta</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Meta&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_meta</span><span class="p">,</span> <span class="s2">&quot;db_table&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">db_table</span> <span class="o">=</span> <span class="n">table</span>
+
+        <span class="c1"># 注意原来由User传递过来的各项参数attrs，最好原模原样的返回，</span>
+        <span class="c1"># 如果不返回，有可能下面的数据描述符不起作用</span>
+        <span class="c1"># 除此之外，我们可以往里面添加我们自定义的参数</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;db_table&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db_table</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="new">
+<h2>6. _<em>new</em>_ 有什么用？<a class="headerlink" href="#new" title="Link to this heading"></a></h2>
+<p>在没有元类的情况下，每次创建实例，在先进入 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> 之前都会先进入 <code class="docutils literal notranslate"> <span class="pre">__new__</span></code>。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+	<span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in BaseClass&quot;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in User&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></div>
+</div>
+<p>使用如下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="s1">&#39;WillWang&#39;</span><span class="p">)</span>
+<span class="go">in BaseClass</span>
+<span class="go">in User</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;WillWang&#39;</span>
+</pre></div>
+</div>
+<p>在有元类的情况下，每次创建类时，会都先进入 元类的 <code class="docutils literal notranslate"><span class="pre">__new__</span></code> 方法，如果你要对类进行定制，可以在这时做一些手脚。</p>
+<p>综上，元类的<code class="docutils literal notranslate"><span class="pre">__new__</span></code>和普通类的不一样：</p>
+<ul class="simple">
+<li><p>元类的<code class="docutils literal notranslate"><span class="pre">__new__</span></code> 在创建类时就会进入，它可以获取到上层类的一切属性和方法，包括类名，魔法方法。</p></li>
+<li><p>而普通类的<code class="docutils literal notranslate"><span class="pre">__new__</span></code> 在实例化时就会进入，它仅能获取到实例化时外界传入的属性。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>附录：参考文章<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="http://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p09_meta_programming.html">Python Cookbook - 元编程</a></p></li>
+<li><p><a class="reference external" href="http://blog.jobbole.com/21351/">深刻理解Python中的元类</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】类的理解与使用" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="11.html" class="btn btn-neutral float-right" title="【进阶】深藏不露的描述符（Descriptor）" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

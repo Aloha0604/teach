@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】安装第三方包的八种方法 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】导入单元的构成" href="3.html" />
+    <link rel="prev" title="【进阶】开源自己的包到 PYPI 上" href="17.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】什么是包、模块和库？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】理解查找器与加载器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】实现远程导入模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12.html">【基础】分发工具：distutils和setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13.html">【基础】源码包与二进制包有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14.html">【基础】eggs与wheels 有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15.html">【进阶】超详细讲解 setup.py 的编写</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16.html">【进阶】打包辅助神器 PBR 是什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17.html">【进阶】开源自己的包到 PYPI 上</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】安装第三方包的八种方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#easy-install">1. 使用 easy_install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pip-install">2. 使用 pip install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipx">3. 使用 pipx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-py">4. 使用 setup.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yum">5. 使用 yum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipenv">6. 使用 pipenv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#poetry">7. 使用 poetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#curl">8. 使用 curl + 管道</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】导入单元的构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】导入包的标准写法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【进阶】常规包与空间命名包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【进阶】花式导包的八种方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】包导入的三个冷门知识点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】pip 的超全使用指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】理解模块的缓存</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p06.html">第6章：Python包与模块</a></li>
+      <li class="breadcrumb-item active">【基础】安装第三方包的八种方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p06/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】安装第三方包的八种方法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="easy-install">
+<h2>1. 使用 easy_install<a class="headerlink" href="#easy-install" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">easy_install</span></code> 这应该是最古老的包安装方式了，目前基本没有人使用了。下面是 <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> 的一些安装示例</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 通过包名，从PyPI寻找最新版本，自动下载、编译、安装</span>
+$<span class="w"> </span>easy_install<span class="w"> </span>pkg_name
+
+<span class="c1"># 通过包名从指定下载页寻找链接来安装或升级包</span>
+$<span class="w"> </span>easy_install<span class="w"> </span>-f<span class="w"> </span>http://pythonpaste.org/package_index.html<span class="w"> </span>
+
+<span class="c1"># 指定线上的包地址安装</span>
+$<span class="w"> </span>easy_install<span class="w"> </span>http://example.com/path/to/MyPackage-1.2.3.tgz
+
+<span class="c1"># 从本地的 .egg 文件安装</span>
+$<span class="w"> </span>easy_install<span class="w"> </span>xxx.egg
+</pre></div>
+</div>
+</section>
+<section id="pip-install">
+<h2>2. 使用 pip install<a class="headerlink" href="#pip-install" title="Link to this heading"></a></h2>
+<p>pip 是最主流的包管理方案，使用 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">xxx</span></code> 就可以从 PYPI 上搜索并安装 <code class="docutils literal notranslate"><span class="pre">xxx</span></code> （如果该包存在的话）。</p>
+<p>下面仅列出一些常用的 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> </code>的安装示例</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>requests
+
+<span class="c1"># 前提你得保证你已经下载 pkg 包到 /local/wheels 目录下</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-index<span class="w"> </span>--find-links<span class="o">=</span>/local/wheels<span class="w"> </span>pkg
+
+<span class="c1"># 所安装的包的版本为 2.1.2</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pkg</span><span class="o">==</span><span class="m">2</span>.1.2
+
+<span class="c1"># 所安装的包必须大于等于 2.1.2</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pkg&gt;<span class="o">=</span><span class="m">2</span>.1.2
+
+<span class="c1"># 所安装的包必须小于等于 2.1.2</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pkg&lt;<span class="o">=</span><span class="m">2</span>.1.2
+</pre></div>
+</div>
+<p>更多 pip 的使用方法，可参考本系列教程后面的文章。</p>
+</section>
+<section id="pipx">
+<h2>3. 使用 pipx<a class="headerlink" href="#pipx" title="Link to this heading"></a></h2>
+<p>pipx 是一个专门用于安装和管理 cli 应用程序的工具，使用它安装的 Python 包会单独安装到一个全新的独有虚拟环境。</p>
+<p>由于它是一个第三方工具，因此在使用它之前，需要先安装</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>pipx
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>userpath<span class="w"> </span>append<span class="w"> </span>~/.local/bin
+Success!
+</pre></div>
+</div>
+<p>安装就可以使用 pipx 安装cli 工具了。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建虚拟环境并安装包</span>
+$<span class="w"> </span>pipx<span class="w"> </span>install<span class="w"> </span>pkg
+</pre></div>
+</div>
+<p>更多 pipx 的使用方法，可参考本系列教程后面的文章。</p>
+</section>
+<section id="setup-py">
+<h2>4. 使用 setup.py<a class="headerlink" href="#setup-py" title="Link to this heading"></a></h2>
+<p>如果你有编写 setup.py 文件，可以使用如下命令直接安装</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用源码直接安装</span>
+<span class="err">$</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="yum">
+<h2>5. 使用 yum<a class="headerlink" href="#yum" title="Link to this heading"></a></h2>
+<p>Python 包在使用 <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> 构建的时候，对于包的发布格式有多种选项，其中有一个选项是 <code class="docutils literal notranslate"><span class="pre">bdist_rpm</span></code>，以这个选项发布出来的包是 <code class="docutils literal notranslate"><span class="pre">rpm</span></code> 的包格式。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 发布 rpm 包</span>
+$<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>bdist_rpm
+</pre></div>
+</div>
+<p>对于<code class="docutils literal notranslate"><span class="pre">rpm</span></code> 这种格式，你需要使用 <code class="docutils literal notranslate"><span class="pre">yum</span> <span class="pre">install</span> <span class="pre">xxx</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">rpm</span> <span class="pre">install</span> <span class="pre">xxx</span></code> 来安装。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用 yum 安装</span>
+$<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>pkg
+
+<span class="c1"># 使用 rpm 安装</span>
+$<span class="w"> </span>rpm<span class="w"> </span>-ivh<span class="w"> </span>pkg
+</pre></div>
+</div>
+</section>
+<section id="pipenv">
+<h2>6. 使用 pipenv<a class="headerlink" href="#pipenv" title="Link to this heading"></a></h2>
+<p>如果你在使用 pipenv 创建的虚拟环境中，可以使用下面这条命令把包安装到虚拟环境中</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>pkg
+</pre></div>
+</div>
+</section>
+<section id="poetry">
+<h2>7. 使用 poetry<a class="headerlink" href="#poetry" title="Link to this heading"></a></h2>
+<p>如果你有使用 poetry 管理项目依赖，那么可以使用下面这条命令安装包</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 直接安装包</span>
+$<span class="w"> </span>poetry<span class="w"> </span>add<span class="w"> </span>pkg
+
+<span class="c1"># 指定为开发依赖</span>
+$<span class="w"> </span>poetry<span class="w"> </span>add<span class="w"> </span>pytest<span class="w"> </span>--dev
+</pre></div>
+</div>
+</section>
+<section id="curl">
+<h2>8. 使用 curl + 管道<a class="headerlink" href="#curl" title="Link to this heading"></a></h2>
+<p>有一些第三方工具包提供的安装方法，是直接使用 curl 配置管道来安装，比如上面提到的 poetry 就可以用这种方法安装。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py<span class="w"> </span><span class="p">|</span><span class="w"> </span>python
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="17.html" class="btn btn-neutral float-left" title="【进阶】开源自己的包到 PYPI 上" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】导入单元的构成" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

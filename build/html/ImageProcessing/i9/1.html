@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】模板匹配 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="第10章：霍夫变换" href="../J.html" />
+    <link rel="prev" title="第9章：图像模板匹配" href="../I.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】模板匹配</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 什么是模板匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 模板匹配原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 程序演示</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../I.html">第9章：图像模板匹配</a></li>
+      <li class="breadcrumb-item active">【基础】模板匹配</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i9/1.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】模板匹配<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 什么是模板匹配<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>模板匹配是指在图像A中寻找与图像B最相似的部分, 将图像A称为输入图像，将图像B称为模板图像。模板匹配的操作方法是将模板图像B在输入图像A上进行滑动，<strong>遍历所有像素以完成匹配</strong>。</p>
+<p>比如在下图中，希望在图中的大图像<code class="docutils literal notranslate"><span class="pre">lena.jpg</span></code>内寻找左上角的&quot;眼睛&quot;图像。此时，大图像<code class="docutils literal notranslate"><span class="pre">lena.jpg</span></code>是输入图像，&quot;眼睛&quot;图像是模板图像。查找的方式是，<strong>将模板图像在输入图像内从左上角开始滑动，逐个像素遍历整幅输入图像，以查找与其最匹配的部分。</strong></p>
+<img src="https://pic.rmb.bdstatic.com/bjh/846c018635f6a80167a5afa67862ddc2.png" alt="image.png" style="zoom:50%;" /></section>
+<section id="id3">
+<h2>2. 模板匹配原理<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>openCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>，用于模板匹配，该函数的语法格式如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">matchTemplate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">templ</span><span class="p">,</span> <span class="n">method</span><span class="p">[,</span> <span class="n">result</span><span class="p">[,</span> <span class="n">mask</span><span class="p">]])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">image</span></code>：输入图像</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">templ</span></code>：模板图像，需要注意的是它的尺寸必须小于或等于输入图像，并且与输入图像具有相同的类型</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>：匹配方法，该参数通过TemplateMatchModes实现，有6种可能的值：</p></li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: left;">参数值</th>
+<th style="text-align: center;">对应数值</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_SQDIFF</code></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: left;">以方差为依据进行匹配。若完全匹配，则结果为0；若不匹配，计算得到的方差会很大</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_SQDIFF_NORMED</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">标准平方差匹配</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_CCORR</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">相关匹配，将模板图像与输入图像相乘，乘积结果越大表示匹配程度较高， 0表示最坏的匹配效果</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_CCORR_NORMED</code></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">标准相关匹配</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_CCOEFF</code></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">相关系数匹配，该方法将模板图像与其均值的相对值和输入图像与其均值的相关值进行匹配。1表示完美匹配，-1表示差的匹配，0表示没有任何相关性</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.TM_CCOEFF_NORMED</code></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">标准相关系数匹配</td>
+</tr>
+</tbody>
+</table><p>其分别对应的公式如下图所示，其中，<code class="docutils literal notranslate"><span class="pre">I</span></code>表示输入图像，<code class="docutils literal notranslate"><span class="pre">T</span></code>表示模板图像，<code class="docutils literal notranslate"><span class="pre">R</span></code>表示输出的结果图像，<code class="docutils literal notranslate"><span class="pre">x</span></code>和<code class="docutils literal notranslate"><span class="pre">y</span></code>表示位置信息：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/9e71ecdbfea4b182d95473e01f4e35d6.png" /></p>
+<p>函数<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>的返回值<code class="docutils literal notranslate"><span class="pre">result</span></code>是由每个位置的比较结果组合而成的一个结果集。如果输入图像尺寸是<code class="docutils literal notranslate"><span class="pre">W*H</span></code>，模板的尺寸是<code class="docutils literal notranslate"><span class="pre">w*h</span></code>，那么返回值的大小为<code class="docutils literal notranslate"><span class="pre">(W-w+1)*(H-h+1)</span></code>，这是因为在进行模板匹配时，模板会在输入图像上进行遍历，</p>
+<p>在水平方向上：</p>
+<ol class="simple">
+<li><p>遍历的起始坐标为输入图像从左数第1个像素值</p></li>
+<li><p>当模板图像遍历到最右边时，此时模板图像的左上角像素点所在的位置是<code class="docutils literal notranslate"><span class="pre">W-w+1</span></code></p></li>
+</ol>
+<p>因此，返回值<code class="docutils literal notranslate"><span class="pre">result</span></code>在水平方向上的大小是<code class="docutils literal notranslate"><span class="pre">W-w+1</span></code>，也即是在水平方向上的比较次数。</p>
+<p>在垂直方向上：</p>
+<ol class="simple">
+<li><p>遍历的起始坐标为输入图像从顶端数第1个像素值</p></li>
+<li><p>当模板图像遍历到最下端时，此时模板图像的左上角像素点所在的位置是<code class="docutils literal notranslate"><span class="pre">H-h+1</span></code></p></li>
+</ol>
+<p>因此，返回值<code class="docutils literal notranslate"><span class="pre">result</span></code>在垂直方向上的大小是<code class="docutils literal notranslate"><span class="pre">H-h+1</span></code>，也即是在垂直方向上的比较次数。</p>
+<p>综上所述，如果原始图像尺寸是<code class="docutils literal notranslate"><span class="pre">W*H</span></code>，模板的尺寸是<code class="docutils literal notranslate"><span class="pre">w*h</span></code>，则返回值的大小为<code class="docutils literal notranslate"><span class="pre">(W-w+1)*(H-h+1)</span></code>。也就是说，模板图像要在输入图像上共比较<code class="docutils literal notranslate"><span class="pre">(W-w+1)*(H-h+1)</span></code>次。</p>
+<hr class="docutils" />
+<p>另外需要注意的是，函数<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>根据参数<code class="docutils literal notranslate"><span class="pre">method</span></code>来决定使用不同的查找方法。对于不同的查找方法，返回值<code class="docutils literal notranslate"><span class="pre">result</span></code>具有不同的含义。例如：</p>
+<p>● method的值为<code class="docutils literal notranslate"><span class="pre">cv2.TM_SQDIFF</span></code>和<code class="docutils literal notranslate"><span class="pre">cv2.TM_SQDIFF_NORMED</span></code>时，<code class="docutils literal notranslate"><span class="pre">result</span></code>值为0表示匹配度最好，值越大，表示匹配度越差。</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">method</span></code>的值为<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCORR</span></code>、<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCORR_NORMED</span></code>、<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCOEFF</span></code>和<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCOEFF_NORMED</span></code>时，<code class="docutils literal notranslate"><span class="pre">result</span></code>的值越小表示匹配度越差，值越大表示匹配度越好。</p>
+<p>由上述简单分析可知，查找方法不同，结果的判定方式也不同。在查找最佳匹配时，首先要确定使用的是何种method，然后再确定到底是查找最大值，还是查找最小值。</p>
+<p>查找**最值（极值）与最值所在的位置，**可以使用<code class="docutils literal notranslate"><span class="pre">cv2.minMaxLoc()</span></code>函数实现。该函数语法格式如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">minVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">maxLoc</span> <span class="o">=</span> <span class="n">minMaxLoc</span><span class="p">(</span><span class="n">src</span><span class="p">[,</span> <span class="n">mask</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>：单通道数组</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minVal</span></code>：从<code class="docutils literal notranslate"><span class="pre">src</span></code>找到的最小值</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxVal</span></code>：从<code class="docutils literal notranslate"><span class="pre">src</span></code>找到的最大值</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minLoc</span></code>：从<code class="docutils literal notranslate"><span class="pre">src</span></code>找到的最小值的位置</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxLoc</span></code>：从<code class="docutils literal notranslate"><span class="pre">src</span></code>找到的最大值的位置</p></li>
+</ul>
+<hr class="docutils" />
+<p>综上所述，函数<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>返回值中的最值位置就是模板匹配的位置。当然，选用上表中不同参数值，匹配位置可能位于最大值所在的位置也可能位于最小值所在的位置。通过函数<code class="docutils literal notranslate"><span class="pre">cv2.minMaxLoc()</span></code>来查找函数<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>返回值中的最值位置，就可以找到最佳模板匹配的位置。</p>
+<p>例如，当method的值为<code class="docutils literal notranslate"><span class="pre">cv2.TM_SQDIFF</span></code>和<code class="docutils literal notranslate"><span class="pre">cv2.TM_SQDIFF_NORMED</span></code>时，0表示最佳匹配，值越大，则表示匹配效果越差。因此，在使用这两种方法时，要寻找最小值所在的位置作为最佳匹配。如下语句能够找到<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>函数返回值中最小值的位置：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">minVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">maxLoc</span> <span class="o">=</span> <span class="n">minMaxLoc</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="c1"># result为cv2.matchTemplate()返回值</span>
+<span class="n">topLeft</span> <span class="o">=</span> <span class="n">minLoc</span> <span class="c1"># 最小值所在位置</span>
+</pre></div>
+</div>
+<p>以topLeft点为模板匹配位置的左上角坐标，结合模板图像的<code class="docutils literal notranslate"><span class="pre">宽度w</span></code>和<code class="docutils literal notranslate"><span class="pre">高度h</span></code>可以确定匹配位置的右下角坐标，代码如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bottomRight</span> <span class="o">=</span> <span class="p">(</span><span class="n">topLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">topLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>当method的值为<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCORR</span></code>、<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCORR_NORMED</span></code>、<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCOEFF</span></code>和<code class="docutils literal notranslate"><span class="pre">cv2.TM_CCOEFF_NORMED</span></code>时，<code class="docutils literal notranslate"><span class="pre">cv2.matchTemplate()</span></code>函数的返回值越小，表示匹配度越差，而返回值越大则表示匹配度越好。此时，要寻找最大值所在的位置作为最佳匹配。如下语句能够找到模板匹配返回值中最大值的位置，并以该点为左上角，结合模板的<code class="docutils literal notranslate"><span class="pre">宽度w</span></code>和<code class="docutils literal notranslate"><span class="pre">高度h</span></code>确定匹配位置的右下角坐标。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">minVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">maxLoc</span> <span class="o">=</span> <span class="n">minMaxLoc</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="c1"># result为cv2.matchTemplate()返回值</span>
+<span class="n">topLeft</span> <span class="o">=</span> <span class="n">maxLoc</span> <span class="c1"># 最小值所在位置</span>
+<span class="n">bottomRight</span> <span class="o">=</span> <span class="p">(</span><span class="n">topLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">topLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>确定了模板位置之后就可以利用<code class="docutils literal notranslate"><span class="pre">cv2.rectangle()</span></code>把矩形画出来，简单介绍<code class="docutils literal notranslate"><span class="pre">cv2.rectangle()</span></code>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">img</span></code>：要绘制的图像</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pt1</span></code>：矩形顶点</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pt2</span></code>：<code class="docutils literal notranslate"><span class="pre">pt1</span></code>的对角顶点</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color</span></code>：画笔颜色</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thickness</span></code>：画笔宽度</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>3. 程序演示<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>输入图像为下图，</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/2a8f4446b2fd132bda19e295f6d2f94c.png" /></p>
+<p>模板图像为</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/a1a289c633b8ab4a2c088b58159408f6.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Will Wang</span>
+<span class="sd">Email: WillWang1998@163.com</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="n">color_yellow</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># B-G-R | G+R=YELLOW</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;wallpaper.jpg&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">templ</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;templ_80x80.jpg&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">templ</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">matchTemplate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">templ</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">TM_SQDIFF</span><span class="p">)</span>  <span class="c1"># 平方差匹配</span>
+
+<span class="n">minVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">maxLoc</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minMaxLoc</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="n">topLeft</span> <span class="o">=</span> <span class="n">minLoc</span>  <span class="c1"># TM_SQDIFF</span>
+<span class="n">bottomRight</span> <span class="o">=</span> <span class="p">(</span><span class="n">topLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">topLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;image.shape:</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">, templ.shape:</span><span class="si">{</span><span class="n">templ</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">, result.shape:</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;模板匹配 左上角坐标:</span><span class="si">{</span><span class="n">topLeft</span><span class="si">}</span><span class="s1"> 右下角坐标:</span><span class="si">{</span><span class="n">bottomRight</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">topLeft</span><span class="p">,</span> <span class="n">bottomRight</span><span class="p">,</span> <span class="n">color_yellow</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行以上代码，结果如下图所示，</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/34c3af15c906aaabf43baea7c1b72f05.png" /></p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/c264f93e58942162f1631724a77b93d3.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../I.html" class="btn btn-neutral float-left" title="第9章：图像模板匹配" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../J.html" class="btn btn-neutral float-right" title="第10章：霍夫变换" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

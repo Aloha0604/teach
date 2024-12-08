@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【定义】什么是平滑处理 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】三种基础的滤波方式" href="2.html" />
+    <link rel="prev" title="第3章：图像平滑处理" href="../C.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【定义】什么是平滑处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 平滑处理的基本思想</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】三种基础的滤波方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】2D卷积</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../C.html">第3章：图像平滑处理</a></li>
+      <li class="breadcrumb-item active">【定义】什么是平滑处理</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i3/1.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【定义】什么是平滑处理<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 定义<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>在<strong>尽量不修改原图像信息的基础上</strong>，<strong>把图像中的噪声过滤掉的过程</strong>叫做<strong>图像平滑处理</strong>，处理后的结果称为<strong>平滑图像</strong>。</p>
+<p>通过图像平滑处理，<strong>可以有效地过滤掉图像内的噪声信息</strong>。因为图像平滑处理过程中往往会使得图像变得模糊，因此又叫做模糊处理。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/08da2eb3c2c94bb6f53db7ccab936ed1.png" /></p>
+<p>如上图，左图是含有噪声的图像，经过平滑处理后，就可以有效地过滤掉图像内的噪声信息，如右图所示。</p>
+</section>
+<section id="id3">
+<h2>2. 平滑处理的基本思想<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>一般来说，图像平滑处理<strong>会对图像中与周围像素点的像素值差异较大的像素点进行处理，将其值调整为周围像素点像素值的近似值</strong>。如下图，假如下图是一副图像的像素值，可以看到绝大部分像素值在区间<code class="docutils literal notranslate"><span class="pre">[145,</span> <span class="pre">150]</span></code>区间内，只有第三行第三列点的像素值为29：</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/c984a44bfd3debe2a8d4dfd50cfda761.png" alt="image.png" style="zoom: 67%;" /><p>其反映在实际图像上大概是这个情形：</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/ec5590dfc23593ffdadcbb4b3f8ca9c2.png" alt="image.png" style="zoom: 67%;" /><p>从上图看出，该点可能是噪声，需要将该点的像素值调整为周围像素值的近似值，如下图，是针对第三行第三列的像素点进行平滑处理的结果，平滑处理后，该点的像素值由29调整为148：</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/cd2a62caaad56a6f5e4e40d8c76b252b.png" alt="image.png" style="zoom: 67%;" /><p>其反映在实际图像上大概是这个情形：</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/48af05826586ed4b203db93f209c13e4.png" alt="image.png" style="zoom: 67%;" /><p>如果对图像内每一个像素进行上述处理，就可以达到对整幅图像平滑处理的效果，有效地去除图像中的噪声，这就是平滑处理的基本思想。</p>
+<p>图像滤波是图像处理和计算机视觉中最常用、最基本的操作。图像滤波允许在图像上进行各种各样的操作，因此有时我们也会把图像平滑处理称为图像滤波，图像滤波对应的英文是Images Filtering。</p>
+<p>本章就对几种常见的平滑处理方法进行介绍。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../C.html" class="btn btn-neutral float-left" title="第3章：图像平滑处理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="2.html" class="btn btn-neutral float-right" title="【基础】三种基础的滤波方式" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

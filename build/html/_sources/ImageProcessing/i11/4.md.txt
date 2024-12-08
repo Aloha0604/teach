@@ -1,0 +1,175 @@
+# 【基础】滚动条
+
+滚动条（Trackbar）在OpenCV中是非常方便且常用的交互工具，它依附于特定的窗口而存在。通过调节滚动条能够设置、获取指定范围内的特定值。
+
+在OpenCV中，函数`cv2.createTrackbar()`用来定义滚动条，其语法格式为：
+
+```python
+cv2.createTrackbar(trackbarName, windowName, value, count, onChange)
+```
+
+● trackbarname为滚动条的名称。
+
+● winname为滚动条所依附窗口的名称。
+
+● value为初始值，该值决定滚动条中滑块的位置。
+
+● count为滚动条的最大值。通常情况下，其最小值是0。
+
+● onChange为回调函数。一般情况下，将滚动条改变后要实现的操作写在回调函数内。
+
+函数`cv2.createTrackbar()`用于生成一个滚动条。拖动滚动条，就可以设置滚动条的值，并让滚动条返回对应的值。滚动条的值可以通过函数`cv2.getTrackbarPos()`获取，其语法格式为：
+
+```python
+retval = cv2.getTrackbarPos(trackbarname, winname)
+```
+
+● retval为返回值，获取函数`cv2.createTrackbar()`生成的滚动条的值。
+
+● trackbarname为滚动条的名称。
+
+● winname为滚动条所依附的窗口的名称。
+
+
+
+## 案例一：用滚动条实现调色板
+
+在RGB颜色空间中，任何颜色都是由红（R）、绿（G）、蓝（B）三种颜色构成的，每一种颜色分量的区间是[0, 255]。所以我们可以用函数`cv2.createTrackbar()`和函数`cv2.getTrackbarPos()`设计一个模拟调色板：在窗体中，有三个滚动条分别用来设置R、G、B的值，调色板会根据当前的R、G、B值实时显示其所对应的颜色。
+
+```python
+import cv2
+import numpy as np
+
+
+def changeColor(x):
+    r = cv2.getTrackbarPos('R', 'image')
+    g = cv2.getTrackbarPos('G', 'image')
+    b = cv2.getTrackbarPos('B', 'image')
+    img[:] = [b, g, r]
+
+
+img = np.zeros((100, 700, 3,), np.uint8)
+cv2.namedWindow('image')
+
+cv2.createTrackbar('R', 'image', 0, 255, changeColor)
+cv2.createTrackbar('G', 'image', 0, 255, changeColor)
+cv2.createTrackbar('B', 'image', 0, 255, changeColor)
+
+while True:
+    cv2.imshow('image', img)
+    if cv2.waitKey(1) & 0xFF == 27:  # ESC 退出
+        break
+
+cv2.destroyAllWindows()
+
+```
+
+运行程序，在窗体对象内，分别调整R、G、B三个滚动条，可以得到运行结果如下图所示：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/22ab6e457930daeb7155a147eb8579fc.png)
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/62ac1ef645ff16c9159bdbe563b76963.png)
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/94217d4cc59814a849de71579b655297.png)
+
+
+
+## 案例二：用滚动条控制阈值处理参数
+
+设计一个滚动条交互程序，通过滚动条控制函数`cv2.threshold()`中的阈值和模式。
+
+复习：openCV提供`cv2.threshold()`函数用于图像阈值化处理，其函数格式如下：
+
+```python
+retval, dst = cv2.threshold(src, thresh, maxval, type[, dst]) 
+```
+
+- `retval`：返回的阈值。
+
+- `dst`：**阈值分割结果**，与原始图像具有相同的大小和类型。
+
+- `src`：要进行阈值分割的图像。
+
+- `thresh`：设定的阈值。
+
+- `maxval`：当像素值超过了阈值（或者小于阈值，根据`type`来决定）所赋予的值
+
+- `type`：代表阈值分割的类型，常用的有：
+
+  - `cv2.THRESH_BINARY` 
+  - `cv2.THRESH_BINARY_INV`
+  - `cv2.THRESH_TRUNC`
+  - `cv2.THRESH_TOZERO`
+  - `cv2.THRESH_TOZERO_INV`
+
+
+```python
+import cv2
+
+
+def onValueChanged(a):
+    Value = cv2.getTrackbarPos(tValue, win_name)
+    ret, dst = cv2.threshold(img, Value, 255, cv2.THRESH_BINARY)
+    cv2.imshow(win_name, dst)
+
+
+img = cv2.imread('lena.jpg', 0)
+win_name = 'demo'
+cv2.namedWindow(win_name)
+cv2.imshow(win_name, img)
+
+# 创建滚动条
+tValue = "Value"
+
+cv2.createTrackbar(tValue, win_name, 0, 255, onValueChanged)
+
+if cv2.waitKey(0) == 27:  # ESC
+    cv2.destroyAllWindows()
+
+```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/ef30cd731061987a50bd8850f5e3a534.png)
+
+
+
+## 案例三：用滚动条控制均值滤波滤波核大小
+
+复习：在openCV中，实现均值滤波的函数是`cv2.blur()`，语法格式如下：
+
+```
+dst = cv2.blur(src, ksize[, dst[, anchor[, borderType]]])
+```
+
+- `dst` ：均值滤波操作后的结果图像
+- `src`： 输入图像，即需要处理的图像
+- `ksize` ：滤波核的大小
+- `dst`,`anchor`,`borderType`：可选参数。
+
+```python
+import cv2
+
+
+def onValueChanged(a):
+    Value = cv2.getTrackbarPos(kValue, win_name)
+    ksize = (Value, Value)
+    mean = cv2.blur(img, ksize)
+    cv2.imshow(win_name, mean)
+
+
+img = cv2.imread('lena.jpg', 0)
+win_name = 'demo'
+cv2.namedWindow(win_name)
+cv2.imshow(win_name, img)
+
+# 创建滚动条
+kValue = "Value"
+
+cv2.createTrackbar(kValue, win_name, 1, 10, onValueChanged)
+
+if cv2.waitKey(0) == 27:  # ESC
+    cv2.destroyAllWindows()
+
+```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/1ed2c30c782946777d1dc127c0fe040c.png)
+

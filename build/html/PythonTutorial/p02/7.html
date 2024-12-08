@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】切片操作 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="第3章：Python流程控制" href="../p03.html" />
+    <link rel="prev" title="【基础】生成器" href="6.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】元组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】字典</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】集合</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】迭代器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】生成器</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】切片操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python">1. Python可切片对象的索引方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2. Python切片操作的一般方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">3. 举例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1. 切取单个值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">2. 切取完整对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-indexend-index">3. start_index和end_index全为正（+）索引的情况</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">4.start_index和end_index全为负（-）索引的情况</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">5.start_index和end_index正（+）负（-）混合索引的情况</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">6.连续切片操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">7.切片操作的三个参数可以用表达式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">8.其他对象的切片操作</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">5.Python常用切片操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">1.取偶数位置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">2.取奇数位置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">3.拷贝整个对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">4.修改单个元素</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">5.在某个位置插入元素</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">6.替换一部分元素</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">5.总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p02.html">第2章：Python数据结构</a></li>
+      <li class="breadcrumb-item active">【基础】切片操作</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p02/7.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><em>内容来自：https://www.jianshu.com/p/15715d6f4dad</em></p>
+<section id="id1">
+<h1>【基础】切片操作<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>在利用Python解决各种实际问题的过程中，经常会遇到从某个对象中抽取部分值的情况，切片操作正是专门用于完成这一操作的有力武器。只要条件表达式得当，可以通过单次或多次切片操作实现任意切取目标值。</p>
+<section id="python">
+<h2>1. Python可切片对象的索引方式<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<p>Python可切片对象的索引方式包括：<strong>正索引</strong>和<strong>负索引</strong>两部分。
+如下图所示，以<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9]</span></code>为例：
+<img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/ababbdcccbabb44a29cac11dc17287b3.png" /></p>
+</section>
+<section id="id2">
+<h2>2. Python切片操作的一般方式<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><strong>一个完整的切片表达式包含两个“:”，用于分隔三个参数（start_index、end_index、step）；当只有一个“:”时，默认第三个参数step=1。</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">切片操作基本表达式</span><span class="err">：</span><span class="nb">object</span><span class="p">[</span><span class="n">start_index</span> <span class="p">:</span> <span class="n">end_index</span> <span class="p">:</span> <span class="n">step</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>step</strong>：正负数均可，其绝对值大小决定了切取数据时的“步长”，而<strong>正负号决定了“切取方向”</strong>，正表示“从左往右”取值，负表示“从右往左”取值。**当step省略时，默认为1，**即从左往右以增量1取值。</p>
+<p><strong>start_index</strong>：**表示起始索引（包含该索引本身）；**该参数省略时，表示从对象“端点”开始取值，至于是从“起点”还是从“终点”开始，则由step参数的正负决定，step为正从“起点”开始，为负从“终点”开始。</p>
+<p><strong>end_index</strong>：**表示终止索引（不包含该索引本身）；**该参数省略时，表示一直取到数据”端点“，至于是到”起点“还是到”终点“，同样由step参数的正负决定，step为正时直到”终点“，为负时直到”起点“。</p>
+</section>
+<section id="id3">
+<h2>3. 举例<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>以下示例均以列表<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9]</span></code>为例：
+<code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9]</span></code></p>
+<section id="id4">
+<h3>1. 切取单个值<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>2. 切取完整对象<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:]</span> <span class="c1"># 从左往右</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[::]</span> <span class="c1"># 从左往右</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 从右往左</span>
+<span class="go">[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]</span>
+</pre></div>
+</div>
+</section>
+<section id="start-indexend-index">
+<h3>3. start_index和end_index全为正（+）索引的情况<a class="headerlink" href="#start-indexend-index" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># step=1，从左往右取值，start_index=1到end_index=6同样表示从左往右取值。</span>
+<span class="go">[1, 2, 3, 4, 5]</span>
+
+<span class="go">&gt;&gt;&gt;a[1:6:-1] # step=-1，决定了从右往左取值，而start_index=1到end_index=6决定了从左往右取值，两者矛盾。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[]</span> <span class="c1"># 输出为空列表，说明没取到数据。</span>
+
+<span class="go">&gt;&gt;&gt;a[6:1] # step=1，决定了从左往右取值，而start_index=6到end_index=1决定了从右往左取值，两者矛盾。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[]</span> <span class="c1"># 同样输出为空列表。</span>
+
+<span class="go">&gt;&gt;&gt;a[:6] # step=1，从左往右取值，从“起点”开始一直取到end_index=6。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[:6:-1] # step=-1，从右往左取值，从“终点”开始一直取到end_index=6。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[6:] # step=1，从左往右取值，从start_index=6开始，一直取到“终点”。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[6::-1] # step=-1，从右往左取值，从start_index=6开始，一直取到“起点”。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>4.start_index和end_index全为负（-）索引的情况<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[-1:-6] # step=1，从左往右取值，而start_index=-1到end_index=-6决定了从右往左取值，两者矛盾。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[]</span>
+
+<span class="go">&gt;&gt;&gt;a[-1:-6:-1] # step=-1，从右往左取值，start_index=-1到end_index=-6同样是从右往左取值。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[-6:-1] # step=1，从左往右取值，而start_index=-6到end_index=-1同样是从左往右取值。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[:-6] # step=1，从左往右取值，从“起点”开始一直取到end_index=-6。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[:-6:-1] # step=-1，从右往左取值，从“终点”开始一直取到end_index=-6。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[-6:] # step=1，从左往右取值，从start_index=-6开始，一直取到“终点”。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[-6::-1] # step=-1，从右往左取值，从start_index=-6开始，一直取到“起点”。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>5.start_index和end_index正（+）负（-）混合索引的情况<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[1:-6] # start_index=1在end_index=-6的左边，因此从左往右取值，而step=1同样决定了从左往右取值。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="go">&gt;&gt;&gt;a[1:-6:-1] # start_index=1在end_index=-6的左边，因此从左往右取值，但step=-则决定了从右往左取值，两者矛盾。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[]</span>
+
+<span class="go">&gt;&gt;&gt;a[-1:6] # start_index=-1在end_index=6的右边，因此从右往左取值，但step=1则决定了从左往右取值，两者矛盾。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[]</span>
+
+<span class="go">&gt;&gt;&gt;a[-1:6:-1] # start_index=-1在end_index=6的右边，因此从右往左取值，而step=-1同样决定了从右往左取值。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>6.连续切片操作<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[:8][2:5][-1:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>相当于：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">a</span><span class="p">[:</span><span class="mi">8</span><span class="p">][</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">a</span><span class="p">[:</span><span class="mi">8</span><span class="p">][</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>理论上可无限次连续切片操作，只要上一次返回的依然是非空可切片对象。</p>
+</section>
+<section id="id9">
+<h3>7.切片操作的三个参数可以用表达式<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[2+1:3*2:7%3] # 即：a[2+1:3*2:7%3] = a[3:6:1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>8.其他对象的切片操作<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p>前面的切片操作说明都以list为例进行说明，但实际上可进行的切片操作的数据类型还有很多，包括元组、字符串等等。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># 元组的切片操作</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="go">&gt;&gt;&gt;&#39;ABCDEFG&#39;[::2] # 字符串的切片操作</span>
+<span class="go">&gt;&gt;&gt;&#39;ACEG&#39;</span>
+
+<span class="go">&gt;&gt;&gt;for i in range(1,100)[2::3][-10:]: # 利用range函数生成1-99的整数，然后取3的倍数，再取最后十个。</span>
+<span class="go">       print(i, end=&#39; &#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">72</span> <span class="mi">75</span> <span class="mi">78</span> <span class="mi">81</span> <span class="mi">84</span> <span class="mi">87</span> <span class="mi">90</span> <span class="mi">93</span> <span class="mi">96</span> <span class="mi">99</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>5.Python常用切片操作<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<p>以列表：<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9]</span></code>为说明对象</p>
+<section id="id12">
+<h3>1.取偶数位置<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;b = a[::2]</span>
+<span class="go">[0, 2, 4, 6, 8]</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>2.取奇数位置<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;b = a[1::2]</span>
+<span class="go">[1, 3, 5, 7, 9]</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>3.拷贝整个对象<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;b = a[:] # ★★★★★</span>
+<span class="go">&gt;&gt;&gt;print(b) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="go">&gt;&gt;&gt;print(id(a)) # 41946376</span>
+<span class="go">&gt;&gt;&gt;print(id(b)) # 41921864</span>
+
+<span class="go">&gt;&gt;&gt;b = a.copy()</span>
+<span class="go">&gt;&gt;&gt;print(b) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="go">&gt;&gt;&gt;print(id(a)) # 39783752</span>
+<span class="go">&gt;&gt;&gt;print(id(b)) # 39759176</span>
+</pre></div>
+</div>
+<p>需要注意的是：<strong>[:]和.copy()都属于“浅拷贝”，只拷贝最外层元素，内层嵌套元素则通过引用，而不是独立分配内存。</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a = [1,2,[&#39;A&#39;,&#39;B&#39;]]</span>
+<span class="go">&gt;&gt;&gt;print(&#39;a={}&#39;.format(a))</span>
+<span class="go">a=[1, 2, [&#39;A&#39;, &#39;B&#39;]] # 原始a</span>
+
+<span class="go">&gt;&gt;&gt;b = a[:]</span>
+<span class="go">&gt;&gt;&gt;b[0] = 9 # 修改b的最外层元素，将1变成9</span>
+<span class="go">&gt;&gt;&gt;b[2][0] = &#39;D&#39; # 修改b的内嵌层元素</span>
+<span class="go">&gt;&gt;&gt;print(&#39;a={}&#39;.format(a)) # b修改内部元素A为D后，a中的A也变成了D，说明共享内部嵌套元素，但外部元素1没变。</span>
+<span class="go">a=[1, 2, [&#39;D&#39;, &#39;B&#39;]] </span>
+
+<span class="go">&gt;&gt;&gt;print(&#39;b={}&#39;.format(b)) # 修改后的b</span>
+<span class="go">b=[9, 2, [&#39;D&#39;, &#39;B&#39;]] </span>
+
+<span class="go">&gt;&gt;&gt;print(&#39;id(a)={}&#39;.format(id(a)))</span>
+<span class="go">id(a)=38669128</span>
+
+<span class="go">&gt;&gt;&gt;print(&#39;id(b)={}&#39;.format(id(b)))</span>
+<span class="go">id(b)=38669192</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>4.修改单个元素<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[3] = [&#39;A&#39;,&#39;B&#39;]</span>
+<span class="go">[0, 1, 2, [&#39;A&#39;, &#39;B&#39;], 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>5.在某个位置插入元素<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[3:3] = [&#39;A&#39;,&#39;B&#39;,&#39;C&#39;]</span>
+<span class="go">[0, 1, 2, &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, 3, 4, 5, 6, 7, 8, 9]</span>
+<span class="go">&gt;&gt;&gt;a[0:0] = [&#39;A&#39;,&#39;B&#39;]</span>
+<span class="go">[&#39;A&#39;, &#39;B&#39;, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>6.替换一部分元素<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;a[3:6] = [&#39;A&#39;,&#39;B&#39;]</span>
+<span class="go">[0, 1, 2, &#39;A&#39;, &#39;B&#39;, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>5.总结<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<p>（一）<strong>start_index、end_index、step可同为正、同为负，也可正负混合使用。但必须遵循一个原则，即两者的取值顺序必须是相同的</strong>，否则无法正确切取到数据：当start_index的位置在end_index的左边时，表示从左往右取值，此时step必须是正数（同样表示从左往右）；当start_index的位置在end_index的右边时，表示从右往左取值，此时step必须是负数（同样表示从右往左）。对于特殊情况，<strong>当start_index或end_index省略时，起始索引和终止索引由step的正负来决定，不会存在取值方向出现矛盾的情况</strong>，但正和负取到的结果是完全不同的，因为一个向左一个向右。</p>
+<p>（二）在利用切片时，step的正负是必须要考虑的，尤其是当step省略时。比如<code class="docutils literal notranslate"><span class="pre">a[-1:]</span></code>，很容易就误认为是从“终点”开始一直取到“起点”，即<code class="docutils literal notranslate"><span class="pre">a[-1:]=</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9]</span></code>，但实际上<code class="docutils literal notranslate"><span class="pre">a[-1:]=a[-1]=9</span></code>，原因在于step=1表示从左往右取值，而起始索引start_index=-1本身就是对象的最右边的元素了，再往右已经没数据了，因此只有<code class="docutils literal notranslate"><span class="pre">a[-1]</span></code>一个元素。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="6.html" class="btn btn-neutral float-left" title="【基础】生成器" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../p03.html" class="btn btn-neutral float-right" title="第3章：Python流程控制" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

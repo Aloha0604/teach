@@ -1,20 +1,35 @@
-.. Python&图像处理教程 documentation master file, created by
-   sphinx-quickstart on Fri Dec  6 18:42:42 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Python&图像处理教程's documentation!
-===============================================
+======================
+Python & 图像处理 教程
+======================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :glob:
 
+   Summary/*
 
+.. toctree::
+   :caption: Python编程语言
+   :glob:
 
-Indices and tables
-==================
+   PythonTutorial/*
+   
+   
+.. toctree::
+   :caption: 图像处理教程
+   :glob:
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   ImageProcessing/*
+   
+.. toctree::
+	:caption: 案例展示
+	:glob:
+
+	CasesDisplay/*
+   
+   
+   
+.. toctree::
+   :caption: about me
+   :glob:
+   
+   aboutme

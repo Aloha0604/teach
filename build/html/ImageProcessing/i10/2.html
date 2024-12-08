@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】霍夫直线变换 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】霍夫圆变换" href="3.html" />
+    <link rel="prev" title="【定义】霍夫变换" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../J.html">第10章：霍夫变换</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【定义】霍夫变换</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】霍夫直线变换</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.霍夫直线变换实现</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 概率霍夫变换实现</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【进阶】霍夫圆变换</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../J.html">第10章：霍夫变换</a></li>
+      <li class="breadcrumb-item active">【进阶】霍夫直线变换</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i10/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】霍夫直线变换<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1.原理<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>霍夫变换——神奇的特征提取算法 : https://zhuanlan.zhihu.com/p/47649796</p>
+<p>通俗易懂理解——霍夫变换原理: https://zhuanlan.zhihu.com/p/203292567</p>
+</section>
+<section id="id3">
+<h2>2.霍夫直线变换实现<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.HoughLines()</span></code>用来实现霍夫直线变换，该函数要求所操作的输入图像是一个二值图像，所以在进行霍夫变换之前要先将源图像进行二值化，或者进行Canny边缘检测。其语法格式为：</p>
+<div class="highlight-PYTHON notranslate"><div class="highlight"><pre><span></span><span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLines</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[,</span> <span class="n">lines</span><span class="p">[,</span> <span class="n">srn</span><span class="p">[,</span> <span class="n">stn</span><span class="p">[,</span> <span class="n">min_theta</span><span class="p">[,</span> <span class="n">max_theta</span><span class="p">]]]]])</span>
+</pre></div>
+</div>
+<p>● image是输入图像，即源图像，必须是8位的单通道二值图像。</p>
+<p>● rho为以像素为单位的距离<code class="docutils literal notranslate"><span class="pre">r</span></code>的精度。一般情况下，使用的精度是1。</p>
+<p>● theta为角度<code class="docutils literal notranslate"><span class="pre">θ</span></code>的精度。一般情况下，使用的精度是<code class="docutils literal notranslate"><span class="pre">π/180</span></code>：表示搜索所有可能的角度。</p>
+<p>● threshold是阈值。如果阈值较小，就会得到较多的直线；阈值较大，就会得到较少的直线。</p>
+<p>● 返回值lines中的每个元素都是一对浮点数，表示检测到的直线的参数，即<code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">θ)</span></code>。</p>
+<p>有一点需要强调的是，使用函数<code class="docutils literal notranslate"><span class="pre">cv2.HoughLines()</span></code>检测到的是图像中的直线而不是线段，因此检测到的直线是没有端点的。所以，我们在进行霍夫直线变换时所绘制的直线都是穿过整幅图像的。</p>
+<p><strong>程序演示</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;hough_img.jpg&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+
+<span class="n">canny</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="n">apertureSize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;canny&#39;</span><span class="p">,</span> <span class="n">canny</span><span class="p">)</span>
+
+<span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLines</span><span class="p">(</span><span class="n">canny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">140</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 也即 ρ,θ</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">rho</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">rho</span>
+
+    <span class="n">x1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="p">))</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="p">))</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y0</span> <span class="o">-</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;HoughLines&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行上面的代码，结果如下所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/dc443bff24088985383b9473ebf81ae2.png" /></p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/2289b402d03d136ae363c2d284a3395d.png" /></p>
+<p>在右图中，较粗的直线是因为有多条直线靠近在一起，也即是检测出了重复的结果。在一些情况下，使用霍夫变换可能将图像中有限个点碰巧对齐的非直线关系检测为直线，而导致误检测，尤其是一些复杂背景的图像，误检测会很明显。此图中该问题虽然并不是特别明显，但是如果将阈值threshold的值设置得稍小些，仍然会出现较多重复的检测结果。为了解决上述问题，人们提出了霍夫变换的改进版——概率霍夫变换。</p>
+</section>
+<section id="id4">
+<h2>3. 概率霍夫变换实现<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>概率霍夫变换对基本霍夫变换算法进行了一些修正，是霍夫变换算法的优化。它没有考虑所有的点。相反，它只需要一个足以进行线检测的随机点子集即可。</p>
+<p>为了更好地判断直线（线段），概率霍夫变换算法还对选取直线的方法作了两点改进：</p>
+<p>● **所接受直线的最小长度。**如果有超过阈值个数的像素点构成了一条直线，但是这条直线很短，那么就不会接受该直线作为判断结果，而认为这条直线仅仅是图像中的若干个像素点恰好随机构成了一种算法上的直线关系而已，实际上原图中并不存在这条直线。</p>
+<p>● **接受直线时允许的最大像素点间距。**如果有超过阈值个数的像素点构成了一条直线，但是这组像素点之间的距离都很远，就不会接受该直线作为判断结果，而认为这条直线仅仅是图像中的若干个像素点恰好随机构成了一种算法上的直线关系而已，实际上原始图像中并不存在这条直线。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLinesP</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[,</span> <span class="n">lines</span><span class="p">[,</span> <span class="n">minLineLength</span><span class="p">[,</span> <span class="n">maxLineGap</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● image是输入图像，即源图像，必须是8位的单通道二值图像。</p>
+<p>● rho为以像素为单位的距离<code class="docutils literal notranslate"><span class="pre">r</span></code>的精度。一般情况下，使用的精度是1。</p>
+<p>● theta为角度<code class="docutils literal notranslate"><span class="pre">θ</span></code>的精度。一般情况下，使用的精度是<code class="docutils literal notranslate"><span class="pre">π/180</span></code>：表示搜索所有可能的角度。</p>
+<p>● threshold是阈值。如果阈值较小，就会得到较多的直线；阈值较大，就会得到较少的直线。</p>
+<p>● minLineLength用来控制“接受直线的最小长度”的值，默认值为0。</p>
+<p>● maxLineGap用来控制接受共线线段之间的最小间隔，即在一条线中两点的最大间隔。如果两点间的间隔超过了参数maxLineGap的值，就认为这两点不在一条线上。默认值为0。</p>
+<p>● 返回值lines中的每个元素都是一对浮点数，表示检测到的直线的参数，即<code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">θ)</span></code>。</p>
+<p><strong>程序演示</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;hough_img.jpg&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+
+<span class="n">canny</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="n">apertureSize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;canny&#39;</span><span class="p">,</span> <span class="n">canny</span><span class="p">)</span>
+
+<span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLinesP</span><span class="p">(</span><span class="n">canny</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="n">minLineLength</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">maxLineGap</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;HoughLinesP&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>运行以上程序，结果如下所示：
+<img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/96665046bc75e0395def5ff4f6906a7f.png" /></p>
+<p>可以看到参数调整适当的话，概率霍夫变换比霍夫变换得到的检测结果更准确。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【定义】霍夫变换" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【进阶】霍夫圆变换" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】静态方法与类方法 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】私有变量与私有方法" href="3.html" />
+    <link rel="prev" title="【进阶】深藏不露的描述符（Descriptor）" href="11.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】类的理解与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】神奇的元类编程（metaclass）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】深藏不露的描述符（Descriptor）</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】静态方法与类方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 写法上的差异</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 方法与函数区别</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】私有变量与私有方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】类的封装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】类的继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】类的多态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【基础】类的 property 属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【进阶】类的 Mixin 设计模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】类的魔术方法（超全整理）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p05.html">第5章：Python面向对象</a></li>
+      <li class="breadcrumb-item active">【基础】静态方法与类方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p05/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】静态方法与类方法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 写法上的差异<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>类的方法可以分为：</p>
+<ol class="simple">
+<li><p>静态方法：有 <code class="docutils literal notranslate"><span class="pre">staticmethod</span></code> 装饰的函数</p></li>
+<li><p>类方法：有 <code class="docutils literal notranslate"><span class="pre">classmethod</span></code> 装饰的函数</p></li>
+<li><p>实例方法：没有任何装饰器的普通函数</p></li>
+</ol>
+<p>举个例子，如下这段代码中，<code class="docutils literal notranslate"><span class="pre">run</span></code> 普通的实例方法，<code class="docutils literal notranslate"><span class="pre">eat</span></code>  是静态方法，<code class="docutils literal notranslate"><span class="pre">jump</span></code> 是类方法。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Animal</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">跑起来啦&quot;</span><span class="p">)</span>
+        
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">eat</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;正在吃饭...&quot;</span><span class="p">)</span>
+        
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">jump</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">跳起来啦&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这三种方法，在写法有很大的区别：</p>
+<p>1、普通的实例方法，在定义时，他的第一个方法固定是 self，如果是从实例调用，那么 self 参数 不需要传入，如果是通过类调用，那么 self 要传入已经实例化的对象。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">=</span><span class="n">Animal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;小黑&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="go">小黑跑起来啦</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Animal</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dog</span><span class="p">)</span>
+<span class="go">小黑跑起来啦</span>
+</pre></div>
+</div>
+<p>2、静态方法，在定义时，不需要 self 参数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">=</span><span class="n">Animal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;小黑&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">.</span><span class="n">eat</span><span class="p">()</span>
+<span class="go">正在吃饭...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Animal</span><span class="o">.</span><span class="n">eat</span><span class="p">()</span>
+<span class="go">正在吃饭...</span>
+</pre></div>
+</div>
+<p>3、类方法，在定义时，第一个参数固定是 cls，为 class 的简写，代表类本身。不管是通过实例还是类调用类方法，都不需要传入 cls 的参数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">=</span><span class="n">Animal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;小黑&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dog</span><span class="o">.</span><span class="n">jump</span><span class="p">(</span><span class="s2">&quot;小黑&quot;</span><span class="p">)</span>
+<span class="go">小黑跳起来啦</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Animal</span><span class="o">.</span><span class="n">jump</span><span class="p">(</span><span class="s2">&quot;小黑&quot;</span><span class="p">)</span>
+<span class="go">小黑跳起来啦</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>2. 方法与函数区别<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在前面，我们很经常提到方法和函数，为免有同学将他们混为一谈，我这里总结一下他们的区别。</p>
+<p>在 Python 3.x 中，</p>
+<ol class="simple">
+<li><p>普通函数（未定位在类里）和静态方法，都是函数（<code class="docutils literal notranslate"><span class="pre">function</span></code> ）。</p></li>
+<li><p>实例方法（&#64;staticmethod）和类方法，都是方法（<code class="docutils literal notranslate"><span class="pre">method</span></code> ）。</p></li>
+</ol>
+<p>这些结论其实都可以使用 <code class="docutils literal notranslate"><span class="pre">type</span></code> 函数得到验证。</p>
+<p>先准备如下代码</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Animal</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">跑起来啦&quot;</span><span class="p">)</span>
+        
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">eat</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;正在吃饭...&quot;</span><span class="p">)</span>
+        
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">jump</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">跳起来啦&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">demo_func</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>然后进入 Python Console 模式</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">demo_func</span><span class="p">)</span>  <span class="c1"># 普通函数</span>
+<span class="go">&lt;class &#39;function&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">dog</span><span class="o">.</span><span class="n">eat</span><span class="p">)</span>   <span class="c1"># 静态方法</span>
+<span class="go">&lt;class &#39;function&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">dog</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>  <span class="c1"># 实例方法</span>
+<span class="go">&lt;class &#39;method&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">dog</span><span class="o">.</span><span class="n">jump</span><span class="p">)</span>  <span class="c1"># 类方法</span>
+<span class="go">&lt;class &#39;method&#39;&gt;</span>
+</pre></div>
+</div>
+<p>到这里，你应该会有疑问了吧？</p>
+<p>类方法和实例方法，名字本身就有方法，也是方法也说得过去。那静态方法呢，为什么不是方法而是函数呢？</p>
+<p>对此，我的理解是：方法是一种和对象（实例或者类）绑定后的特殊函数。</p>
+<p>方法本质上还是函数，不同之处在于它与对象进行绑定。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="11.html" class="btn btn-neutral float-left" title="【进阶】深藏不露的描述符（Descriptor）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】私有变量与私有方法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

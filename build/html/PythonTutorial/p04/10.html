@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】装饰器的六种写法 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】11个案例讲解函数参数" href="2.html" />
+    <link rel="prev" title="【基础】函数创建与调用" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】函数创建与调用</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】装饰器的六种写法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hello">Hello，装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">第一种：普通装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">第二种：带参数的函数装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">第三种：不带参数的类装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">第四种：带参数的类装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">第五种：使用偏函数与类实现装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">第六种：能装饰类的装饰器</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】11个案例讲解函数参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】匿名函数的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】高阶函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】反射函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】偏函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】泛型函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】变量的作用域</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】上下文管理器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p04.html">第4章：Python函数详解</a></li>
+      <li class="breadcrumb-item active">【进阶】装饰器的六种写法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p04/10.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】装饰器的六种写法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="hello">
+<h2>Hello，装饰器<a class="headerlink" href="#hello" title="Link to this heading"></a></h2>
+<p>装饰器本质上是一个Python函数，它可以让其他函数在不需要做任何代码变动的前提下增加额外功能，装饰器的返回值也是一个函数对象。</p>
+<p>它经常用于有切面需求的场景，比如：插入日志、性能测试、事务处理、缓存、权限校验等场景。</p>
+<p>装饰器是解决这类问题的绝佳设计，有了装饰器，我们就可以抽离出大量与函数功能本身无关的雷同代码并继续重用。</p>
+<p>装饰器的使用方法很固定</p>
+<ul class="simple">
+<li><p>先定义一个装饰器（帽子）</p></li>
+<li><p>再定义你的业务函数或者类（人）</p></li>
+<li><p>最后把这装饰器（帽子）扣在这个函数（人）头上</p></li>
+</ul>
+<p>就像下面这样子</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 定义装饰器</span>
+<span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="c1"># 定义业务函数并进行装饰</span>
+<span class="nd">@decorator</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello, decorator&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>实际上，装饰器并不是编码必须性，意思就是说，你不使用装饰器完全可以，它的出现，应该是使我们的代码</p>
+<ul class="simple">
+<li><p>更加优雅，代码结构更加清晰</p></li>
+<li><p>将实现特定的功能代码封装成装饰器，提高代码复用率，增强代码可读性</p></li>
+</ul>
+<p>接下来，我将以实例讲解，如何编写出各种简单及复杂的装饰器。</p>
+</section>
+<section id="id2">
+<h2>第一种：普通装饰器<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>首先咱来写一个最普通的装饰器，它实现的功能是：</p>
+<ul class="simple">
+<li><p>在函数执行前，先记录一行日志</p></li>
+<li><p>在函数执行完，再记录一行日志</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 这是装饰器函数，参数 func 是被装饰的函数</span>
+<span class="k">def</span> <span class="nf">logger</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;我准备开始执行：</span><span class="si">{}</span><span class="s1"> 函数了:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+        <span class="c1"># 真正执行的是这行。</span>
+        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;主人，我执行完啦。&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+</div>
+<p>假如，我的业务函数是，计算两个数之和。写好后，直接给它带上帽子。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@logger</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> + </span><span class="si">{}</span><span class="s1"> = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>然后执行一下 add 函数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>来看看输出了什么？</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">我准备开始执行</span><span class="err">：</span><span class="n">add</span> <span class="n">函数了</span><span class="p">:</span>
+<span class="mi">200</span> <span class="o">+</span> <span class="mi">50</span> <span class="o">=</span> <span class="mi">250</span>
+<span class="n">我执行完啦</span><span class="err">。</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>第二种：带参数的函数装饰器<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>通过上面两个简单的入门示例，你应该能体会到装饰器的工作原理了。</p>
+<p>不过，装饰器的用法还远不止如此，深究下去，还大有文章。今天就一起来把这个知识点学透。</p>
+<p>回过头去看看上面的例子，装饰器是不能接收参数的。其用法，只能适用于一些简单的场景。不传参的装饰器，只能对被装饰函数，执行固定逻辑。</p>
+<p>装饰器本身是一个函数，做为一个函数，如果不能传参，那这个函数的功能就会很受限，只能执行固定的逻辑。这意味着，如果装饰器的逻辑代码的执行需要根据不同场景进行调整，若不能传参的话，我们就要写两个装饰器，这显然是不合理的。</p>
+<p>比如我们要实现一个可以定时发送邮件的任务（一分钟发送一封），定时进行时间同步的任务（一天同步一次），就可以自己实现一个 periodic_task （定时任务）的装饰器，这个装饰器可以接收一个时间间隔的参数，间隔多长时间执行一次任务。</p>
+<p>可以这样像下面这样写，由于这个功能代码比较复杂，不利于学习，这里就不贴了。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@periodic_task</span><span class="p">(</span><span class="n">spacing</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">send_mail</span><span class="p">():</span>
+     <span class="k">pass</span>
+  
+<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">spacing</span><span class="o">=</span><span class="mi">86400</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ntp</span><span class="p">()</span>
+    <span class="k">pass</span> 
+</pre></div>
+</div>
+<p>那我们来自己创造一个伪场景，可以在装饰器里传入一个参数，指明国籍，并在函数执行前，用自己国家的母语打一个招呼。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小明，中国人</span>
+<span class="nd">@say_hello</span><span class="p">(</span><span class="s2">&quot;china&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">xiaoming</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="c1"># jack，美国人</span>
+<span class="nd">@say_hello</span><span class="p">(</span><span class="s2">&quot;america&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">jack</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>那我们如果实现这个装饰器，让其可以实现 <code class="docutils literal notranslate"><span class="pre">传参</span></code> 呢？</p>
+<p>会比较复杂，需要两层嵌套。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">contry</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">deco</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">contry</span> <span class="o">==</span> <span class="s2">&quot;china&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;你好!&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">contry</span> <span class="o">==</span> <span class="s2">&quot;america&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hello.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="c1"># 真正执行函数的地方</span>
+            <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">deco</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+</div>
+<p>来执行一下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xiaoming</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------&quot;</span><span class="p">)</span>
+<span class="n">jack</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>看看输出结果。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">你好</span><span class="err">!</span>
+<span class="o">------------</span>
+<span class="n">hello</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>第三种：不带参数的类装饰器<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>以上都是基于函数实现的装饰器，在阅读别人代码时，还可以时常发现还有基于类实现的装饰器。</p>
+<p>基于类装饰器的实现，必须实现 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__init__</span></code>两个内置函数。
+<code class="docutils literal notranslate"><span class="pre">__init__</span></code> ：接收被装饰函数
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code> ：实现装饰逻辑。</p>
+<p>还是以日志打印这个简单的例子为例</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">logger</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[INFO]: the function </span><span class="si">{func}</span><span class="s2">() is running...&quot;</span>\
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nd">@logger</span>
+<span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;say </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">something</span><span class="p">))</span>
+
+<span class="n">say</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>执行一下，看看输出</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[INFO]: the function say() is running...
+say hello!
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>第四种：带参数的类装饰器<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>上面不带参数的例子，你发现没有，只能打印<code class="docutils literal notranslate"><span class="pre">INFO</span></code>级别的日志，正常情况下，我们还需要打印<code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>等级别的日志。 这就需要给类装饰器传入参数，给这个函数指定级别了。</p>
+<p>带参数和不带参数的类装饰器有很大的不同。</p>
+<p><code class="docutils literal notranslate"><span class="pre">__init__</span></code> ：不再接收被装饰函数，而是接收传入参数。
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code> ：接收被装饰函数，实现装饰逻辑。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">logger</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;INFO&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span> <span class="c1"># 接受函数</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">{level}</span><span class="s2">]: the function </span><span class="si">{func}</span><span class="s2">() is running...&quot;</span>\
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>  <span class="c1">#返回函数</span>
+
+<span class="nd">@logger</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;say </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">something</span><span class="p">))</span>
+
+<span class="n">say</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>我们指定<code class="docutils literal notranslate"><span class="pre">WARNING</span></code>级别，运行一下，来看看输出。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[WARNING]: the function say() is running...
+say hello!
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>第五种：使用偏函数与类实现装饰器<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>绝大多数装饰器都是基于函数和闭包实现的，但这并非制造装饰器的唯一方式。</p>
+<p>事实上，Python 对某个对象是否能通过装饰器（ <code class="docutils literal notranslate"><span class="pre">&#64;decorator</span></code>）形式使用只有一个要求：<strong>decorator 必须是一个“可被调用（callable）的对象</strong>。</p>
+<p>对于这个 callable 对象，我们最熟悉的就是函数了。</p>
+<p>除函数之外，类也可以是 callable 对象，只要实现了<code class="docutils literal notranslate"><span class="pre">__call__</span></code> 函数（上面几个例子已经接触过了）。</p>
+<p>还有容易被人忽略的偏函数其实也是 callable 对象。</p>
+<p>接下来就来说说，如何使用 类和偏函数结合实现一个与众不同的装饰器。</p>
+<p>如下所示，DelayFunc 是一个实现了 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 的类，delay 返回一个偏函数，在这里 delay 就可以做为一个装饰器。（以下代码摘自 Python工匠：使用装饰器的小技巧）</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="k">class</span> <span class="nc">DelayFunc</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">duration</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Wait for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="si">}</span><span class="s1"> seconds...&#39;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">eager_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Call without delay&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    装饰器：推迟某个函数的执行。</span>
+<span class="sd">    同时提供 .eager_call 方法立即执行</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 此处为了避免定义额外函数，</span>
+	<span class="c1"># 直接使用 functools.partial 帮助构造 DelayFunc 实例</span>
+    <span class="k">return</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">DelayFunc</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>我们的业务函数很简单，就是相加</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@delay</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</pre></div>
+</div>
+<p>来看一下执行过程</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span>    <span class="c1"># 可见 add 变成了 Delay 的实例</span>
+<span class="go">&lt;__main__.DelayFunc object at 0x107bd0be0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 直接调用实例，进入 __call__</span>
+<span class="go">Wait for 2 seconds...</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="o">.</span><span class="n">func</span> <span class="c1"># 实现实例方法</span>
+<span class="go">&lt;function add at 0x107bef1e0&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>第六种：能装饰类的装饰器<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>用 Python 写单例模式的时候，常用的有三种写法。其中一种，是用装饰器来实现的。</p>
+<p>以下便是我自己写的装饰器版的单例写法。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">singleton</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">get_instance</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+		<span class="n">cls_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===== 1 ====&#39;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">cls_name</span> <span class="ow">in</span> <span class="n">instances</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===== 2 ====&#39;</span><span class="p">)</span>
+			<span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+			<span class="n">instances</span><span class="p">[</span><span class="n">cls_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">instance</span>
+		<span class="k">return</span> <span class="n">instances</span><span class="p">[</span><span class="n">cls_name</span><span class="p">]</span>
+	<span class="k">return</span> <span class="n">get_instance</span>
+
+<span class="nd">@singleton</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+	<span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===== 3 ====&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></div>
+</div>
+<p>可以看到我们用singleton 这个装饰函数来装饰 User 这个类。装饰器用在类上，并不是很常见，但只要熟悉装饰器的实现过程，就不难以实现对类的装饰。在上面这个例子中，装饰器就只是实现对类实例的生成的控制而已。</p>
+<p>其实例化的过程，你可以参考我这里的调试过程，加以理解。</p>
+<p><img alt="http://image.iswbm.com/20190512113917.png" src="http://image.iswbm.com/20190512113917.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】函数创建与调用" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="2.html" class="btn btn-neutral float-right" title="【基础】11个案例讲解函数参数" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

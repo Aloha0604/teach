@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】深藏不露的描述符（Descriptor） &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】静态方法与类方法" href="2.html" />
+    <link rel="prev" title="【进阶】神奇的元类编程（metaclass）" href="10.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】类的理解与使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】神奇的元类编程（metaclass）</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】深藏不露的描述符（Descriptor）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1. 为什么要使用描述符？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2. 描述符的访问规则</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property">3. 基于描述符如何实现property</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#staticmethod">4. 基于描述符如何实现staticmethod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#classmethod">5. 基于描述符如何实现classmethod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">6. 所有实例共享描述符</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">参考文档</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】静态方法与类方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】私有变量与私有方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】类的封装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】类的继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】类的多态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【基础】类的 property 属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【进阶】类的 Mixin 设计模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】类的魔术方法（超全整理）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p05.html">第5章：Python面向对象</a></li>
+      <li class="breadcrumb-item active">【进阶】深藏不露的描述符（Descriptor）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p05/11.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="descriptor">
+<h1>【进阶】深藏不露的描述符（Descriptor）<a class="headerlink" href="#descriptor" title="Link to this heading"></a></h1>
+<p>在前几节里，有介绍过 property 的用法，property 实现将一系列函数改造成对象属性，并实现参数的访问检查。</p>
+<p>很少有人会去深究这里面的原理究竟是什么？实际上对于大部分开发者而言，只要学会应用即可，无需深入探讨。</p>
+<p>因此本节内容是 Python 的进阶知识点，若你是新手，请跳过此章节，否则会打击你的学习自信心。</p>
+<p>打开天窗说亮话，实际上 property 的内部原理是 <code class="docutils literal notranslate"><span class="pre">描述符</span> <span class="pre">（Descriptor）</span></code></p>
+<p>本篇都将带你全面的学习描述符，一起来感受 Python 语言的优雅。</p>
+<section id="id1">
+<h2>1. 为什么要使用描述符？<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>假想你正在给学校写一个成绩管理系统，并没有太多编码经验的你，可能会这样子写。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">,</span> <span class="n">english</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">english</span> <span class="o">=</span> <span class="n">english</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student: </span><span class="si">{}</span><span class="s2">, math:</span><span class="si">{}</span><span class="s2">, chinese: </span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>看起来一切都很合理</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span> <span class="o">=</span> <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;小明&#39;</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">68</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span>
+<span class="go">&lt;Student: 小明, math:76, chinese: 87, english:68&gt;</span>
+</pre></div>
+</div>
+<p>但是程序并不像人那么智能，不会自动根据使用场景判断数据的合法性，如果老师在录入成绩的时候，不小心录入了将成绩录成了负数，或者超过100，程序是无法感知的。</p>
+<p>聪明的你，马上在代码中加入了判断逻辑。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">,</span> <span class="n">english</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">math</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">chinese</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+      
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">chinese</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">english</span> <span class="o">=</span> <span class="n">english</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student: </span><span class="si">{}</span><span class="s2">, math:</span><span class="si">{}</span><span class="s2">, chinese: </span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>这下程序稍微有点人工智能了，能够自己明辨是非了。</p>
+<p><img alt="http://image.iswbm.com/20190425221322.png" src="http://image.iswbm.com/20190425221322.png" /></p>
+<p>程序是智能了，但在<code class="docutils literal notranslate"><span class="pre">__init__</span></code>里有太多的判断逻辑，很影响代码的可读性。巧的是，你刚好学过 Property 特性，可以很好的应用在这里。于是你将代码修改成如下，代码的可读性瞬间提升了不少</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">,</span> <span class="n">english</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">english</span> <span class="o">=</span> <span class="n">english</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_math</span>
+
+    <span class="nd">@math</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_math</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">chinese</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chinese</span>
+
+    <span class="nd">@chinese</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">chinese</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chinese</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">english</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_english</span>
+
+    <span class="nd">@english</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">english</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_english</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student: </span><span class="si">{}</span><span class="s2">, math:</span><span class="si">{}</span><span class="s2">, chinese: </span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>程序还是一样的人工智能，非常好。</p>
+<p><img alt="http://image.iswbm.com/20190425221322.png" src="http://image.iswbm.com/20190425221322.png" /></p>
+<p>你以为你写的代码，已经非常优秀，无懈可击了。</p>
+<p>没想到，人外有天，你的主管看了你的代码后，深深地叹了口气：类里的三个属性，math、chinese、english，都使用了 Property 对属性的合法性进行了有效控制。功能上，没有问题，但就是太啰嗦了，三个变量的合法性逻辑都是一样的，只要大于0，小于100 就可以，代码重复率太高了，这里三个成绩还好，但假设还有地理、生物、历史、化学等十几门的成绩呢，这代码简直没法忍。去了解一下 Python 的描述符吧。</p>
+<p>经过主管的指点，你知道了「描述符」这个东西。怀着一颗敬畏之心，你去搜索了下关于 描述符的用法。</p>
+<p>其实也很简单，一个实现了 <code class="docutils literal notranslate"><span class="pre">描述符协议</span></code> 的类就是一个描述符。</p>
+<p>什么描述符协议：在类里实现了 <code class="docutils literal notranslate"><span class="pre">__get__()</span></code>、<code class="docutils literal notranslate"><span class="pre">__set__()</span></code>、<code class="docutils literal notranslate"><span class="pre">__delete__()</span></code> 其中至少一个方法。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__get__</span></code>： 用于访问属性。它返回属性的值，若属性不存在、不合法等都可以抛出对应的异常。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__set__</span> </code>：将在属性分配操作中调用。不会返回任何内容。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__delete__</span> </code>：控制删除操作。不会返回内容。</p></li>
+</ul>
+<p>对描述符有了大概的了解后，你开始重写上面的方法。</p>
+<p>如前所述，Score 类是一个描述符，当从 Student 的实例访问 math、chinese、english这三个属性的时候，都会经过 Score 类里的三个特殊的方法。这里的 Score 避免了 使用Property 出现大量的代码无法复用的尴尬。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Score</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Score must be integer&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Valid value must be in [0, 100]&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
+
+    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
+        
+<span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="n">math</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">chinese</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">english</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">,</span> <span class="n">english</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">english</span> <span class="o">=</span> <span class="n">english</span>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student: </span><span class="si">{}</span><span class="s2">, math:</span><span class="si">{}</span><span class="s2">, chinese: </span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>实现的效果和前面的一样，可以对数据的合法性进行有效控制（字段类型、数值区间等）</p>
+<p><img alt="http://image.iswbm.com/20190425221233.png" src="http://image.iswbm.com/20190425221233.png" /></p>
+<p>以上，我举了下具体的实例，从最原始的编码风格到 Property ，最后引出描述符。由浅入深，一步一步带你感受到描述符的优雅之处。</p>
+<p>到这里，你需要记住的只有一点，就是描述符给我们带来的编码上的便利，它在实现 <code class="docutils literal notranslate"><span class="pre">保护属性不受修改</span></code>、<code class="docutils literal notranslate"><span class="pre">属性类型检查</span></code> 的基本功能，同时有大大提高代码的复用率。</p>
+</section>
+<section id="id2">
+<h2>2. 描述符的访问规则<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>描述符分两种：</p>
+<ul class="simple">
+<li><p>数据描述符：实现了<code class="docutils literal notranslate"><span class="pre">__get__</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__set__</span></code> 两种方法的描述符</p></li>
+<li><p>非数据描述符：只实现了<code class="docutils literal notranslate"><span class="pre">__get__</span></code> 一种方法的描述符</p></li>
+</ul>
+<p>你一定会问，他们有什么区别呢？网上的讲解，我看过几个，很多都把一个简单的东西讲得复杂了。</p>
+<p>其实就一句话，<strong>数据描述器和非数据描述器的区别在于：它们相对于实例的字典的优先级不同</strong>。</p>
+<p>如果实例字典中有与描述符同名的属性，如果描述符是数据描述符，优先使用数据描述符，如果是非数据描述符，优先使用字典中的属性。</p>
+<p>这边还是以上节的成绩管理的例子来说明，方便你理解。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 数据描述符</span>
+<span class="k">class</span> <span class="nc">DataDes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;访问数据描述符里的 __get__&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
+
+<span class="c1"># 非数据描述符</span>
+<span class="k">class</span> <span class="nc">NoDataDes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;访问非数据描述符里的 __get__&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
+
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="n">math</span> <span class="o">=</span> <span class="n">DataDes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">chinese</span> <span class="o">=</span> <span class="n">NoDataDes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        
+    <span class="k">def</span> <span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;调用 __getattribute__&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Student</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+     
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student: </span><span class="si">{}</span><span class="s2">, math:</span><span class="si">{}</span><span class="s2">, chinese: </span><span class="si">{}</span><span class="s2">,&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>需要注意的是，math 是数据描述符，而 chinese 是非数据描述符。从下面的验证中，可以看出，当实例属性和数据描述符同名时，会优先访问数据描述符（如下面的math），而当实例属性和非数据描述符同名时，会优先访问实例属性（<code class="docutils literal notranslate"><span class="pre">__getattribute__</span></code>）</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std</span> <span class="o">=</span> <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;xm&#39;</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std</span><span class="o">.</span><span class="n">math</span>
+<span class="go">调用 __getattribute__</span>
+<span class="go">访问数据描述符里的 __get__</span>
+<span class="go">88</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std</span><span class="o">.</span><span class="n">chinese</span>
+<span class="go">调用 __getattribute__</span>
+<span class="go">99</span>
+</pre></div>
+</div>
+<p>讲完了数据描述符和非数据描述符，我们还需要了解的对象属性的查找规律。</p>
+<p>当我们对一个实例属性进行访问时，Python 会按 <code class="docutils literal notranslate"><span class="pre">obj.__dict__</span></code> → <code class="docutils literal notranslate"><span class="pre">type(obj).__dict__</span></code> → <code class="docutils literal notranslate"><span class="pre">type(obj)的父类.__dict__</span></code> 顺序进行查找，如果查找到目标属性并发现是一个描述符，Python 会调用描述符协议来改变默认的控制行为。</p>
+</section>
+<section id="property">
+<h2>3. 基于描述符如何实现property<a class="headerlink" href="#property" title="Link to this heading"></a></h2>
+<p>经过上面的讲解，我们已经知道如何定义描述符，且明白了描述符是如何工作的。</p>
+<p>正常人所见过的描述符的用法就是上面提到的那些，我想说的是那只是描述符协议最常见的应用之一，或许你还不知道，其实有很多 Python 的特性的底层实现机制都是基于 <code class="docutils literal notranslate"><span class="pre">描述符协议</span></code> 的，比如我们熟悉的<code class="docutils literal notranslate"><span class="pre">&#64;property</span></code> 、<code class="docutils literal notranslate"><span class="pre">&#64;classmethod</span></code> 、<code class="docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code> 和 <code class="docutils literal notranslate"><span class="pre">super</span></code> 等。</p>
+<p>先来说说 <code class="docutils literal notranslate"><span class="pre">property</span></code> 吧。</p>
+<p>有了前面的基础，我们知道了 property 的基本用法。这里我直接切入主题，从第一篇的例子里精简了一下。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_math</span>
+
+    <span class="nd">@math</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_math</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>不防再简单回顾一下它的用法，通过property装饰的函数，如例子中的 math 会变成 Student 实例的属性。而对 math 属性赋值会进入 使用 <code class="docutils literal notranslate"><span class="pre">math.setter</span></code> 装饰函数的逻辑代码块。</p>
+<p>为什么说 property 底层是基于描述符协议的呢？通过 PyCharm 点击进入 property 的源码，很可惜，只是一份类似文档一样的伪源码，并没有其具体的实现逻辑。</p>
+<p>不过，从这份伪源码的魔法函数结构组成，可以大体知道其实现逻辑。</p>
+<p>这里我自己通过模仿其函数结构，结合「描述符协议」来自己实现类 <code class="docutils literal notranslate"><span class="pre">property</span></code> 特性。</p>
+<p>代码如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestProperty</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fget</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fdel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fget</span> <span class="o">=</span> <span class="n">fget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fset</span> <span class="o">=</span> <span class="n">fset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fdel</span> <span class="o">=</span> <span class="n">fdel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in __get__&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fget</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in __set__&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in __delete__&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fdel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fdel</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fget</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in getter&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">fget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fdel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fset</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in setter&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">,</span> <span class="n">fset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fdel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">deleter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fdel</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in deleter&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fset</span><span class="p">,</span> <span class="n">fdel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>然后 Student 类，我们也相应改成如下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="c1"># 其实只有这里改变</span>
+    <span class="nd">@TestProperty</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_math</span>
+
+    <span class="nd">@math</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_math</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Valid value must be in [0, 100]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了尽量让你少产生一点疑惑，我这里做两点说明：</p>
+<ol class="simple">
+<li><p>使用<code class="docutils literal notranslate"><span class="pre">TestProperty</span></code>装饰后，<code class="docutils literal notranslate"><span class="pre">math</span></code> 不再是一个函数，而是<code class="docutils literal notranslate"><span class="pre">TestProperty</span></code> 类的一个实例。所以第二个math函数可以使用 <code class="docutils literal notranslate"><span class="pre">math.setter</span></code> 来装饰，本质是调用<code class="docutils literal notranslate"><span class="pre">TestProperty.setter</span></code> 来产生一个新的 <code class="docutils literal notranslate"><span class="pre">TestProperty</span></code> 实例赋值给第二个<code class="docutils literal notranslate"><span class="pre">math</span></code>。</p></li>
+<li><p>第一个 <code class="docutils literal notranslate"><span class="pre">math</span></code> 和第二个 <code class="docutils literal notranslate"><span class="pre">math</span></code> 是两个不同 <code class="docutils literal notranslate"><span class="pre">TestProperty</span></code> 实例。但他们都属于同一个描述符类（TestProperty），当对 math 对于赋值时，就会进入 <code class="docutils literal notranslate"><span class="pre">TestProperty.__set__</span></code>，当对math 进行取值里，就会进入 <code class="docutils literal notranslate"><span class="pre">TestProperty.__get__</span></code>。仔细一看，其实最终访问的还是Student实例的 <code class="docutils literal notranslate"><span class="pre">_math</span></code> 属性。</p></li>
+</ol>
+<p>说了这么多，还是运行一下，更加直观一点。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行后，会直接打印这一行，这是在实例化 TestProperty 并赋值给第二个math</span>
+<span class="ow">in</span> <span class="n">setter</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s1</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="ow">in</span> <span class="fm">__set__</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s1</span><span class="o">.</span><span class="n">math</span>
+<span class="ow">in</span> <span class="fm">__get__</span>
+<span class="mi">90</span>
+</pre></div>
+</div>
+<p>对于以上理解 <code class="docutils literal notranslate"><span class="pre">property</span></code> 的运行原理有困难的同学，请务必参照我上面写的两点说明。如有其他疑问，可以加微信与我进行探讨。</p>
+</section>
+<section id="staticmethod">
+<h2>4. 基于描述符如何实现staticmethod<a class="headerlink" href="#staticmethod" title="Link to this heading"></a></h2>
+<p>说完了 <code class="docutils literal notranslate"><span class="pre">property</span></code> ，这里再来讲讲  <code class="docutils literal notranslate"><span class="pre">&#64;classmethod</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code> 的实现原理。</p>
+<p>我这里定义了一个类，用了两种方式来实现静态方法。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">myfunc</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+<span class="c1"># 上下两种写法等价</span>
+
+<span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">myfunc</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+    <span class="c1"># 重点：这就是描述符的体现</span>
+    <span class="n">myfunc</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">myfunc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这两种写法是等价的，就好像在 <code class="docutils literal notranslate"><span class="pre">property</span></code> 一样，其实以下两种写法也是等价的。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@TestProperty</span>
+<span class="k">def</span> <span class="nf">math</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_math</span>
+  
+<span class="n">math</span> <span class="o">=</span> <span class="n">TestProperty</span><span class="p">(</span><span class="n">fget</span><span class="o">=</span><span class="n">math</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>话题还是转回到 <code class="docutils literal notranslate"><span class="pre">staticmethod</span></code> 这边来吧。</p>
+<p>由上面的注释，可以看出 <code class="docutils literal notranslate"><span class="pre">staticmethod</span></code> 其实就相当于一个描述符类，而<code class="docutils literal notranslate"><span class="pre">myfunc</span></code> 在此刻变成了一个描述符。关于 <code class="docutils literal notranslate"><span class="pre">staticmethod</span></code> 的实现，你可以参照下面这段我自己写的代码，加以理解。</p>
+<p><img alt="http://image.iswbm.com/20190519001930.png" src="http://image.iswbm.com/20190519001930.png" /></p>
+<p>调用这个方法可以知道，每调用一次，它都会经过描述符类的 <code class="docutils literal notranslate"><span class="pre">__get__</span></code> 。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Test</span><span class="o">.</span><span class="n">myfunc</span><span class="p">()</span>
+<span class="go">in staticmethod __get__</span>
+<span class="go">hello</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Test</span><span class="p">()</span><span class="o">.</span><span class="n">myfunc</span><span class="p">()</span>
+<span class="go">in staticmethod __get__</span>
+<span class="go">hello</span>
+</pre></div>
+</div>
+</section>
+<section id="classmethod">
+<h2>5. 基于描述符如何实现classmethod<a class="headerlink" href="#classmethod" title="Link to this heading"></a></h2>
+<p>同样的 <code class="docutils literal notranslate"> <span class="pre">classmethod</span></code> 也是一样。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">classmethod</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in classmethod __get__&quot;</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">newfunc</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newfunc</span>
+
+<span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">myfunc</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+        
+    <span class="c1"># 重点：这就是描述符的体现</span>
+    <span class="n">myfunc</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">myfunc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>验证结果如下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Test</span><span class="o">.</span><span class="n">myfunc</span><span class="p">()</span>
+<span class="go">in classmethod __get__</span>
+<span class="go">hello</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Test</span><span class="p">()</span><span class="o">.</span><span class="n">myfunc</span><span class="p">()</span>
+<span class="go">in classmethod __get__</span>
+<span class="go">hello</span>
+</pre></div>
+</div>
+<p>讲完了 <code class="docutils literal notranslate"><span class="pre">property</span></code>、<code class="docutils literal notranslate"><span class="pre">staticmethod</span></code>和<code class="docutils literal notranslate"><span class="pre">classmethod</span></code> 与 描述符的关系。我想你应该对描述符在 Python 中的应用有了更深的理解。对于 super 的实现原理，就交由你来自己完成。</p>
+</section>
+<section id="id3">
+<h2>6. 所有实例共享描述符<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>通过以上内容的学习，你是不是觉得自己已经对描述符足够了解了呢？</p>
+<p>可在这里，我想说以上的描述符代码都有问题。</p>
+<p>问题在哪里呢？请看下面这个例子。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Score</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="n">math</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">chinese</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">english</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student math:</span><span class="si">{}</span><span class="s2">, chinese:</span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Student 里没有像前面那样写了构造函数，但是关键不在这儿，没写只是因为没必要写。</p>
+<p>然后来看一下会出现什么样的问题呢</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span> <span class="o">=</span> <span class="n">Student</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span>
+<span class="go">&lt;Student math:0, chinese:0, english:0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="mi">85</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span>
+<span class="go">&lt;Student math:85, chinese:0, english:0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std2</span> <span class="o">=</span> <span class="n">Student</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std2</span> <span class="c1"># std2 居然共享了std1 的属性值</span>
+<span class="go">&lt;Student math:85, chinese:0, english:0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std2</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std1</span> <span class="c1"># std2 也会改变std1 的属性值</span>
+<span class="go">&lt;Student math:100, chinese:0, english:0&gt;</span>
+</pre></div>
+</div>
+<p>从结果上来看，std2 居然共享了 std1 的属性值，只要其中一个实例的变量发生改变，另一个实例的变量也会跟着改变。</p>
+<p>探其根因，是由于此时 math，chinese，english 三个全部是类变量，导致 std2 和 std1 在访问 math，chinese，english 这三个变量时，其实都是访问类变量。</p>
+<p>问题是不是来了？小明和小强的分数怎么可能是绑定的呢？这很明显与实际业务不符。</p>
+<p>使用描述符给我们制造了便利，却无形中给我们带来了麻烦，难道这也是描述符的特性吗？</p>
+<p>描述符是个很好用的特性，会出现这个问题，是由于我们之前写的描述符代码都是错误的。</p>
+<p>描述符的机制，在我看来，只是抢占了访问顺序，而具体的逻辑却要因地制宜，视情况而定。</p>
+<p>如果要把 math，chinese，english  这三个变量变成实例之间相互隔离的属性，应该这么写。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Score</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">subject</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="n">math</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="s2">&quot;math&quot;</span><span class="p">)</span>
+    <span class="n">chinese</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="s2">&quot;chinese&quot;</span><span class="p">)</span>
+    <span class="n">english</span> <span class="o">=</span> <span class="n">Score</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">math</span><span class="p">,</span> <span class="n">chinese</span><span class="p">,</span> <span class="n">english</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">math</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span> <span class="o">=</span> <span class="n">chinese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">english</span> <span class="o">=</span> <span class="n">english</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Student math:</span><span class="si">{}</span><span class="s2">, chinese:</span><span class="si">{}</span><span class="s2">, english:</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chinese</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">english</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>引导程序逻辑进入描述符之后，不管你是获取属性，还是设置属性，都是直接作用于 instance 的。</p>
+<p><img alt="http://image.iswbm.com/20200812085823.png" src="http://image.iswbm.com/20200812085823.png" /></p>
+<p>这段代码，你可以仔细和前面的对比一下。</p>
+<p>不难看出：</p>
+<ul class="simple">
+<li><p>之前的错误代码，更像是把描述符当做了存储节点。</p></li>
+<li><p>之后的正确代码，则是把描述符直接当做代理，本身不存储值。</p></li>
+</ul>
+<p>以上便是我对描述符的全部分享，希望能对你有所帮助。</p>
+</section>
+<section id="id4">
+<h2>参考文档<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pyzh.readthedocs.io/en/latest/Descriptor-HOW-TO-Guide.html#python">Python描述器引导(翻译)</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="10.html" class="btn btn-neutral float-left" title="【进阶】神奇的元类编程（metaclass）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="2.html" class="btn btn-neutral float-right" title="【基础】静态方法与类方法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】腐蚀与膨胀 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】开运算与闭运算" href="3.html" />
+    <link rel="prev" title="【定义】形态学操作" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【定义】形态学操作</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】腐蚀与膨胀</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 腐蚀</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">腐蚀操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">程序演示</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">2. 膨胀</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">膨胀操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">程序演示</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】开运算与闭运算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】形态学梯度运算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】礼帽运算与黑帽运算</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../D.html">第4章：图像形态学处理</a></li>
+      <li class="breadcrumb-item active">【基础】腐蚀与膨胀</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i4/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】腐蚀与膨胀<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 腐蚀<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>腐蚀操作<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>腐蚀是最基本的形态学操作之一，它能够<strong>将图像的边界点消除，使图像沿着边界向内收缩，也可以将小于指定结构体元素的部分去除</strong>。</p>
+<p>腐蚀用来“收缩”或者“细化”二值图像中的<strong>前景</strong>，借此实现去除噪声、元素分割等功能。例如，在下图中，左图是原始图像，右图是对其腐蚀的处理结果。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/23e1935975e6a4b112bed543c18eaa87.png" /></p>
+<p>在腐蚀过程中，通常使用一个<strong>结构元</strong>来逐个像素地扫描要被腐蚀的图像，并根据结构元和被腐蚀图像的关系来确定腐蚀结果。</p>
+<p>例如，在下图中，整幅图像的背景色是黑色的，前景对象是一个白色的圆形。图像左上角的深色小方块是遍历图像所使用的结构元。在腐蚀过程中，要将该结构元逐个像素地遍历整幅图像，并根据结构元与被腐蚀图像的关系，来确定腐蚀结果图像中对应结构元中心点位置的像素点的值。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/4eed07732dfb7490f043e22918360ec7.png" /></p>
+<p>需要注意的是，腐蚀操作等形态学操作是逐个像素地来决定值的，每次判定的点都是与结构元中心点所对应的点。</p>
+<p>下图中的两幅图像表示结构元与前景色的两种不同关系。根据这两种不同的关系来决定，腐蚀结果图像中的结构元中心点所对应位置像素点的像素值。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/51f2568ee7a91693a47d7a8c3d2a8ebb.png" /></p>
+<p>● 如果结构元完全处于前景图像中（左图），就将结构元中心点所对应的腐蚀结果图像中的像素点处理为前景色。</p>
+<p>● 如果结构元未完全处于前景图像中（可能部分在，也可能完全不在，右图），就将结构元中心点对应的腐蚀结果图像中的像素点处理为背景色。</p>
+<p>针对上图，腐蚀的结果就是前景色的白色圆直径变小，上述结构元也被称为<strong>核</strong>。</p>
+</section>
+<section id="id4">
+<h3>程序演示<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>在openCV中，使用函数<code class="docutils literal notranslate"><span class="pre">cv2.erode()</span></code>实现腐蚀操作，其语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[,</span> <span class="n">dst</span><span class="p">[,</span> <span class="n">anchor</span><span class="p">[,</span> <span class="n">iterations</span><span class="p">[,</span> <span class="n">borderType</span><span class="p">[,</span> <span class="n">borderValue</span><span class="p">]]]]])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dst</span></code>：腐蚀后所输出的目标图像，该图像和原始图像具有同样的类型和大小</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>：需要进行腐蚀的原始图像</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel</span></code>：腐蚀操作时所采用的结构类型。它可以自定义生成，也可以通过函数<code class="docutils literal notranslate"><span class="pre">cv2.getStructuringElement()</span></code>生成</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">anchor</span></code>：element结构中锚点的位置。该值默认为(-1, -1)，在核的中心位置</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iterations</span></code>：腐蚀操作迭代的次数，该值默认为1，即只进行一次腐蚀操作</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">borderType</span></code>：代表边界样式，一般采用其默认值<code class="docutils literal notranslate"><span class="pre">BORDER_CONSTANT</span></code></p></li>
+</ul>
+<p><strong>下面使用数组演示腐蚀的基本原理：</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">image</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">erosion</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;image = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> kernel = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">kernel</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> erosion = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">erosion</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>运行结果如下图所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/0f323095c9b9d192fb6f444732b5deac.png" /></p>
+<p>可以看到，只有当核kernel的中心点位于image中的<code class="docutils literal notranslate"><span class="pre">image[2,1]</span></code>、<code class="docutils literal notranslate"><span class="pre">image[2,2]</span></code>、<code class="docutils literal notranslate"><span class="pre">image[2,3]</span></code>处时，核才完全处于前景图像中。所以，在腐蚀结果图像中，只有这三个点的值为1，其余点的值皆为0。</p>
+<p><strong>程序演示：对图像进行腐蚀操作</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;my_name.jpg&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">erosion</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">image_stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">image</span><span class="p">,</span> <span class="n">erosion</span><span class="p">))</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;image_stack&#39;</span><span class="p">,</span> <span class="n">image_stack</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>经过腐蚀操作后，其结果如下图所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/c071250137f214269e4bc3c77dc70295.png" /></p>
+<p>其中，左图为原始图像，右图有腐蚀后的图像，可以看到腐蚀操作将原始图像内的毛刺腐蚀掉了。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2>2. 膨胀<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>膨胀操作<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>膨胀操作是形态学中另外一种基本的操作。膨胀操作和腐蚀操作的作用是<strong>相反</strong>的，<strong>膨胀操作能对图像的边界进行扩张</strong>。膨胀操作将与当前对象（前景）接触到的背景点合并到当前对象内，从而实现<strong>将图像的边界点向外扩张</strong>。如果图像内两个对象的距离较近，那么在膨胀的过程中，两个对象可能会连通在一起。膨胀操作对填补图像分割后图像内所存在的空白相当有帮助。二值图像的膨胀示例如下图所示。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/38039e7eb92a2c9d67d76d4e0375278f.png" /></p>
+<p>同腐蚀过程一样，在膨胀过程中，也是使用一个结构元来逐个像素地扫描要被膨胀的图像，并根据结构元和待膨胀图像的关系来确定膨胀结果。</p>
+<p>例如，在下图中，整幅图像的背景色是黑色的，前景对象是一个白色的圆形。图像左上角的深色小块表示遍历图像所使用的结构元。在膨胀过程中，要将该结构元逐个像素地遍历整幅图像，并根据结构元与待膨胀图像的关系，来确定膨胀结果图像中与结构元中心点对应位置像素点的值。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/4eed07732dfb7490f043e22918360ec7.png" /></p>
+<p>下图中的两幅图像代表结构元与前景色的两种不同关系。根据这两种不同关系来决定膨胀结果图像中，与结构元中心像素重合的点的像素值。</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/51f2568ee7a91693a47d7a8c3d2a8ebb.png" /></p>
+<ul class="simple">
+<li><p>如果结构元中任意一点处于前景图像中，就将膨胀结果图像中对应像素点处理为前景色。</p></li>
+<li><p>如果结构元完全处于背景图像外，就将膨胀结果图像中对应像素点处理为背景色。</p></li>
+</ul>
+<p>针对上图中的图像，膨胀的结果就是前景对象的白色圆直径变大。</p>
+</section>
+<section id="id7">
+<h3>程序演示<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>在openCV中，使用函数<code class="docutils literal notranslate"><span class="pre">cv2.dilate()</span></code>实现膨胀操作，其语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">kernel</span><span class="p">[,</span> <span class="n">dst</span><span class="p">[,</span> <span class="n">anchor</span><span class="p">[,</span> <span class="n">iterations</span><span class="p">[,</span> <span class="n">borderType</span><span class="p">[,</span> <span class="n">borderValue</span><span class="p">]]]]])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dst</span></code>：膨胀后所输出的目标图像，该图像和原始图像具有同样的类型和大小</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>：需要进行膨胀的原始图像</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel</span></code>：膨胀操作时所采用的结构类型。它可以自定义生成，也可以通过函数<code class="docutils literal notranslate"><span class="pre">cv2.getStructuringElement()</span></code>生成</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">anchor</span></code>：element结构中锚点的位置。该值默认为(-1, -1)，在核的中心位置</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iterations</span></code>：膨胀操作迭代的次数，该值默认为1，即只进行一次膨胀操作</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">borderType</span></code>：代表边界样式，一般采用其默认值<code class="docutils literal notranslate"><span class="pre">BORDER_CONSTANT</span></code></p></li>
+</ul>
+<p><strong>下面使用数组演示膨胀的基本原理：</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">image</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">dilate</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;image = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> kernel = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">kernel</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> dilate = </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">dilate</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>运行结果如下图所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/e7983a99e7422ec7b62806150c1a8d3b.png" /></p>
+<p>可以看到，只要当核kernel的任意一点处于前景图像中时，就将当前中心点所对应的膨胀结果图像内像素点的值置为1。</p>
+<p><strong>程序演示：对图像进行腐蚀操作</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;my_name.jpg&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">dilate</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">image_stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">image</span><span class="p">,</span> <span class="n">dilate</span><span class="p">))</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;image_stack&#39;</span><span class="p">,</span> <span class="n">image_stack</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>经过膨胀操作后，其结果如下图所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/610db6e8f59bb013c5d2f99e8d24fe23.png" /></p>
+<p>其中，左图为原始图像，右图有膨胀后的图像，可以看到膨胀操作将原始图像“变粗”了。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【定义】形态学操作" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】开运算与闭运算" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

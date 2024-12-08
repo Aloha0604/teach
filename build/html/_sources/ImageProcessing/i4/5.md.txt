@@ -1,0 +1,75 @@
+# 【基础】礼帽运算与黑帽运算
+
+## 1. 礼帽运算
+
+礼帽运算是**用原始图像减去其开运算图像的操作**。礼帽运算能够获取图像的噪声信息，或者得到比原始图像的边缘更亮的边缘信息。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/e61bc39f4cb32348153557a484ee2700.png)
+
+如上图所示，左图为原始图像，右图为原始图像减开运算图像所得到的礼帽图像。
+
+从上图可以看到，礼帽运算使用原始图像减开运算图像得到礼帽图像，礼帽图像是原始图像中的噪声信息。
+
+通过将函数`cv2.morphologyEx()`中操作类型参数`op`设置为`cv2.MORPH_TOPHAT`，可以实现礼帽运算。其语法结构如下：
+
+```python
+tophat = morphologyEx(image, cv2.MORPH_TOPHAT, kernel)
+```
+
+**程序演示**：
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('cv.jpg', cv2.IMREAD_GRAYSCALE)
+
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+tophat = cv2.morphologyEx(image, cv2.MORPH_TOPHAT, kernel)
+
+cv2.imshow('image, tophat', np.hstack((image, tophat)))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+
+
+## 2. 黑帽运算
+
+黑帽运算是**用闭运算图像减去原始图像的操作**。黑帽运算能够获取图像内部的小孔，或前景色中的小黑点，或者得到比原始图像的边缘更暗的边缘部分。例如下图是黑帽运算，
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/565afed297410f836fc6d4780254464a.png)
+
+其中，左图为原始图像，右图是使用闭运算图像减原始图像所得到的黑帽图像。
+
+从上图可以看到，黑帽运算使用闭运算图像减原始图像得到黑帽图像，黑帽图像是原始图像中的小孔（噪声）。
+
+通过将函数`cv2.morphologyEx()`中操作类型参数`op`设置为`cv2.MORPH_BLACKHAT`，可以实现黑帽运算。其语法结构如下：
+
+```python
+blackhat = cv2.morphologyEx(image, cv2.MORPH_BLACKHAT, kernel)
+```
+
+**程序演示**：
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('cv_white.jpg', cv2.IMREAD_GRAYSCALE)
+
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+blackhat = cv2.morphologyEx(image, cv2.MORPH_BLACKHAT, kernel)
+
+cv2.imshow('image, blackhat', np.hstack((image, blackhat)))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+请自行对自定义图像进行测试。

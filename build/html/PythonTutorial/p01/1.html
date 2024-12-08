@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】变量与常量 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】字符串" href="2.html" />
+    <link rel="prev" title="第1章：Python数据类型" href="../p01.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】变量与常量</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 创建变量不需要事先声明类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 变量的赋值、比较</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 先创建变量再使用变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">4. 变量赋值的四种方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">5. 理解变量赋值的背后</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">6. 什么是常量？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】整数 浮点数 复数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】布尔值：真与假</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】输入与输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】格式化输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【基础】Python运算符</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p01.html">第1章：Python数据类型</a></li>
+      <li class="breadcrumb-item active">【基础】变量与常量</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p01/1.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】变量与常量<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p><strong>变量</strong>：在程序运行过程中，值会发生变化的量</p>
+<p><strong>常量</strong>：在程序运行过程中，值不会发生变化的量</p>
+<p>无论是变量还是常量，在创建时都会在内存中开辟一块空间，用于保存它的值。</p>
+<section id="id2">
+<h2>1. 创建变量不需要事先声明类型<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>在Python中，变量和常量不需要事先声明类型。</p>
+<p>例如下面的 <code class="docutils literal notranslate"><span class="pre">age</span></code>  和 <code class="docutils literal notranslate"><span class="pre">name</span></code> 两个变量，在使用前没有进行任何的诸如 <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">age</span></code> 和 <code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">name</span></code> 的类型声明，而这在一些静态语言如 Java 和 C++ 中是不能缺少的。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Will Wang&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>2. 变量的赋值、比较<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在 Python 中，用 <code class="docutils literal notranslate"><span class="pre">=</span></code> 号来给变量赋值，比如下面这个表达式，age 这个变量的值就是 24</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+</pre></div>
+</div>
+<p>与之相似的两个等号 <code class="docutils literal notranslate"><span class="pre">==</span></code> ，它表示的是比较两个值是否相等，如果相等返回 <code class="docutils literal notranslate"><span class="pre">True</span></code>，如果不相等则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">==</span> <span class="mi">24</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">==</span> <span class="mi">25</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>3. 先创建变量再使用变量<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>每个变量在使用前都必须赋值，变量赋值以后才会被创建。</p>
+<p>新的变量通过赋值的动作，创建并开辟内存空间，保存值。</p>
+<p>如果没有赋值而直接使用，会抛出变量未定义的异常。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">age</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">NameError</span>: <span class="n">name &#39;age&#39; is not defined</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span>
+<span class="go">24</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>4. 变量赋值的四种方式<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>赋值的4种方式</p>
+<p>第1种：单个直接赋值</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span>
+<span class="go">24</span>
+</pre></div>
+</div>
+<p>第2种：多个批量赋值</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>第3种：先计算再赋值</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 先计算 23 + 1，再把结果赋值给age</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">23</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">age</span>
+<span class="mi">24</span>
+</pre></div>
+</div>
+<p>第4种：分别赋值（注意逗号，与第2种赋值方式区分开来）</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>5. 理解变量赋值的背后<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>理解变量在计算机内存中的表示：</p>
+<p>当我们写：<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">&quot;TYUT&quot;</span></code> 时，Python解释器干了两件事情：</p>
+<ol class="simple">
+<li><p>在内存中创建了一个<code class="docutils literal notranslate"><span class="pre">'TYUT'</span></code>的<strong>字符串对象</strong>；</p></li>
+<li><p>在内存中创建了一个名为 <strong>a</strong> 的变量，并把它指向 <code class="docutils literal notranslate"><span class="pre">'TYUT'</span></code>。</p></li>
+</ol>
+<p>而当你把一个变量 <strong>a</strong> 赋值给另一个变量 <strong>b</strong>，这个操作实际上是将变量 <strong>b</strong> 指向变量 <strong>a</strong> 所指向的数据，例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;TYUT&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&#39;TYUT&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">&#39;TYUT&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">2527101022576</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">2527101022576</span>
+</pre></div>
+</div>
+<p>通过 <code class="docutils literal notranslate"><span class="pre">id()</span></code> 可以查看变量值的内存地址，打印出来的 a 和 b的内存地址是一样的，因此二者其实是一个数据。</p>
+<p>但如果继续对 a 进行赋值其他值， 会发现 a 的内存地址变了，而 b 的并没有变</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;THU&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&#39;THU&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">2527101024368</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">2527101022576</span>
+</pre></div>
+</div>
+<p>注意：<strong>Python中的一切都是对象，变量是对象的引用！</strong></p>
+<ul class="simple">
+<li><p>执行<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">&quot;TYUT&quot;</span></code>，解释器创建 <code class="docutils literal notranslate"><span class="pre">TYUT</span></code> 字符串对象和<code class="docutils literal notranslate"><span class="pre">变量</span> <span class="pre">a</span></code>，并把 a 指向 <code class="docutils literal notranslate"><span class="pre">TYUT</span></code> 字符串对象；</p></li>
+<li><p>执行<code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">=</span> <span class="pre">a</span></code>，解释器创建<code class="docutils literal notranslate"><span class="pre">变量b</span></code>，并且将其指向<code class="docutils literal notranslate"><span class="pre">变量a</span></code>指向的<code class="docutils literal notranslate"><span class="pre">TYUT</span></code>字符串对象；</p></li>
+<li><p>执行<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">&quot;THU&quot;</span></code>，解释器创建<code class="docutils literal notranslate"><span class="pre">THU</span></code>字符串对象，并把 a 改为指向<code class="docutils literal notranslate"><span class="pre">THU</span></code>字符串对象，与b无关。</p></li>
+</ul>
+</section>
+<section id="id7">
+<h2>6. 什么是常量？<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>常量就是<strong>不变的变量</strong>，比如常用的数学常数圆周率就是一个常量。</p>
+<p>在Python中，通常<strong>用全部大写的变量名表示常量</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PI</span> <span class="o">=</span> <span class="mf">3.14159265359</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PI</span>
+<span class="go">3.14159265359</span>
+</pre></div>
+</div>
+<p>事实上，从Python语法角度看，PI仍然是一个变量，因为Python根本没有任何机制保证PI不会被改变。</p>
+<p>你完全可以给PI赋值为1或者2等等，也不会弹出任何错误。</p>
+<p>所以，用全部大写的变量名表示常量，只是一个习惯上的用法，用以区分与变量的不同。</p>
+<p>常量通常放置在代码的最上部，并作为全局使用。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../p01.html" class="btn btn-neutral float-left" title="第1章：Python数据类型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="2.html" class="btn btn-neutral float-right" title="【基础】字符串" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

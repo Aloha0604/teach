@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】理解查找器与加载器 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】实现远程导入模块" href="11.html" />
+    <link rel="prev" title="【基础】什么是包、模块和库？" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】什么是包、模块和库？</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】理解查找器与加载器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 查找器是什么？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 加载器是什么？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 模块规格说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">4. 导入器是什么？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】实现远程导入模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12.html">【基础】分发工具：distutils和setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13.html">【基础】源码包与二进制包有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14.html">【基础】eggs与wheels 有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15.html">【进阶】超详细讲解 setup.py 的编写</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16.html">【进阶】打包辅助神器 PBR 是什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17.html">【进阶】开源自己的包到 PYPI 上</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】安装第三方包的八种方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】导入单元的构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】导入包的标准写法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【进阶】常规包与空间命名包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【进阶】花式导包的八种方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】包导入的三个冷门知识点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】pip 的超全使用指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】理解模块的缓存</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p06.html">第6章：Python包与模块</a></li>
+      <li class="breadcrumb-item active">【进阶】理解查找器与加载器</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p06/10.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】理解查找器与加载器<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>如果指定名称的模块在 <code class="docutils literal notranslate"><span class="pre">sys.modules</span></code> 找不到，则将发起调用 Python 的导入协议以查找和加载该模块。</p>
+<p>此协议由两个概念性模块构成，即 <code class="docutils literal notranslate"><span class="pre">查找器</span></code> 和 <code class="docutils literal notranslate"><span class="pre">加载器</span></code>。</p>
+<p>一个 Python 的模块的导入，其实可以再细分为两个过程：</p>
+<ol class="simple">
+<li><p>由查找器实现的模块查找</p></li>
+<li><p>由加载器实现的模块加载</p></li>
+</ol>
+<section id="id2">
+<h2>1. 查找器是什么？<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>查找器（finder），简单点说，查找器定义了一个模块查找机制，让程序知道该如何找到对应的模块。</p>
+<p>其实 Python 内置了多个默认查找器，其存在于 sys.meta_path 中。</p>
+<p>但这些查找器对应使用者来说，并不是那么重要，因此在 Python 3.3 之前， Python 解释将其隐藏了，我们称之为隐式查找器。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Python 2.7</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span>
+<span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> 
+</pre></div>
+</div>
+<p>由于这点不利于开发者深入理解 import 机制，在 Python 3.3 后，所有的模块导入机制都会通过 sys.meta_path 暴露，不会在有任何隐式导入机制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Python 3.6</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="p">)</span>
+<span class="p">[</span><span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">_frozen_importlib</span><span class="o">.</span><span class="n">BuiltinImporter</span><span class="s1">&#39;&gt;,</span>
+ <span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">_frozen_importlib</span><span class="o">.</span><span class="n">FrozenImporter</span><span class="s1">&#39;&gt;,</span>
+ <span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">_frozen_importlib_external</span><span class="o">.</span><span class="n">PathFinder</span><span class="s1">&#39;&gt;]</span>
+</pre></div>
+</div>
+<p>观察一下 Python 默认的这几种查找器 （finder），可以分为三种：</p>
+<ul class="simple">
+<li><p>一种知道如何导入内置模块</p></li>
+<li><p>一种知道如何导入冻结模块</p></li>
+<li><p>一种知道如何导入来自 <a class="reference external" href="https://docs.python.org/zh-cn/3/glossary.html#term-import-path">import path</a> 的模块 (即 <a class="reference external" href="https://docs.python.org/zh-cn/3/glossary.html#term-path-based-finder">path based finder</a>)。</p></li>
+</ul>
+<p>那我们能不能自已定义一个查找器呢？当然可以，你只要</p>
+<ul class="simple">
+<li><p>定义一个实现了 find_module 方法的类（py2和py3均可），或者实现 find_loader 类方法（仅 py3 有效），如果找到模块需要返回一个 loader 对象或者 ModuleSpec 对象（后面会讲），没找到需要返回 None</p></li>
+<li><p>定义完后，要使用这个查找器，必须注册它，将其插入在 sys.meta_path 的首位，这样就能优先使用。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">class</span> <span class="nc">MyFinder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">find_module</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Importing&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="c1"># 将在后面定义</span>
+        <span class="k">return</span> <span class="n">MyLoader</span><span class="p">()</span>
+
+<span class="c1"># 由于 finder 是按顺序读取的，所以必须插入在首位</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MyFinder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>查找器可以分为两种：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>object
+<span class="w"> </span>+--<span class="w"> </span>Finder<span class="w"> </span><span class="o">(</span>deprecated<span class="o">)</span>
+<span class="w">      </span>+--<span class="w"> </span>MetaPathFinder
+<span class="w">      </span>+--<span class="w"> </span>PathEntryFinder
+</pre></div>
+</div>
+<p>这里需要注意的是，在 3.4 版前，查找器会直接返回 加载器（Loader）对象，而在 3.4 版后，查找器则会返回模块规格说明（ModuleSpec），其中 包含加载器。</p>
+<p>而关于什么是 加载器 和 模块规格说明， 请继续往后看。</p>
+</section>
+<section id="id3">
+<h2>2. 加载器是什么？<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>查找器只负责查找定位找模，而真正负责加载模块的，是加载器（loader）。</p>
+<p>一般的 loader 必须定义名为 <code class="docutils literal notranslate"><span class="pre">load_module()</span></code> 的方法。</p>
+<p>为什么这里说一般，因为 loader 还分多种：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>object
+<span class="w"> </span>+--<span class="w"> </span>Finder<span class="w"> </span><span class="o">(</span>deprecated<span class="o">)</span>
+<span class="w"> </span><span class="p">|</span><span class="w">    </span>+--<span class="w"> </span>MetaPathFinder
+<span class="w"> </span><span class="p">|</span><span class="w">    </span>+--<span class="w"> </span>PathEntryFinder
+<span class="w"> </span>+--<span class="w"> </span>Loader
+<span class="w">      </span>+--<span class="w"> </span>ResourceLoader<span class="w"> </span>--------+
+<span class="w">      </span>+--<span class="w"> </span>InspectLoader<span class="w">          </span><span class="p">|</span>
+<span class="w">           </span>+--<span class="w"> </span>ExecutionLoader<span class="w"> </span>--+
+<span class="w">                                 </span>+--<span class="w"> </span>FileLoader
+<span class="w">                                 </span>+--<span class="w"> </span>SourceLoader
+</pre></div>
+</div>
+<p>通过查看源码可知，不同的加载器的抽象方法各有不同。</p>
+<p>加载器通常由一个 finder 返回。详情参见 PEP 302，对于 abstract base class 可参见 importlib.abc.Loader。</p>
+<p>那如何自定义我们自己的加载器呢？</p>
+<p>你只要</p>
+<ul class="simple">
+<li><p>定义一个实现了 load_module 方法的类</p></li>
+<li><p>对与导入有关的属性（<a class="reference external" href="https://docs.python.org/zh-cn/3/reference/import.html#import-related-module-attributes">点击查看详情</a>）进行校验</p></li>
+<li><p>创建模块对象并绑定所有与导入相关的属性变量到该模块上</p></li>
+<li><p>将此模块保存到 sys.modules 中（顺序很重要，避免递归导入）</p></li>
+<li><p>然后加载模块（这是核心）</p></li>
+<li><p>若加载出错，需要能够处理抛出异常（ ImportError）</p></li>
+<li><p>若加载成功，则返回 module 对象</p></li>
+</ul>
+<p>若你想看具体的例子，可以接着往后看。</p>
+</section>
+<section id="id4">
+<h2>3. 模块规格说明<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>导入机制在导入期间会使用有关每个模块的多种信息，特别是加载之前。 大多数信息都是所有模块通用的。 模块规格说明的目的是基于每个模块来封装这些导入相关信息。</p>
+<p>模块的规格说明会作为模块对象的 <code class="docutils literal notranslate"><span class="pre">__spec__</span></code> 属性对外公开。 有关模块规格的详细内容请参阅 <a class="reference external" href="https://docs.python.org/zh-cn/3/library/importlib.html#importlib.machinery.ModuleSpec"><code class="docutils literal notranslate"><span class="pre">ModuleSpec</span></code></a>。</p>
+<p>在 Python 3.4 后，查找器不再返回加载器，而是返回 ModuleSpec 对象，它储存着更多的信息</p>
+<ul class="simple">
+<li><p>模块名</p></li>
+<li><p>加载器</p></li>
+<li><p>模块绝对路径</p></li>
+</ul>
+<p>那如何查看一个模块的 ModuleSpec ？</p>
+<p>这边举个例子</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cat<span class="w"> </span>my_mod02.py
+import<span class="w"> </span>my_mod01
+print<span class="o">(</span>my_mod01.__spec__<span class="o">)</span>
+
+$<span class="w"> </span>python3<span class="w"> </span>my_mod02.py
+<span class="k">in</span><span class="w"> </span>mod01
+ModuleSpec<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;my_mod01&#39;</span>,<span class="w"> </span><span class="nv">loader</span><span class="o">=</span>&lt;_frozen_importlib_external.SourceFileLoader<span class="w"> </span>object<span class="w"> </span>at<span class="w"> </span>0x000000000392DBE0&gt;,<span class="w"> </span><span class="nv">origin</span><span class="o">=</span><span class="s1">&#39;/home/WillWang/my_mod01.py&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>从 ModuleSpec 中可以看到，加载器是包含在内的，那我们如果要重新加载一个模块，是不是又有了另一种思路了？</p>
+<p>来一起验证一下。</p>
+<p>现在有两个文件：</p>
+<p>一个是 my_info.py</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_info.py</span>
+<span class="n">name</span><span class="o">=</span><span class="s1">&#39;WillWang&#39;</span>
+</pre></div>
+</div>
+<p>另一个是：main.py</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">import</span> <span class="nn">my_info</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">my_info</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># 加一个断点</span>
+<span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span><span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+
+<span class="c1"># 再加载一次</span>
+<span class="n">my_info</span><span class="o">.</span><span class="n">__spec__</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">my_info</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在 <code class="docutils literal notranslate"><span class="pre">main.py</span></code> 处，我加了一个断点，目的是当运行到断点处时，我修改 my_info.py 里的 name 为 <code class="docutils literal notranslate"><span class="pre">WillWang</span></code> ，以便验证重载是否有效？</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>main.py
+WillWang
+&gt;<span class="w"> </span>/home/WillWang/main.py<span class="o">(</span><span class="m">9</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>my_info.__spec__.loader.load_module<span class="o">()</span>
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>c
+WillWang
+</pre></div>
+</div>
+<p>从结果来看，重载是有效的。</p>
+</section>
+<section id="id5">
+<h2>4. 导入器是什么？<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>导入器（importer），也许你在其他文章里会见到它，但其实它并不是个新鲜的东西。</p>
+<p>它只是同时实现了查找器和加载器两种接口的对象，所以你可以说导入器（importer）是查找器（finder），也可以说它是加载器（loader）。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】什么是包、模块和库？" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="11.html" class="btn btn-neutral float-right" title="【进阶】实现远程导入模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

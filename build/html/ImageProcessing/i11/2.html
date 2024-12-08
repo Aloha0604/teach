@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】绘图基础 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】鼠标交互" href="3.html" />
+    <link rel="prev" title="【定义】绘图与交互概述" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../K.html">第11章：绘图与交互</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【定义】绘图与交互概述</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】绘图基础</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 绘制直线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 绘制矩形</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 绘制圆形</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">4. 绘制椭圆</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">5. 绘制多边形</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">6. 绘制文字</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】鼠标交互</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】滚动条</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../K.html">第11章：绘图与交互</a></li>
+      <li class="breadcrumb-item active">【基础】绘图基础</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i11/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】绘图基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>OpenCV提供了绘制直线的函数<code class="docutils literal notranslate"><span class="pre">cv2.line()</span></code>、绘制矩形的函数<code class="docutils literal notranslate"><span class="pre">cv2.rectangle()</span></code>、绘制圆的函数<code class="docutils literal notranslate"><span class="pre">cv2.circle()</span></code>、绘制椭圆的函数<code class="docutils literal notranslate"><span class="pre">cv2.ellipse()</span></code>、绘制多边形的函数<code class="docutils literal notranslate"><span class="pre">cv2.polylines()</span></code>、在图像内添加文字的函数<code class="docutils literal notranslate"><span class="pre">cv2.putText()</span></code>等多种绘图函数。</p>
+<p>这些绘图函数有一些共有的参数，主要用于设置源图像、颜色、线条属性等，下面对这些共有参数做简单的介绍。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">img</span></code>：在其上面绘制图形的载体图像（绘图的容器载体，也称为画布、画板）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color</span></code>：绘制形状的颜色。通常使用BGR模型表示颜色，例如，(0, 0, 255)表示红色。对于灰度图像，只能传入灰度值。需要注意，颜色通道的顺序是BGR，而不是RGB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thickness</span></code>：线条的粗细。默认值是<code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lineType</span></code>：线条的类型，默认是8连接类型。<code class="docutils literal notranslate"><span class="pre">lineType</span></code>参数的值及说明如下表：</p></li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: left;">参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>cv2.FILLED</code></td>
+<td>填充</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.LINE_4</code></td>
+<td>4连接类型</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.LINE_8</code></td>
+<td>8连接类型</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cv2.LINE_AA</code></td>
+<td>抗锯齿，让线条更平滑</td>
+</tr>
+</tbody>
+</table><section id="id2">
+<h2>1. 绘制直线<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.line()</span></code>用来绘制直线（线段）。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">img</span></code>,<code class="docutils literal notranslate"><span class="pre">color</span></code>,<code class="docutils literal notranslate"><span class="pre">thickness</span></code>,<code class="docutils literal notranslate"><span class="pre">lineType</span></code>如上所述</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pt1</span></code>：线段起点</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pt2</span></code>：线段终点</p></li>
+</ul>
+<p><strong>程序演示</strong>：</p>
+<p>使用<code class="docutils literal notranslate"><span class="pre">cv2.line()</span></code>函数在一个黑色背景图像内绘制三条线段：</p>
+<img src="https://pic.rmb.bdstatic.com/bjh/8fd9ea392d7db23ef0c98690eed58159.png" alt="image.png" style="zoom:80%;" /><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;cv2.line()&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>2. 绘制矩形<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.rectangle()</span></code>用来绘制矩形。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● pt1为矩形顶点。</p>
+<p>● pt2为矩形中与pt1对角的顶点。</p>
+<p><strong>程序演示</strong>：</p>
+<p>使用函数<code class="docutils literal notranslate"><span class="pre">cv2.rectangle()</span></code>在一个白色背景图像内绘制一个实心矩形</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;cv2.rectangle()&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://pic.rmb.bdstatic.com/bjh/95c052f049ce39f7942fdc2e049220ab.png" alt="image.png" style="zoom:67%;" /></section>
+<section id="id4">
+<h2>3. 绘制圆形<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.circle()</span></code>用来绘制圆。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● center为圆心。</p>
+<p>● radius为半径。  [ˈreɪdiəs]</p>
+<p><strong>程序演示</strong>：</p>
+<p>绘制一个圆。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="mi">50</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="mi">75</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;cv2.circle()&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://pic.rmb.bdstatic.com/bjh/6ba6d417d5c9d3f5079641432eaf789e.png" alt="image.png" style="zoom: 67%;" /></section>
+<section id="id5">
+<h2>4. 绘制椭圆<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.ellipse()</span></code>用来绘制椭圆。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">startAngle</span><span class="p">,</span> <span class="n">endAngle</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● <code class="docutils literal notranslate"><span class="pre">center</span></code>为椭圆的圆心坐标</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">axes</span></code>为轴的长度，它包含两个变量的元组，分别包含椭圆的长轴和短轴(长轴长度，短轴长度)</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">angle</span></code>椭圆旋转角度，以度为单位。</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">startAngle</span></code>为圆弧起始角的角度</p>
+<p>● <code class="docutils literal notranslate"><span class="pre">endAngle</span></code>为圆弧终结角的角度</p>
+<p><strong>程序演示</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;cv2.ellipse()&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://pic.rmb.bdstatic.com/bjh/667d280f049899d95bd4a129cb71f18f.png" alt="image.png" style="zoom:67%;" /></section>
+<section id="id6">
+<h2>5. 绘制多边形<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.polylines()</span></code>用来绘制多边形。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">polylines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pts</span><span class="p">,</span> <span class="n">isClosed</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">shift</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● pts为多边形的各个顶点</p>
+<p>● isClosed为闭合标记，用来指示多边形是否是封闭的。若该值为True，则将最后一个点与第一个点连接，让多边形闭合；否则，仅仅将各个点依次连接起来，构成一条曲线。</p>
+<p><strong>程序演示</strong></p>
+<p>使用函数<code class="docutils literal notranslate"><span class="pre">cv2.polylines()</span></code>在一个白色背景图像内绘制一个多边形</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">],</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">polylines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="n">pts</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;cv2.polylines()&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://pic.rmb.bdstatic.com/bjh/38fc49c41016b6899bb46df8b835c824.png" alt="image.png" style="zoom:67%;" /></section>
+<section id="id7">
+<h2>6. 绘制文字<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>OpenCV提供了函数<code class="docutils literal notranslate"><span class="pre">cv2.putText()</span></code>用来在图形上绘制文字。该函数的语法格式为：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">org</span><span class="p">,</span> <span class="n">fontFace</span><span class="p">,</span> <span class="n">fontScale</span><span class="p">,</span> <span class="n">color</span><span class="p">[,</span> <span class="n">thickness</span><span class="p">[,</span> <span class="n">lineType</span><span class="p">[,</span> <span class="n">bottomLeftOrigin</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>● text为要绘制的字体。</p>
+<p>● org为绘制字体的位置，以文字的左下角为起点。</p>
+<p>● fontFace表示字体类型，如下表所示：</p>
+<p><img alt="image.png" src="https://pic.rmb.bdstatic.com/bjh/cb69a0e17900493020eb696e9c71a3b1.png" /></p>
+<p>● fontScale表示字体大小。</p>
+<p>● bottomLeftOrigin用于控制文字的方向。默认值为False，当设置为True时，文字是垂直镜像的效果。</p>
+<p><strong>程序演示</strong></p>
+<p>使用函数<code class="docutils literal notranslate"><span class="pre">cv2.putText()</span></code>在一个白色背景图像内绘制文字。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+
+<span class="n">font</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;openCV&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">font</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;openCV&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">font</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;openCV&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">font</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://pic.rmb.bdstatic.com/bjh/a0dfd6e787fb6f2dabd68a893d011241.png" alt="image.png" style="zoom:67%;" /></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【定义】绘图与交互概述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】鼠标交互" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

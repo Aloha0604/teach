@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】openCV实现傅里叶变换 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】低通滤波与高通滤波" href="3.html" />
+    <link rel="prev" title="【基础】" href="1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../M.html">第13章：背景建模</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../N.html">第14章：傅里叶变换</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】openCV实现傅里叶变换</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1.傅里叶变换</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2.逆傅里叶变换</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】低通滤波与高通滤波</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../N.html">第14章：傅里叶变换</a></li>
+      <li class="breadcrumb-item active">【基础】openCV实现傅里叶变换</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ImageProcessing/i14/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="opencv">
+<h1>【基础】openCV实现傅里叶变换<a class="headerlink" href="#opencv" title="Link to this heading"></a></h1>
+<p>openCV提供了函数cv2.dft()和cv2.idft()来实现傅里叶变换和逆傅里叶变换</p>
+<section id="id1">
+<h2>1.傅里叶变换<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><img alt="图片1" src="../../_images/7.jpg" /><br />经过函数cv2.dft()的变换后，得到了原始图像的频谱信息。</p>
+<p>注意：<br />1.对于参数“原始图像”，要首先使用np.float32()函数将图像转换成np.float32格式。<br />2.“转换标识”的值通常为“cv2.DFT_COMPLEX_OUTPUT”，用来输出一个复数阵列。<br />3.函数cv2.dft()返回的结果是双通道的，第1个通道是结果的实数部分，第2个通道是结果的虚数部分。</p>
+<p><img alt="图片1" src="../../_images/8.jpg" /></p>
+<p>该语句将频谱图像dft中的零频率分量移到频谱中心，得到了零频率分量位于中心的频谱图像dftshift。
+经此处理后，频谱图像还只是一个由实部和虚部构成的值。要将其显示出来，还要做进一步的处理。</p>
+<p><img alt="图片1" src="../../_images/9.jpg" /></p>
+<p>函数cv2.magnitude()可以计算频谱信息的幅度。<br />参数1：浮点型x坐标值，也就是实部。<br />参数2：浮点型y坐标值，也就是虚部，它必须和参数1具有相同的size</p>
+<p>函数cv2.magnitude()的返回值是参数1和参数2的平方和的平方根</p>
+<p><img alt="图片1" src="../../_images/10.jpg" /></p>
+<p>得到频谱信息的幅度后，通常还要对幅度值做进一步的转换，以便将频谱信息以图像的形式展示出来。简单来说，就是需要将幅度值映射到灰度图像的灰度空间[0, 255]内，使其以灰度图像的形式显示出来。</p>
+<p>这里使用的公式为：</p>
+<p><img alt="图片1" src="../../_images/11.jpg" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">import</span> <span class="nn">cv2</span>  
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;lena.jpg&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  
+<span class="n">dft</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dft</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">img</span><span class="p">),</span><span class="n">flags</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">DFT_COMPLEX_OUTPUT</span><span class="p">)</span>  
+<span class="n">dftShift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftShift</span><span class="p">(</span><span class="n">dft</span><span class="p">)</span>  
+<span class="n">result</span> <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(</span><span class="n">dftShift</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]))</span> <span class="c1">#两个参数，需要拆分通道  </span>
+</pre></div>
+</div>
+<p>经过上述程序,就实现了傅里叶变换</p>
+<p>可以通过print展示其频谱信息</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dft</span><span class="p">)</span>  
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dftShift</span><span class="p">)</span>  
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>2.逆傅里叶变换<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>在OpenCV中，使用函数cv2.idft()实现逆傅里叶变换，该函数是傅里叶变换函数cv2.dft()的逆函数。其语法格式为：</p>
+<p><img alt="图片1" src="../../_images/14.jpg" /></p>
+<p>注意: 在进行逆傅里叶变换后，得到的值仍旧是复数，需要使用函数cv2.magnitude()计算其幅度。</p>
+<p>用OpenCV函数对图像进行傅里叶变换、逆傅里叶变换，并展示原始图像及经过逆傅里叶变换后得到的图像。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>  
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
+
+<span class="n">img</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;lena.jpg&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  
+<span class="n">dft</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">dft</span><span class="p">(</span><span class="n">img_float32</span><span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">DFT_COMPLEX_OUTPUT</span><span class="p">)</span>  
+<span class="n">dftShift</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftShift</span><span class="p">(</span><span class="n">dft</span><span class="p">)</span>  
+
+<span class="n">ishift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftshift</span><span class="p">(</span><span class="n">dftshift</span><span class="p">)</span>  
+<span class="n">iImg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">idft</span><span class="p">(</span><span class="n">ishift</span><span class="p">)</span>  
+<span class="n">iImg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(</span><span class="n">iImg</span><span class="p">[:,:,:</span><span class="mi">0</span><span class="p">],</span><span class="n">iImg</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#计算幅度  </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">),</span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;original&#39;</span><span class="p">),</span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">),</span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">iImg</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;inverse&#39;</span><span class="p">),</span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="图片1" src="../../_images/16.jpg" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="1.html" class="btn btn-neutral float-left" title="【基础】" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】低通滤波与高通滤波" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

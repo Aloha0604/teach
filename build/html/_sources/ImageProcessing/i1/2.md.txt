@@ -1,0 +1,46 @@
+  # 【基础】视频的读取与显示
+
+所谓视频，就是由大量连续的图像（图像序列）组合而成的，常见的视频格式有`.mp4`、`.mkv`等。
+
+读取视频的大体的思路就是：先判断一下这个视频能否打开，如果能打开就循环读取里面的每一帧数据，也就是每一张图片，之后就可以对每一张图片做一些处理，例如把原视频每一帧灰度化再显示出来：
+
+  ```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+import cv2  # 导入openCV库
+
+vc = cv2.VideoCapture('video.mp4')
+
+# 判断是否能够读取视频
+if vc.isOpened():
+    ret1, frame = vc.read()
+else:
+    ret1 = False
+
+while ret1:
+    ret2, frame = vc.read()
+
+    if frame is None:
+        break
+
+    if ret2:
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # 将每一帧原始图像都转化为灰度图
+        cv2.imshow('result', gray)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+
+# 最后记得释放资源
+vc.release()
+cv2.destroyAllWindows()
+
+  ```
+
+运行结果就是将经过处理的图像实时显示在窗口上，直到视频结束：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/d11db055373a83413b04459e6c2bf60a.png)
+
+原视频是彩色的，不过我们对每一帧进行了灰度处理，所以看到的截图是灰色的。
+
+当然你也可以进行其他很多操作，下面的章节我们会继续讲解。

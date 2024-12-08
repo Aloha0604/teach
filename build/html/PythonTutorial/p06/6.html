@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【进阶】花式导包的八种方法 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【进阶】包导入的三个冷门知识点" href="7.html" />
+    <link rel="prev" title="【进阶】常规包与空间命名包" href="5.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】什么是包、模块和库？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】理解查找器与加载器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11.html">【进阶】实现远程导入模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12.html">【基础】分发工具：distutils和setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13.html">【基础】源码包与二进制包有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14.html">【基础】eggs与wheels 有什么区别？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15.html">【进阶】超详细讲解 setup.py 的编写</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16.html">【进阶】打包辅助神器 PBR 是什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17.html">【进阶】开源自己的包到 PYPI 上</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】安装第三方包的八种方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】导入单元的构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】导入包的标准写法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【进阶】常规包与空间命名包</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【进阶】花式导包的八种方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#import">1. 直接 import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2. 使用 _<em>import</em>_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importlib">3. 使用 importlib 模块</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imp">4. 使用 imp 模块</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#execfile">5. 使用 execfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exec">6. 使用 exec 执行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-from-github-com">7. import_from_github_com</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">8. 远程导入模块</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】包导入的三个冷门知识点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】pip 的超全使用指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】理解模块的缓存</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p06.html">第6章：Python包与模块</a></li>
+      <li class="breadcrumb-item active">【进阶】花式导包的八种方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p06/6.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【进阶】花式导包的八种方法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="import">
+<h2>1. 直接 import<a class="headerlink" href="#import" title="Link to this heading"></a></h2>
+<p>人尽皆知的方法，直接导入即可</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+<p>与此类似的还有，不再细讲</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">...</span>
+<span class="kn">import</span> <span class="nn">...</span> <span class="k">as</span> <span class="nn">...</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="o">...</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="o">...</span> <span class="k">as</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>一般情况下，使用 <code class="docutils literal notranslate"><span class="pre">import</span></code> 语句导入模块已经够用的。</p>
+<p>但是在一些特殊场景中，可能还需要其他的导入方式。</p>
+<p>下面我会一一地给你介绍。</p>
+</section>
+<section id="id2">
+<h2>2. 使用 _<em>import</em>_<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">__import__</span></code> 函数可用于导入模块，import 语句也会调用函数。其定义为：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">__import__</span><span class="p">(</span><span class="n">name</span><span class="p">[,</span> <span class="nb">globals</span><span class="p">[,</span> <span class="nb">locals</span><span class="p">[,</span> <span class="n">fromlist</span><span class="p">[,</span> <span class="n">level</span><span class="p">]]]])</span>
+</pre></div>
+</div>
+<p>参数介绍：</p>
+<ul class="simple">
+<li><p>name (required): 被加载 module 的名称</p></li>
+<li><p>globals (optional): 包含全局变量的字典，该选项很少使用，采用默认值 global()</p></li>
+<li><p>locals (optional): 包含局部变量的字典，内部标准实现未用到该变量，采用默认值 - local()</p></li>
+<li><p>fromlist (Optional): 被导入的 submodule 名称</p></li>
+<li><p>level (Optional): 导入路径选项，Python 2 中默认为 -1，表示同时支持 absolute import 和 relative import。Python 3 中默认为 0，表示仅支持 absolute import。如果大于 0，则表示相对导入的父目录的级数，即 1 类似于 '.'，2 类似于 '..'。</p></li>
+</ul>
+<p>使用示例如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;os&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+<p>如果要实现 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">xx</span> <span class="pre">as</span> <span class="pre">yy</span></code> 的效果，只要修改左值即可</p>
+<p>如下示例，等价于 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">os</span> <span class="pre">as</span> <span class="pre">myos</span></code>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;os&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+<p>上面说过的 <code class="docutils literal notranslate"><span class="pre">__import__</span></code> 是一个内建函数，既然是内建函数的话，那么这个内建函数必将存在于 <code class="docutils literal notranslate"><span class="pre">__buildins__</span></code> 中，因此我们还可以这样导入 os 的模块：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">__builtins__</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__import__&#39;</span><span class="p">](</span><span class="s1">&#39;os&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="importlib">
+<h2>3. 使用 importlib 模块<a class="headerlink" href="#importlib" title="Link to this heading"></a></h2>
+<p>importlib 是 Python 中的一个标准库，importlib 能提供的功能非常全面。</p>
+<p>它的简单示例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span><span class="o">=</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;os&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+<p>如果要实现 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">xx</span> <span class="pre">as</span> <span class="pre">yy</span></code>效果，可以这样</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;os&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="imp">
+<h2>4. 使用 imp 模块<a class="headerlink" href="#imp" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">imp</span></code> 模块提供了一些 import 语句内部实现的接口。例如模块查找（find_module）、模块加载（load_module）等等（模块的导入过程会包含模块查找、加载、缓存等步骤）。可以用该模块来简单实现内建的 <code class="docutils literal notranslate"><span class="pre">__import__</span></code> 函数功能：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">imp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="s1">&#39;os&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="s1">&#39;sep&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span>
+<span class="go">&lt;module &#39;sep&#39; from &#39;/usr/lib64/python2.7/os.pyc&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myos</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+<p>从 python 3 开始，内建的 reload 函数被移到了 imp 模块中。而从 Python 3.4 开始，imp 模块被否决，不再建议使用，其包含的功能被移到了 importlib 模块下。即从 Python 3.4 开始，importlib 模块是之前 imp 模块和 importlib 模块的合集。</p>
+</section>
+<section id="execfile">
+<h2>5. 使用 execfile<a class="headerlink" href="#execfile" title="Link to this heading"></a></h2>
+<p>在 Python 2 中有一个 execfile 函数，利用它可以用来执行一个文件。</p>
+<p>语法如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">execfile</span><span class="p">(</span><span class="n">filename</span><span class="p">[,</span> <span class="nb">globals</span><span class="p">[,</span> <span class="nb">locals</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>参数有这么几个：</p>
+<ul class="simple">
+<li><p>filename：文件名。</p></li>
+<li><p>globals：变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。</p></li>
+<li><p>locals：变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">execfile</span><span class="p">(</span><span class="s2">&quot;/usr/lib64/python2.7/os.py&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="exec">
+<h2>6. 使用 exec 执行<a class="headerlink" href="#exec" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">execfile</span></code> 只能在 Python2 中使用，Python 3.x 里已经删除了这个函数。</p>
+<p>但是原理值得借鉴，你可以使用 open ... read  读取文件内容，然后再用 exec 去执行模块。</p>
+<p>示例如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/usr/lib64/python2.7/os.py&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">exec</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getcwd</span><span class="p">()</span>
+<span class="go">&#39;/home/WillWang&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="import-from-github-com">
+<h2>7. import_from_github_com<a class="headerlink" href="#import-from-github-com" title="Link to this heading"></a></h2>
+<p>有一个包叫做 <strong>import_from_github_com</strong>，从名字上很容易得知，它是一个可以从 github 下载安装并导入的包。为了使用它，你需要做的就是按照如下命令使用pip 先安装它。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>import_from_github_com
+</pre></div>
+</div>
+<p>这个包使用了PEP 302中新的引入钩子，允许你可以从github上引入包。这个包实际做的就是安装这个包并将它添加到本地。你需要 Python 3.2 或者更高的版本，并且 git 和 pip 都已经安装才能使用这个包。</p>
+<p>pip 要保证是较新版本，如果不是请执行如下命令进行升级。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+</pre></div>
+</div>
+<p>确保环境 ok 后，你就可以在 Python shell 中使用 import_from_github_com</p>
+<p>示例如下</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">github_com.zzzeek</span> <span class="kn">import</span> <span class="n">sqlalchemy</span>
+<span class="go">Collecting git+https://github.com/zzzeek/sqlalchemy</span>
+<span class="go">Cloning https://github.com/zzzeek/sqlalchemy to /tmp/pip-acfv7t06-build</span>
+<span class="go">Installing collected packages: SQLAlchemy</span>
+<span class="go">Running setup.py install for SQLAlchemy ... done</span>
+<span class="go">Successfully installed SQLAlchemy-1.1.0b1.dev0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">locals</span><span class="p">()</span>
+<span class="go">{&#39;__builtins__&#39;: &lt;module &#39;builtins&#39; (built-in)&gt;, &#39;__spec__&#39;: None,</span>
+<span class="go">&#39;__package__&#39;: None, &#39;__doc__&#39;: None, &#39;__name__&#39;: &#39;__main__&#39;,</span>
+<span class="go">&#39;sqlalchemy&#39;: &lt;module &#39;sqlalchemy&#39; from &#39;/usr/local/lib/python3.5/site-packages/\</span>
+<span class="go">sqlalchemy/__init__.py&#39;&gt;,</span>
+<span class="go">&#39;__loader__&#39;: &lt;class &#39;_frozen_importlib.BuiltinImporter&#39;&gt;}</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>看了 import_from_github_com的源码后，你会注意到它并没有使用importlib。实际上，它的原理就是使用 pip 来安装那些没有安装的包，然后使用Python的<code class="docutils literal notranslate"><span class="pre">__import__()</span></code>函数来引入新安装的模块。</p>
+</section>
+<section id="id3">
+<h2>8. 远程导入模块<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在后面有一篇文章里，深入剖析了导入模块的内部原理，并在最后手动实现了从远程服务器上读取模块内容，并在本地成功将模块导入的导入器。</p>
+<p>示例代码如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 新建一个 py 文件（my_importer.py），内容如下</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span> <span class="k">as</span> <span class="nn">urllib2</span>
+
+<span class="k">class</span> <span class="nc">UrlMetaFinder</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">MetaPathFinder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baseurl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_baseurl</span> <span class="o">=</span> <span class="n">baseurl</span>
+
+
+    <span class="k">def</span> <span class="nf">find_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">baseurl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_baseurl</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 不是原定义的url就直接返回不存在</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_baseurl</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">baseurl</span> <span class="o">=</span> <span class="n">path</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">UrlMetaLoader</span><span class="p">(</span><span class="n">baseurl</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">loader</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">UrlMetaLoader</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">SourceLoader</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baseurl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span> <span class="o">=</span> <span class="n">baseurl</span>
+
+    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(</span><span class="n">fullname</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">fullname</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+<span class="k">def</span> <span class="nf">install_meta</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="n">finder</span> <span class="o">=</span> <span class="n">UrlMetaFinder</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">meta_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">finder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>并且在远程服务器上开启 http 服务（为了方便，我仅在本地进行演示），并且手动编辑一个名为 my_info 的 python 文件，如果后面导入成功会打印 <code class="docutils literal notranslate"><span class="pre">ok</span></code>。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>httpserver<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>httpserver
+$<span class="w"> </span>cat&gt;my_info.py&lt;EOF
+<span class="nv">name</span><span class="o">=</span><span class="s1">&#39;WillWang&#39;</span>
+print<span class="o">(</span><span class="s1">&#39;ok&#39;</span><span class="o">)</span>
+EOF
+$<span class="w"> </span>cat<span class="w"> </span>my_info.py
+<span class="nv">name</span><span class="o">=</span><span class="s1">&#39;WillWang&#39;</span>
+print<span class="o">(</span><span class="s1">&#39;ok&#39;</span><span class="o">)</span>
+$
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">12800</span>
+Serving<span class="w"> </span>HTTP<span class="w"> </span>on<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>port<span class="w"> </span><span class="m">12800</span><span class="w"> </span><span class="o">(</span>http://0.0.0.0:12800/<span class="o">)</span><span class="w"> </span>...
+...
+</pre></div>
+</div>
+<p>一切准备好，验证开始。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">my_importer</span> <span class="kn">import</span> <span class="n">install_meta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">install_meta</span><span class="p">(</span><span class="s1">&#39;http://localhost:12800/&#39;</span><span class="p">)</span> <span class="c1"># 往 sys.meta_path 注册 finder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">my_info</span>  <span class="c1"># 打印ok，说明导入成功</span>
+<span class="go">ok</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_info</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># 验证可以取得到变量</span>
+<span class="go">&#39;WillWang&#39;</span>
+</pre></div>
+</div>
+<p>好了，8 种方法都给大家介绍完毕，对于普通开发者来说，其实只要掌握 import 这种方法足够了，而对于那些想要自己开发框架的人来说，深入学习<code class="docutils literal notranslate"><span class="pre">__import__</span></code>以及 importlib 是非常有必要的。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="5.html" class="btn btn-neutral float-left" title="【进阶】常规包与空间命名包" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="7.html" class="btn btn-neutral float-right" title="【进阶】包导入的三个冷门知识点" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

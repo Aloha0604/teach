@@ -1,0 +1,50 @@
+# 【进阶】基于二阶导数的~
+
+## 1. Laplacian算法
+
+拉普拉斯（Laplacian）算子是n维欧几里德空间中的一个二阶微分算子，常用于图像增强领域和边缘提取。它通过灰度差分计算邻域内的像素，基本流程是：判断图像中心像素灰度值与它周围其他像素的灰度值，如果中心像素的灰度更高，则提升中心像素的灰度；反之降低中心像素的灰度，从而实现图像锐化操作。
+
+<img src="https://pic.rmb.bdstatic.com/bjh/0cea6cb419a5eb242400d08af972010b.png" alt="image.png" style="zoom:50%;" />
+
+得到二阶微分：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/1cf6a509594180814a49b192215f0fd8.png)
+
+由此得到了第一幅图中的卷积核，那么就可以构造算法：
+
+```python
+import cv2
+import numpy as np
+
+
+def Laplacian(img):
+    h, w = img.shape[0:2]
+    _Laplacian = np.zeros((h, w), dtype=img.dtype)
+    for i in range(h - 1):
+        for j in range(w - 1):
+            _Laplacian[i, j] = int(img[i + 1, j]) + int(img[i - 1, j]) + int(img[i, j + 1]) + int(img[i, j - 1]) - 4 * int(img[i, j])
+
+    return _Laplacian
+```
+
+```python
+
+image = cv2.imread("tyut_logo.png")
+image = cv2.resize(image, (512, 512))
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+blur = cv2.GaussianBlur(gray, (7, 7), 0)
+ret, thresh1 = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
+
+result = Laplacian(thresh1)
+
+cv2.imshow('gray', gray)
+cv2.imshow('laplacian', result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行结果如下：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/727710815ce083f7820250b6971a4324.png)
+

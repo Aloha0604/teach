@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】基本概念和基本任务 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】产业链和行业应用" href="2.html" />
+    <link rel="prev" title="计算机视觉概述" href="../p01.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../p01.html">计算机视觉概述</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】基本概念和基本任务</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 基本概念</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 计算机视觉的基本任务</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classification">2.1 图像分类（Classification）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#detection">2.2 目标检测（Detection）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#segmentation">2.3 语义分割（Segmentation）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generation">2.4 图像生成（Generation）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keypoint">2.5 关键点定位（KeyPoint）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#restoration">2.6 图像恢复（Restoration）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 一些典型的垂直应用</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2.html">【基础】产业链和行业应用</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p04.html">第4章：Python函数详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../PythonTutorial/p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p01.html">计算机视觉概述</a></li>
+      <li class="breadcrumb-item active">【基础】基本概念和基本任务</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/Summary/s01/1.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><em>注：本小节部分内容来自 China Academic Journal Electronic Publishing House：《计算机视觉技术的应用进展》作者：李雅琪、冯晓辉、王哲</em></p>
+<section id="id1">
+<h1>【基础】基本概念和基本任务<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 基本概念<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>计算机视觉（Computer Vision）是指<strong>用计算机及相关设备对生物视觉进行模拟</strong>。即通过对采集到的图片、视频进行处理，<strong>以获得相应信息</strong>，实现物体识别、形状方位确认、运动判断等功能，以适应、理解外界环境和控制自身运动。简言之，<strong>计算机视觉旨在研究如何使机器学会“看”</strong>，是生物视觉在机器上的延伸。计算机视觉综合了计算机科学和工程、信号处理、物理学、应用数学和统计学等多个学科，<strong>涉及图像处理、模式识别、人工智能、信号处理等多项技术</strong>。尤其是在深度学习的助力下，计算机视觉技术性能取得重要突破，成为人工智能的基础应用技术之一，是实现自动化、智能化的必要手段。</p>
+<p>计算机视觉技术承自图像处理、机器视觉（Machine Vision）技术，但三者却不尽相同。图像处理主要基于数字图像的颜色、形状、大小等基本特征对图像进行处理。机器视觉则通过机器视觉产品代替人眼进行目标形态信息测量判断。<strong>而计算机视觉通常包含图像处理过程，并额外增加了模式识别等功能，与机器视觉侧重精确的几何测量计算相比，计算机视觉则侧重于感知和识别。</strong></p>
+</section>
+<section id="id3">
+<h2>2. 计算机视觉的基本任务<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>计算机视觉的基本任务分为两大块：图片和视频，如下所示。</p>
+<p><img alt="基本任务-图片" src="https://pic1.zhimg.com/80/v2-7404f69f66d523d0c057c97a3d4f3280_1440w.jpg" /></p>
+<p><img alt="基本任务-视频" src="https://pic3.zhimg.com/80/v2-12c24bd38a5a16aff1ef85ffe05a8aca_1440w.jpg" /></p>
+<p>本小节只介绍图片部分。</p>
+<section id="classification">
+<h3>2.1 图像分类（Classification）<a class="headerlink" href="#classification" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>预测图片的类别（What）</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>单标签（Single-Label）</strong></p></li>
+<li><p><strong>多标签（Multi-Label）</strong></p></li>
+<li><p><strong>粗粒度（Coarse-Grained）</strong></p></li>
+<li><p><strong>细粒度（Fine-Grained）</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：搜索、分类</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-b5f801d5a286e4175ac527b7f73dee4d_1440w.jpg" /></p>
+</section>
+<section id="detection">
+<h3>2.2 目标检测（Detection）<a class="headerlink" href="#detection" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定位物体位置（Where）</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>2D检测</strong></p></li>
+<li><p><strong>3D检测</strong></p></li>
+<li><p><strong>显著性检测</strong></p></li>
+<li><p><strong>遥感检测</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：人脸检测、汽车检测</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-446012ec392dbd4ec3f53cd2e97f24f5_1440w.jpg" /></p>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-c7c8ad0ae9d3bcfa586494890808db6d_1440w.jpg" /></p>
+</section>
+<section id="segmentation">
+<h3>2.3 语义分割（Segmentation）<a class="headerlink" href="#segmentation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>像素级的内容理解和定位</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>语义分割/实例分割</strong></p></li>
+<li><p><strong>Alpha Matting</strong></p></li>
+<li><p><strong>3D分割</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：换天、人像抠图</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic4.zhimg.com/80/v2-ab8532573aa55084adb52ee65696bc07_1440w.jpg" /></p>
+<p><img alt="img" src="https://pic1.zhimg.com/80/v2-82e90fcc842cd286dd8f51b1dcb32254_1440w.jpg" /></p>
+</section>
+<section id="generation">
+<h3>2.4 图像生成（Generation）<a class="headerlink" href="#generation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>通过算法生成图片</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>随机生成</strong></p></li>
+<li><p><strong>风格迁移</strong></p></li>
+<li><p><strong>图片合成</strong></p></li>
+<li><p><strong>图片翻译</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：卡通化、换脸、换装</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic3.zhimg.com/80/v2-edc1b54be7dab0816970aa23181f00ea_1440w.jpg" /></p>
+</section>
+<section id="keypoint">
+<h3>2.5 关键点定位（KeyPoint）<a class="headerlink" href="#keypoint" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定位图像中的关键像素点</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>人脸关键点</strong></p></li>
+<li><p><strong>人体关键点</strong></p></li>
+<li><p><strong>手势关键点</strong></p></li>
+<li><p><strong>物体姿态估计</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：人脸配准、手势识别</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-22b9b5805b03706476e7da40af4f13e1_1440w.jpg" /></p>
+<p><img alt="img" src="https://pic2.zhimg.com/80/v2-cca293eebe7cb0359adf192038c8a72d_1440w.jpg" /></p>
+</section>
+<section id="restoration">
+<h3>2.6 图像恢复（Restoration）<a class="headerlink" href="#restoration" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>由退化图像生成高质量图像</strong></p></li>
+<li><p><strong>子任务</strong></p>
+<ul>
+<li><p><strong>超分辨率</strong></p></li>
+<li><p><strong>图像去噪</strong></p></li>
+<li><p><strong>图像修补</strong></p></li>
+<li><p><strong>去模糊</strong></p></li>
+<li><p><strong>上色、去雾、去雨</strong></p></li>
+</ul>
+</li>
+<li><p><strong>典型应用：拍照画质增强、老照片修复</strong></p></li>
+</ul>
+<p><img alt="img" src="https://pic1.zhimg.com/80/v2-7f17418126f2bfb6ac73d9cbafd750f4_1440w.jpg" /></p>
+<p><img alt="img" src="https://pic3.zhimg.com/80/v2-a5b7c2b80f7d36e61bda0bb3b30e379a_1440w.jpg" /></p>
+</section>
+</section>
+<section id="id4">
+<h2>3. 一些典型的垂直应用<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>人脸</strong></p></li>
+<li><ul>
+<li><p>人脸检测/跟踪</p></li>
+<li><p>关键点定位</p></li>
+<li><p>姿态估计</p></li>
+<li><p>人脸识别</p></li>
+<li><p>人脸聚类</p></li>
+<li><p>性别识别</p></li>
+<li><p>年龄估计</p></li>
+<li><p>表情识别</p></li>
+<li><p>活体检测</p></li>
+<li><p>闭眼检测</p></li>
+<li><p>口罩检测</p></li>
+<li><p>人脸质量评估</p></li>
+</ul>
+</li>
+<li><p><strong>文档</strong></p></li>
+<li><ul>
+<li><p>印刷体检测/识别（OCR）</p></li>
+<li><p>手写体检测/识别（HCR）</p></li>
+<li><p>自然场景识别（NCR）</p></li>
+<li><p>文档布局识别</p></li>
+<li><p>文档重建</p></li>
+<li><p>票证类识别</p></li>
+<li><p>表格识别</p></li>
+</ul>
+</li>
+<li><p><strong>人体</strong></p></li>
+<li><ul>
+<li><p>人体检测</p></li>
+<li><p>姿态估计</p></li>
+<li><p>行人重识别</p></li>
+<li><p>行人追踪</p></li>
+<li><p>手势识别</p></li>
+<li><p>人流量统计/人群密度分析</p></li>
+<li><p>动作行为识别</p></li>
+<li><p>人像分割</p></li>
+<li><p>属性分析</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../p01.html" class="btn btn-neutral float-left" title="计算机视觉概述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="2.html" class="btn btn-neutral float-right" title="【基础】产业链和行业应用" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

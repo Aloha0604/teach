@@ -1,0 +1,118 @@
+# 【进阶】外接矩形、面积和周长
+
+## 1. 轮廓外接矩形
+
+轮廓外接矩形分为正矩形和最小矩形。使用 `cv2.boundingRect(contour)`来获取轮廓的外接正矩形，它不考虑物体的旋转，所以该矩形的面积一般不会最小；使用 `cv.minAreaRect(contour)` 可以获取轮廓的外接最小矩形。
+
+两者区别如下图所示，绿线表示外接正矩形，红线表示外接最小矩形：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/d738597876af1da0e9eb11dc967d3ea2.png)
+
+### 1.1 外接正矩形
+
+`cv2.boundingRect(cnt) `的返回值包含四个值，矩形框左上角的坐标`(x, y)`、宽度`w`和高度`h`。
+
+```python
+x,y,w,h = cv2.boundingRect(contour)
+```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/414bd962971b6810b3ca8637028fb922.png)
+
+其代码实现如下
+
+```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+
+import cv2
+
+color_red = (0, 0, 255)  # 画笔颜色(BGR)
+
+img = cv2.imread('arrow.png')
+img = cv2.resize(img, (512, 512))
+img_c = img.copy()
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 转化为灰度图
+ret, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)  # 阈值二值化
+contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # 寻找轮廓
+
+x, y, w, h = cv2.boundingRect(contours[0])  # 由于该图像只有一个轮廓，所以直接取 contours[0]
+cv2.rectangle(img=img, pt1=(x, y), pt2=(x + w, y + h), color=color_red, thickness=2)  # 绘制矩形
+
+cv2.imshow('origin', img_c)
+cv2.imshow('result', img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+
+
+### 1.2 外接最小矩形
+
+`cv.minAreaRect(contour) `的返回值中还包含旋转信息，返回值信息为包括中心点坐标`(x,y)`，宽高`(w, h)`和`旋转角度`。
+
+```python
+rect = cv2.minAreaRect(contour)
+```
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/60ffc121e55272dffd0ae0760262aee3.png)
+
+注意上图左下角返回信息，其代码如下
+
+```python
+"""
+Author: Will Wang
+Email: WillWang1998@163.com
+"""
+
+import cv2
+import numpy as np
+
+color_red = (0, 0, 255)  # 画笔颜色(BGR)
+
+img = cv2.imread('arrow.png')
+img = cv2.resize(img, (512, 512))
+img_c = img.copy()
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 转化为灰度图
+ret, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)  # 阈值二值化
+contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # 寻找轮廓
+
+rect = cv2.minAreaRect(contours[0])  # 由于该图像只有一个轮廓，所以直接取 contours[0]
+print(rect)
+box = cv2.boxPoints(rect)
+box = np.int0(box)
+cv2.drawContours(img, [box], 0, color_red, 2)
+
+cv2.imshow('origin', img_c)
+cv2.imshow('result', img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+***
+
+## 2. 轮廓面积
+
+可以通过`cv2.contourArea(contour) `来获取轮廓的面积，这里的面积表示该形状内包含的像素点数量。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/3f47c293ff42b0a9df82c44e11ca8d47.png)
+
+代码略，
+
+***
+
+## 3. 轮廓周长
+
+我们可以通过`cv2.arcLength(contour,True)`来绘制轮廓周长或者曲线长度，第二个参数指定形状是为闭合轮廓（True）还是普通曲线。这里的周长/长度表示该形状边界上的像素点数量。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/8ea74d3f12609811a16f4a64c3785faa.png)
+
+
+

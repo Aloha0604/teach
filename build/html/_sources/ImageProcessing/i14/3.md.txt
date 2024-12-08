@@ -1,0 +1,90 @@
+# 【基础】低通滤波与高通滤波
+
+## 1.低通滤波
+
+在一幅图像内，低频信号对应图像内变化缓慢的灰度分量。图像进行低通滤波后会变模糊。
+
+![图片1](../../images/17.jpg)
+
+实现的中间步骤:
+
+![图片1](../../images/18.jpg)
+
+然后，将其与频谱图像进行运算，实现低通滤波。这里采用的运算形式是：
+
+![图片1](../../images/19.jpg)
+
+### 程序演示
+
+```
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+img=cv2.imread('lena.jpg',0)
+dft=cv2.dft(img_float32,flags=cv2.DFT_COMPLEX_OUTPUT)
+dft_shift=np.fft.fftshift(dft)
+
+rows,cols=img.shape  #算一下长和宽
+crow,ccol=int(rows/2),int(cols/2)  #中心位置
+mask=np.zeros((rows,cols,2),np.uint8) #构造数组
+mask[crow-30:crow+30,ccol-30:ccol+30]=0 #以中心为原点，左取30，右取，上取30，下取30,设置成0
+
+fshift=dft_shift*mask
+ishift=np.fft.ifftshift(fshift)
+
+img_back=cv2.idft(f_ishift)
+img_back=cv2.magnitude(img_back[:,:,0],img_back[:,:,1]) #实虚部转换
+
+plt.subplot(121),plt.imshow(img,cmap='gray')
+plt.title('original'),plt.axis('off')
+plt.subplot(122),plt.imshow(img_back,cmap='gray')
+plt.title('inverse'),plt.axis('off')
+plt.show()
+```
+
+![图片1](../../images/21.jpg)
+
+## 2.高通滤波
+
+高通滤波:将中心低频的部分去掉，保留图像边界信息，使图像细节增强。
+
+实现的中间步骤:
+
+![图片1](../../images/22.jpg)
+
+然后，将其与频谱图像进行运算，实现高通滤波。这里采用的运算形式同上：
+
+![图片1](../../images/19.jpg)
+
+### 程序演示
+
+```
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+img=cv2.imread('lena.jpg',0)
+dft=cv2.dft(img_float32,flags=cv2.DFT_COMPLEX_OUTPUT)
+dft_shift=np.fft.fftshift(dft)
+
+rows,cols=img.shape  #算一下长和宽
+crow,ccol=int(rows/2),int(cols/2)  #中心位置
+mask=np.ones((rows,cols,2),np.uint8) #构造数组
+mask[crow-30:crow+30,ccol-30:ccol+30]=0 #以中心为原点，左取30，右取，上取30，下取30,设置成0
+
+fshift=dft_shift*mask
+ishift=np.fft.ifftshift(fshift)
+
+img_back=cv2.idft(f_ishift)
+img_back=cv2.magnitude(img_back[:,:,0],img_back[:,:,1]) #实虚部转换
+
+plt.subplot(121),plt.imshow(img,cmap='gray')
+plt.title('original'),plt.axis('off')
+plt.subplot(122),plt.imshow(img_back,cmap='gray')
+plt.title('inverse'),plt.axis('off')
+plt.show()
+
+```
+
+![图片1](../../images/24.jpg)

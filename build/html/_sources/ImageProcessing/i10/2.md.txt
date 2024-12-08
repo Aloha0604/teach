@@ -1,0 +1,143 @@
+# 【进阶】霍夫直线变换
+
+
+
+## 1.原理
+
+
+
+霍夫变换——神奇的特征提取算法 : https://zhuanlan.zhihu.com/p/47649796
+
+通俗易懂理解——霍夫变换原理: https://zhuanlan.zhihu.com/p/203292567
+
+
+
+## 2.霍夫直线变换实现
+
+
+
+OpenCV提供了函数`cv2.HoughLines()`用来实现霍夫直线变换，该函数要求所操作的输入图像是一个二值图像，所以在进行霍夫变换之前要先将源图像进行二值化，或者进行Canny边缘检测。其语法格式为：
+
+```PYTHON
+lines = cv2.HoughLines(image, rho, theta, threshold[, lines[, srn[, stn[, min_theta[, max_theta]]]]])
+```
+
+● image是输入图像，即源图像，必须是8位的单通道二值图像。
+
+● rho为以像素为单位的距离`r`的精度。一般情况下，使用的精度是1。
+
+● theta为角度`θ`的精度。一般情况下，使用的精度是`π/180`：表示搜索所有可能的角度。
+
+● threshold是阈值。如果阈值较小，就会得到较多的直线；阈值较大，就会得到较少的直线。
+
+● 返回值lines中的每个元素都是一对浮点数，表示检测到的直线的参数，即`(r, θ)`。
+
+有一点需要强调的是，使用函数`cv2.HoughLines()`检测到的是图像中的直线而不是线段，因此检测到的直线是没有端点的。所以，我们在进行霍夫直线变换时所绘制的直线都是穿过整幅图像的。
+
+**程序演示**：
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('hough_img.jpg', cv2.IMREAD_COLOR)
+
+canny = cv2.Canny(image, 50, 150, apertureSize=3)
+
+cv2.imshow('canny', canny)
+
+lines = cv2.HoughLines(canny, 1, np.pi / 180, 140)
+
+for line in lines:
+    rho, theta = line[0]  # 也即 ρ,θ
+
+    a = np.cos(theta)
+    b = np.sin(theta)
+
+    x0 = a * rho
+    y0 = b * rho
+
+    x1 = int(x0 + 1000 * (-b))
+    y1 = int(y0 + 1000 * a)
+    x2 = int(x0 - 1000 * (-b))
+    y2 = int(y0 - 1000 * a)
+
+    cv2.line(image, (x1, y1), (x2, y2), (0, 0, 255), 1)
+
+cv2.imshow('HoughLines', image)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行上面的代码，结果如下所示：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/dc443bff24088985383b9473ebf81ae2.png)
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/2289b402d03d136ae363c2d284a3395d.png)
+
+在右图中，较粗的直线是因为有多条直线靠近在一起，也即是检测出了重复的结果。在一些情况下，使用霍夫变换可能将图像中有限个点碰巧对齐的非直线关系检测为直线，而导致误检测，尤其是一些复杂背景的图像，误检测会很明显。此图中该问题虽然并不是特别明显，但是如果将阈值threshold的值设置得稍小些，仍然会出现较多重复的检测结果。为了解决上述问题，人们提出了霍夫变换的改进版——概率霍夫变换。
+
+
+
+## 3. 概率霍夫变换实现
+
+
+
+概率霍夫变换对基本霍夫变换算法进行了一些修正，是霍夫变换算法的优化。它没有考虑所有的点。相反，它只需要一个足以进行线检测的随机点子集即可。
+
+为了更好地判断直线（线段），概率霍夫变换算法还对选取直线的方法作了两点改进：
+
+● **所接受直线的最小长度。**如果有超过阈值个数的像素点构成了一条直线，但是这条直线很短，那么就不会接受该直线作为判断结果，而认为这条直线仅仅是图像中的若干个像素点恰好随机构成了一种算法上的直线关系而已，实际上原图中并不存在这条直线。
+
+● **接受直线时允许的最大像素点间距。**如果有超过阈值个数的像素点构成了一条直线，但是这组像素点之间的距离都很远，就不会接受该直线作为判断结果，而认为这条直线仅仅是图像中的若干个像素点恰好随机构成了一种算法上的直线关系而已，实际上原始图像中并不存在这条直线。
+
+```python
+lines = cv2.HoughLinesP(image, rho, theta, threshold[, lines[, minLineLength[, maxLineGap]]])
+```
+
+● image是输入图像，即源图像，必须是8位的单通道二值图像。
+
+● rho为以像素为单位的距离`r`的精度。一般情况下，使用的精度是1。
+
+● theta为角度`θ`的精度。一般情况下，使用的精度是`π/180`：表示搜索所有可能的角度。
+
+● threshold是阈值。如果阈值较小，就会得到较多的直线；阈值较大，就会得到较少的直线。
+
+● minLineLength用来控制“接受直线的最小长度”的值，默认值为0。
+
+● maxLineGap用来控制接受共线线段之间的最小间隔，即在一条线中两点的最大间隔。如果两点间的间隔超过了参数maxLineGap的值，就认为这两点不在一条线上。默认值为0。
+
+● 返回值lines中的每个元素都是一对浮点数，表示检测到的直线的参数，即`(r, θ)`。
+
+**程序演示**：
+
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('hough_img.jpg', cv2.IMREAD_COLOR)
+
+canny = cv2.Canny(image, 50, 150, apertureSize=3)
+
+cv2.imshow('canny', canny)
+
+lines = cv2.HoughLinesP(canny, 1, np.pi / 180, 140, minLineLength=100, maxLineGap=10)
+
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+
+    cv2.line(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+cv2.imshow('HoughLinesP', image)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行以上程序，结果如下所示：
+![image.png](https://pic.rmb.bdstatic.com/bjh/96665046bc75e0395def5ff4f6906a7f.png)
+
+可以看到参数调整适当的话，概率霍夫变换比霍夫变换得到的检测结果更准确。

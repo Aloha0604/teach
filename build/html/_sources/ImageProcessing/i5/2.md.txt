@@ -1,0 +1,159 @@
+# 【进阶】基于一阶导数的~
+
+基于一阶导数的边缘检测算子（算法），是利用图像在边缘处的**阶跃性**，即**图像梯度在边缘取得极大值的特性**进行边缘检测。梯度是一个矢量，它具有`方向θ`和`模|ΔI|`：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/16b32206db243e06f192a2e1a77a4547.png)
+
+**梯度方向始终是垂直于边缘方向**，**梯度的模值大小提供了边缘的强度信息**。
+
+在实际使用中，通常利用**有限差分**进行梯度近似。对于上面的公式，我们有如下的近似：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/0f22b7ddf1ec92e9d3c85ccb68a65ed5.png)
+
+了解上述原理之后就可以介绍如下几种常见的一阶边缘检测算子了。
+
+## 1. Roberts 算法
+
+1963年，Roberts提出了这种寻找边缘的算子。Roberts边缘算子是一个` 2x2 `的模板，采用的是对角方向相邻的两个像素之差，所以也被称为交叉微分算法。从图像处理的实际效果来看，边缘定位较准，对噪声敏感。在Roberts检测算子中：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/56651af08af7141920528f677c6a177c.png)
+
+可以的出Roberts算子的水平与竖直边缘检测卷积核为：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/9536d1de01261780d1e3de05537207db.png)
+
+**算法构造**
+
+```python
+import cv2
+import numpy as np
+
+
+def Roberts(img):
+    h, w = img.shape[0:2]  # 切片操作 获取图像高和宽 切片操作：[start:stop:step]
+    _Roberts = np.zeros((h, w), dtype=img.dtype)
+    # 求微分，获得新的图像矩阵
+    for i in range(h - 1):
+        for j in range(w - 1):
+            dx = int(img[i, j]) - int(img[i + 1, j + 1])
+            dy = int(img[i, j + 1]) - int(img[i + 1, j])
+            _Roberts[i, j] = np.sqrt(dx ** 2 + dy ** 2)
+    return _Roberts  # 返回一个二维的图像矩阵
+```
+
+```python
+image = cv2.imread("tyut_logo.png")
+image = cv2.resize(image, (512, 512))
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # 转化为灰度图
+blur = cv2.GaussianBlur(gray, (7, 7), 0)  # 高斯滤波 图像去噪
+ret, thresh1 = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)  # 二进制阈值化
+
+result = Roberts(thresh1)  # 调用Roberts算法函数进行图像轮廓提取
+
+cv2.imshow('gray', gray)
+cv2.imshow('roberts', result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行效果如下图：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/669c88073d485b920d06572191676b6a.png)
+
+*45°很清晰很明显， 从卷积核你能得出什么结论？*
+
+***
+
+## 2. Prewitt算法
+
+Prewitt算子利用周围邻域8个点的灰度值来估计中心的梯度，它的梯度计算公式如下：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/08bd39ae58cc8685a12c54cdc9cbfa6e.png)
+
+**算法构造**
+
+```python
+import cv2
+import numpy as np
+
+
+def Prewitt(img):
+    h, w = img.shape[0:2]
+    _Prewitt = np.zeros((h, w), dtype=img.dtype)
+    for i in range(h - 1):
+        for j in range(w - 1):
+            dx = (int(img[i - 1, j + 1]) + int(img[i, j + 1]) + int(img[i + 1, j + 1])) - (int(img[i - 1, j - 1]) + int(img[i, j - 1]) + int(img[i + 1, j - 1]))
+            dy = (int(img[i + 1, j - 1]) + int(img[i + 1, j]) + int(img[i + 1, j + 1])) - (int(img[i - 1, j - 1]) + int(img[i - 1, j]) + int(img[i + 1, j + 1]))
+            _Prewitt[i, j] = np.sqrt(dx ** 2 + dy ** 2)
+    return _Prewitt
+```
+
+```python
+image = cv2.imread("tyut_logo.png")
+image = cv2.resize(image, (512, 512))
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+blur = cv2.GaussianBlur(gray, (7, 7), 0)
+ret, thresh1 = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
+result = Prewitt(thresh1)
+
+cv2.imshow('gray', gray)
+cv2.imshow('prewitt', result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行效果如下图：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/45be3dc6524bd896a457cdd803d6cbed.png)
+
+*0°，45°，90°很清晰很明显，从卷积核形式你能得出什么结论？*
+
+***
+
+## 3. Sobel算法
+
+比起Prewitt算子，Sobel [ˈsoʊbəl]  算子也是用周围8个像素来估计中心像素的梯度，但是Sobel算子认为靠近中心像素的点应该给予更高的权重，所以Sobel算子把与中心像素4邻接的像素的权重设置为2或-2。
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/022ee0c31bddc1acbd28f7bede4a96a0.png)
+
+**算法构造**
+
+```python
+import cv2
+import numpy as np
+
+
+def Sobel(img):
+    h, w = img.shape[0:2]
+    _Sobel = np.zeros((h, w), dtype=img.dtype)
+    for i in range(h - 1):
+        for j in range(w - 1):
+            dx = (int(img[i - 1, j + 1]) + 2 * int(img[i, j + 1]) + int(img[i + 1, j + 1])) - (int(img[i - 1, j - 1]) + 2 * int(img[i, j - 1]) + int(img[i + 1, j - 1]))
+            dy = (int(img[i + 1, j - 1]) + 2 * int(img[i + 1, j]) + int(img[i + 1, j + 1])) - (int(img[i - 1, j - 1]) + 2 * int(img[i - 1, j]) + int(img[i - 1, j + 1]))
+            _Sobel[i, j] = np.sqrt(dx ** 2 + dy ** 2)
+    return _Sobel
+```
+
+```python
+image = cv2.imread("tyut_logo.png")
+image = cv2.resize(image, (512, 512))
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+blur = cv2.GaussianBlur(gray, (7, 7), 0)
+ret, thresh1 = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
+result = Sobel(thresh1)
+
+cv2.imshow('gray', gray)
+cv2.imshow('sobel', result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+运行效果如下图：
+
+![image.png](https://pic.rmb.bdstatic.com/bjh/9408f11bc5951263ba59529340f8dcb8.png)
+
+*由于Sobel算子强调 靠近中心像素的点应该给予更高的权重，所以在上下左右四个方向上的边缘非常明显。*
+

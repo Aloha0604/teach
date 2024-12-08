@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【基础】11个案例讲解函数参数 &mdash; Python&amp;图像处理教程  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="【基础】匿名函数的使用" href="3.html" />
+    <link rel="prev" title="【进阶】装饰器的六种写法" href="10.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Python&图像处理教程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Summary/p01.html">计算机视觉概述</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python编程语言</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../p01.html">第1章：Python数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p02.html">第2章：Python数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p03.html">第3章：Python流程控制</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../p04.html">第4章：Python函数详解</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1.html">【基础】函数创建与调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.html">【进阶】装饰器的六种写法</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">【基础】11个案例讲解函数参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 参数分类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2. 十一个案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">3. 传参需要注意的一点</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="3.html">【基础】匿名函数的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4.html">【基础】高阶函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5.html">【基础】反射函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6.html">【基础】偏函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7.html">【进阶】泛型函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.html">【基础】变量的作用域</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9.html">【进阶】上下文管理器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../p05.html">第5章：Python面向对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../p06.html">第6章：Python包与模块</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">图像处理教程</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/A.html">第1章：图像基本操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/B.html">第2章：图像阈值处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/C.html">第3章：图像平滑处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/D.html">第4章：图像形态学处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/E.html">第5章：图像边缘检测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/F.html">第6章：图像轮廓提取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/G.html">第7章：直方图及其均衡化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/H.html">第8章：图像金字塔</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/I.html">第9章：图像模板匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/J.html">第10章：霍夫变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/K.html">第11章：绘图与交互</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/L.html">第12章：视频处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/M.html">第13章：背景建模</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/N.html">第14章：傅里叶变换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/O.html">第15章：光流估计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/P.html">第16章：图像拼接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ImageProcessing/Q.html">第17章：图像特征匹配</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">案例展示</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CasesDisplay/A.html">案例展示</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">about me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../aboutme.html">关于我</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Python&图像处理教程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../p04.html">第4章：Python函数详解</a></li>
+      <li class="breadcrumb-item active">【基础】11个案例讲解函数参数</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/PythonTutorial/p04/2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>【基础】11个案例讲解函数参数<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>1. 参数分类<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>函数，在定义的时候，可以有参数的，也可以没有参数。</p>
+<p>从函数定义的角度来看，参数可以分为两种：</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">必选参数</span></code>：调用函数时必须要指定的参数，在定义时没有等号；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">可选参数</span></code>：也叫<code class="docutils literal notranslate"><span class="pre">默认参数</span></code>，调用函数时可以指定也可以不指定，不指定就默认的参数值来。</p></li>
+</ol>
+<p>例如下面的代码中，a 和 b 属于必选参数， c 和 d 属于可选参数</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>从函数调用的角度来看，参数可以分为两种：</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">关键字参数</span></code>：调用时，使用 key=value 形式传参的，这样传递参数就可以不按定义顺序来。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">位置参数</span></code>：调用时，不使用关键字参数的 key-value 形式传参，这样传参要注意按照函数定义时参数的顺序来。</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="c1"># 关键字参数传参方法</span>
+<span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># 位置参数传参方法</span>
+<span class="n">func</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>最后还有一种非常特殊的参数，叫做<strong>可变参数</strong>。</p>
+<p>意思是参数个数可变，可以是 0 个或者任意个，但是传参时不能指定参数名，通常使用 <code class="docutils literal notranslate"><span class="pre">*args</span></code> 和 <code class="docutils literal notranslate"><span class="pre">**kw</span></code> 来表示：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*args</span></code>：接收到的所有按照位置参数方式传递进来的参数，是一个<strong>元组类型</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kw</span></code> ：接收到的所有按照关键字参数方式传递进来的参数，是一个<strong>字典类型</strong></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+
+<span class="n">func</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>输出如下</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>2. 十一个案例<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p><strong>案例一</strong>：在下面这个函数中， a 是必选参数，是必须要指定的</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">()</span>  <span class="c1"># 不指定会报错</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">demo_func() missing 1 required positional argument: &#39;a&#39;</span>
+</pre></div>
+</div>
+<p><strong>案例二</strong>：在下面这个函数中，b 是可选参数（默认参数），可以指定也可以不指定，不指定的话，默认为10</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">()</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+<p><strong>案例三</strong>：在下面这个函数中， name 和 age 都是必选参数，在调用指定参数时，如果不使用关键字参数方式传参，需要注意顺序</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">print_profile</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;我的名字叫</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">，今年</span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">岁了&quot;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_profile</span><span class="p">(</span><span class="s2">&quot;WillWang&quot;</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
+<span class="go">&#39;我的名字叫WillWang，今年24岁了&#39;</span>
+</pre></div>
+</div>
+<p>如果参数太多，你不想太花精力去注意顺序，可以使用关键字参数方式传参，在指定参数时附上参数名，比如这样：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_profile</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;WillWang&quot;</span><span class="p">)</span>
+<span class="go">&#39;我的名字叫WillWang，今年24岁了&#39;</span>
+</pre></div>
+</div>
+<p><strong>案例四</strong>：在下面这个函数中，<code class="docutils literal notranslate"><span class="pre">args</span></code> 参数和上面的参数名不太一样，在它前面有一个 <code class="docutils literal notranslate"><span class="pre">*</span></code>，这就表明了它是一个可变参数，可以接收任意个数的不指定参数名的参数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="go">(10, 20, 30)</span>
+</pre></div>
+</div>
+<p><strong>案例五</strong>：在下面这个函数中，<code class="docutils literal notranslate"><span class="pre">kw</span></code> 参数和上面的 <code class="docutils literal notranslate"><span class="pre">*args</span></code> 还多了一个 <code class="docutils literal notranslate"><span class="pre">*</span></code> ，总共两个 <code class="docutils literal notranslate"><span class="pre">**</span></code> ，这个意思是 <code class="docutils literal notranslate"><span class="pre">kw</span></code> 是一个可变关键字参数，可以接收任意个数的带参数名的参数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 10, &#39;b&#39;: 20, &#39;c&#39;: 30}</span>
+</pre></div>
+</div>
+<p><strong>案例六</strong>：在定义时，必选参数一定要在可选参数的前面，不然运行时会报错</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="gr">SyntaxError</span>: <span class="n">non-default argument follows default argument</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p><strong>案例七</strong>：在定义时，可变位置参数一定要在可变关键字参数前面，不然运行时也会报错</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">                        </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">invalid syntax</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span>
+</pre></div>
+</div>
+<p><strong>案例八</strong>：可变位置参数可以放在必选参数前面，但是在调用时，必选参数必须要指定参数名来传入，否则会报错</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">demo_func() missing 1 required keyword-only argument: &#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">(1, 2)</span>
+<span class="go">100</span>
+</pre></div>
+</div>
+<p><strong>案例九</strong>：可变关键字参数则不一样，可变关键字参数一定得放在最后，下面三个示例中，不管关键字参数后面接位置参数，还是默认参数，还是可变参数，都会报错。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">                        </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">invalid syntax</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">                        </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">invalid syntax</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">                        </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">invalid syntax</span>
+</pre></div>
+</div>
+<p><strong>案例十</strong>：将上面的知识点串起来，四种参数类型可以在一个函数中出现，但一定要注意顺序</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arg1: &quot;</span><span class="p">,</span> <span class="n">arg1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arg2: &quot;</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;args: &quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;kw: &quot;</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>试着调用这个函数，输出如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="go">arg1:  1</span>
+<span class="go">arg2:  12</span>
+<span class="go">args:  (100, 200)</span>
+<span class="go">kw:  {&#39;d&#39;: 1000, &#39;e&#39;: 2000}</span>
+</pre></div>
+</div>
+<p><strong>案例十一</strong>：使用单独的 <code class="docutils literal notranslate"><span class="pre">*</span></code>，当你在给后面的位置参数传递时，对你传参的方式有严格要求，你在传参时必须要以关键字参数的方式传参数，要写参数名，不然会报错。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">demo_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">demo_func() takes 2 positional arguments but 3 were given</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">demo_func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>3. 传参需要注意的一点<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>函数参数传递的是<strong>实际对象的内存地址</strong>。</p>
+<p>如果参数是引用类型的数据类型（列表、字典等），在函数内部修改后，就算没有把修改后的值返回回去，外面的值其实也已经发生了变化。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">source_list</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">source_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_item</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alist</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alist</span>
+<span class="go">[0, 1, 2]</span>
+</pre></div>
+</div>
+<p>可以看到 source_list 发生了变化。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="10.html" class="btn btn-neutral float-left" title="【进阶】装饰器的六种写法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="3.html" class="btn btn-neutral float-right" title="【基础】匿名函数的使用" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 .</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
